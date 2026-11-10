@@ -85,7 +85,10 @@ async function una(browser, url) {
   const r = await page.evaluate(() => {
     const p = window.__perf;
     const tbt = p.long.filter(([s]) => s >= p.fcp).reduce((t, [, d]) => t + Math.max(0, d - 50), 0);
-    return { tbt, lcp: p.lcp, cls: p.cls, fcp: p.fcp };
+    // Una pagina che non si idrata (es. un server vecchio con i file di
+    // un'altra build) dà numeri bellissimi e falsi: si controlla sempre.
+    const idratata = typeof window.next === 'object';
+    return { tbt, lcp: p.lcp, cls: p.cls, fcp: p.fcp, idratata };
   });
   // Il lavoro JavaScript sul thread principale (anche nei task brevi), da Chrome.
   const { metrics } = await cdp.send('Performance.getMetrics');
@@ -143,6 +146,8 @@ async function benchmarkIndex(browser) {
     const cls = median(runs.map((r) => r.cls));
     const fcp = median(runs.map((r) => r.fcp)) / 1000;
     const js = median(runs.map((r) => r.js));
+    const secche = runs.filter((r) => !r.idratata).length;
+    if (secche) console.log(`! ${p}: la pagina non si è idratata in ${secche} giri su ${runs.length} — il server serve la build giusta?`);
     console.log(p.padEnd(16), String(Math.round(tbt)).padStart(9), lcp.toFixed(2).padStart(8), cls.toFixed(3).padStart(6), fcp.toFixed(2).padStart(8), String(Math.round(js)).padStart(8));
   }
   await browser.close();

@@ -207,3 +207,73 @@ mentre nascevano motore e pagine, con contratti fissati prima: i link
 `/prenota?trattamento=<slug>#richiesta` arriva con il trattamento scelto,
 `PrenotaInline` e `LetturaInline` portano con sé `id="richiesta"`. Le pagine
 non conoscono i flussi: usano solo i link e i due componenti.
+
+## Le misure della fase 1
+
+Metodo di "Leggerezza", con `scripts/misura.cjs`: build di produzione
+(`next start`), telefono medio simulato (412×823, CPU 4 volte più lenta, 4G
+lento: 150 ms, 1,6 Mbit/s), mediana di **5** caricamenti, TBT dal primo
+disegno a 5 secondi dopo il caricamento (comprende l'avvio del motore). "JS" è
+il tempo di JavaScript sul thread principale in tutto il caricamento (Chrome,
+Performance.getMetrics). "Fermo" è la stessa pagina con "riduci movimento": il
+motore non si scarica. Misurato il 10 novembre 2026, a macchina ferma.
+
+| Pagina | TBT (ms) | TBT fermo (ms) | JS (ms) | JS fermo (ms) | LCP (s) | CLS |
+|---|---|---|---|---|---|---|
+| Home | 181 | 95 | 289 | 231 | 1,18 | 0 |
+| Trattamenti | 138 | 103 | 235 | 188 | 1,27 | 0 |
+| Letture | 171 | 92 | 314 | 236 | 1,17 | 0 |
+| Prenota | 117 | 130 | 287 | 274 | 1,20 | 0 |
+| Chi sono | 146 | 107 | 313 | 224 | 1,17 | 0 |
+| Contatti | 154 | 90 | 281 | 196 | 1,17 | 0 |
+| Link in bio | 157 | 109 | 228 | 132 | 1,18 | 0 |
+| Privacy | 131 | 97 | 212 | 183 | 1,18 | 0 |
+
+Gli obiettivi di `spec.md` sono rispettati: LCP intorno a 1,2 s (sotto 2,5),
+CLS 0 (sotto 0,1), la home a 181 ms, nello stesso ordine di andrea-bellettati
+(197 ms con lo stesso metodo). Il motore e i suoi effetti costano da 35 a 85 ms
+di TBT per pagina rispetto a "riduci movimento" (su Prenota la differenza è
+nel rumore).
+
+**Effetto per effetto.** Ogni riga è la stessa pagina senza quell'effetto
+(`--senza=…`, che toglie l'attributo prima che parta il motore), da
+confrontare con la riga "con tutto". Tra un caricamento e l'altro la misura
+oscilla di circa ±40 ms: nessun effetto, da solo, si stacca da quel rumore.
+
+| Effetto | Pagina (con tutto: TBT / JS) | TBT senza (ms) | JS senza (ms) | Nota |
+|---|---|---|---|---|
+| `data-split` (titoli) | Home (181 / 289) | 175 | 300 | nel rumore |
+| `data-reveal` | Home | 163 | 308 | nel rumore |
+| `data-scrub` (il momento relax) | Home | 145 | 298 | nel rumore |
+| `data-stories` (come funziona) | Home | 146 | 272 | nel rumore; la sezione più complessa, da tenere d'occhio |
+| `data-marquee` (il nastro) | Home | 159 | 280 | nel rumore |
+| `data-spin` (l'anello, il badge) | Home | 154 | 294 | nel rumore |
+| `data-float` (i petali) | Home | 149 | 254 | nel rumore; l'animazione è CSS |
+| `data-peek` (il giglio che spunta) | Home | 152 | 289 | nel rumore |
+| `data-pop` (le icone del listino) | Home | 152 | 282 | nel rumore |
+| `data-love` (cuori al tocco) | Home | 162 | 317 | nel rumore |
+| `data-clip` (foto dal cerchio) | Home | 214 | 329 | nel rumore |
+| `data-wordmark` («Lily» nel footer) | Home | 248 | 336 | nel rumore |
+| `data-magnetic` (badge "Prenota") | Home | 233 | 362 | solo con il mouse: sul telefono non parte |
+| `data-petal-trail` (petali dietro al puntatore) | Home | 152 | 292 | solo con il mouse |
+| `data-tilt` | Home | 185 | 326 | solo con il mouse |
+| `data-chat` | Letture (171 / 314) | 146 | 328 | nel rumore |
+| `data-fan` (le storie in evidenza) | Chi sono (146 / 313) | 129 | 252 | nel rumore |
+| `data-path-row` (l'indice) | Trattamenti (138 / 235) | 153 | 256 | solo con il mouse, e solo quando ci saranno le foto |
+| il giglio che si disegna (`.draw`) | Home | — | — | in CSS, prima del motore: non pesa sul JavaScript |
+| `data-lens`, `data-trail` | — | — | — | nel motore, non ancora usati (aspettano la foto della stesa e la storia di Silvia) |
+
+Due avvertenze per chi misura dopo:
+
+- **La macchina conta.** Questa ha un indice di benchmark (Lighthouse) di
+  circa 3100, mentre il 4× di Lighthouse è tarato su un desktop da 1500–2000:
+  qui il 4× è più gentile di un telefono medio vero. Lo script stampa l'indice
+  e il moltiplicatore che servirebbe (`--cpu=7` su questa macchina): a 7× la
+  home arriva a circa 540 ms di TBT. Da tenere d'occhio sui telefoni più lenti,
+  e da riconfrontare a parità di macchina.
+- **Prima di fidarsi dei numeri, la pagina deve idratarsi.** Una prima serie,
+  presa mentre giravano altre build, era gonfiata dalla CPU occupata; una
+  seconda misurava un server vecchio rimasto acceso, con i file JavaScript di
+  un'altra build (TBT 0, pagine senza script). Sono state scartate. Ora lo
+  script avvisa se una pagina non si idrata; a mano: il processo si chiama
+  `next-server` e va fermato prima di rifare la build.
