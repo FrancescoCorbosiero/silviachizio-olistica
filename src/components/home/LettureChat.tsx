@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowIcon, IconaGiglio } from '@/components/icons';
+import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
 import { etichetta, RICHIESTE } from '@/lib/richieste';
 import { IG_HANDLE } from '@/lib/site';
@@ -50,8 +51,8 @@ export function Chat({ className = '', messaggi = CHAT }: { className?: string; 
 
 export default function LettureChat() {
   return (
-    <section className="section" aria-labelledby="letture-titolo">
-      <div className="wrap grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
+    <Scena immagine="candela" altezza="alta" velo="sinistra" aria-labelledby="letture-titolo">
+      <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
         <div className="flex flex-col items-start gap-6">
           <SectionHead
             id="letture-titolo"
@@ -66,10 +67,10 @@ export default function LettureChat() {
             ))}
           </ul>
           <div className="flex flex-wrap gap-3">
-            <Link className="btn" href={RICHIESTE.letture.href}>
+            <Link className="btn btn-latte" href={RICHIESTE.letture.href}>
               {etichetta('letture', { contesto: true })}
             </Link>
-            <Link className="btn btn-outline" href="/letture">
+            <Link className="btn btn-outline-latte" href="/letture">
               Scopri le letture <ArrowIcon size={15} />
             </Link>
           </div>
@@ -77,6 +78,6 @@ export default function LettureChat() {
         </div>
         <Chat />
       </div>
-    </section>
+    </Scena>
   );
 }

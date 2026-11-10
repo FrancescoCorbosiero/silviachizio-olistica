@@ -10,7 +10,6 @@ import { ArrowIcon } from '@/components/icons';
 export default function NotFoundContent() {
   return (
     <section className="relative isolate overflow-x-clip py-[clamp(64px,11vw,150px)]">
-      <div className="alone left-[58%] top-1/2 w-[min(760px,140vw)] -translate-y-1/2" aria-hidden />
       <div className="wrap grid items-center gap-10 md:grid-cols-[1.25fr_1fr]">
         <div className="flex flex-col items-start gap-6">
           <span className="eyebrow intro">Errore 404</span>

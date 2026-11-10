@@ -4,6 +4,7 @@ import { Chat, type Messaggio } from '@/components/home/LettureChat';
 import JsonLd from '@/components/seo/JsonLd';
 import Chiusura from '@/components/ui/Chiusura';
 import FaqList from '@/components/ui/FaqList';
+import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
 import BottoniRichiesta from '@/components/ui/BottoniRichiesta';
 import { breadcrumbLd, faqLd, pageMetadata } from '@/lib/seo';
@@ -47,24 +48,26 @@ const FAQ = [
 export default function LetturePage() {
   return (
     <>
-      <section className="relative isolate overflow-x-clip pb-[clamp(40px,6vw,80px)] pt-[clamp(28px,5vw,72px)]" aria-labelledby="letture-titolo">
-        <div className="alone left-[66%] top-[45%] w-[min(720px,140vw)] -translate-x-1/2 -translate-y-1/2" aria-hidden />
-        <div className="wrap grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-          <div className="flex flex-col items-start gap-6">
-            <p className="eyebrow intro">Letture intuitive, a distanza</p>
-            <h1 id="letture-titolo" className="display-xl intro" style={{ '--d': '0.1s' } as React.CSSProperties}>
-              Una lettura tutta per <span className="script">te</span>
-            </h1>
-            <p className="lead misura intro" style={{ '--d': '0.22s' } as React.CSSProperties}>
-              Compila un breve modulo per richiedere {LETTURA.frase}: ti arriva via email.
-            </p>
-            <div className="intro" style={{ '--d': '0.34s' } as React.CSSProperties}>
-              <BottoniRichiesta prima="letture" />
-            </div>
+      <Scena immagine="candela" altezza="piena" velo="sinistra" priorita aria-labelledby="letture-titolo">
+        <div className="flex max-w-[640px] flex-col items-start gap-6" data-hero-away="10">
+          <p className="eyebrow intro">Letture intuitive, a distanza</p>
+          <h1 id="letture-titolo" className="display-xl intro" style={{ '--d': '0.1s' } as React.CSSProperties}>
+            Una lettura tutta per <span className="script">te</span>
+          </h1>
+          <p className="lead misura intro" style={{ '--d': '0.22s' } as React.CSSProperties}>
+            Compila un breve modulo per richiedere {LETTURA.frase}: ti arriva via email.
+          </p>
+          <div className="intro" style={{ '--d': '0.34s' } as React.CSSProperties}>
+            <BottoniRichiesta prima="letture" tono="notte" />
           </div>
-          <div className="intro-fade" style={{ '--d': '0.3s' } as React.CSSProperties}>
-            <Chat messaggi={COME} />
-          </div>
+        </div>
+      </Scena>
+
+      <section className="section fondo-blush" aria-labelledby="come-titolo">
+        <div className="wrap grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
+          {/* BOZZA */}
+          <SectionHead id="come-titolo" eyebrow="Come funziona" title="Te lo racconto in" script="quattro messaggi" />
+          <Chat messaggi={COME} />
         </div>
       </section>
 
@@ -79,13 +82,13 @@ export default function LetturePage() {
         </div>
       </section>
 
-      <section className="section-tight" aria-labelledby="temi-titolo">
+      <section className="section fondo-vino on-notte" aria-labelledby="temi-titolo">
         <div className="wrap">
           <SectionHead id="temi-titolo" eyebrow="I temi" title="Su cosa vuoi fare" script="luce" align="center" />
           <ul className="mx-auto mt-10 flex max-w-[860px] flex-wrap justify-center gap-3" data-reveal="stagger">
             {TEMI_LETTURA.map((t) => (
-              <li key={t} className="petalo flex items-center gap-3 px-5 py-4 text-[17px] font-semibold">
-                <IconaScintilla size={20} className="text-lily" /> {t}
+              <li key={t} className="flex items-center gap-3 rounded-[var(--radius-tile)] border border-latte/30 px-5 py-4 text-[17px] font-semibold">
+                <IconaScintilla size={18} className="text-petalo" /> {t}
               </li>
             ))}
           </ul>
@@ -115,7 +118,7 @@ export default function LetturePage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="richiesta-titolo">
+      <section className="section fondo-blush" aria-labelledby="richiesta-titolo">
         <div className="wrap-narrow">
           <SectionHead id="richiesta-titolo" eyebrow="La richiesta" title="Richiedi la tua" script="lettura" />
           {/* La richiesta in pagina: contiene già id="richiesta" (e l'avviso, se le letture sono sospese). */}
@@ -144,6 +147,7 @@ export default function LetturePage() {
         }
         lead="E se sei in zona, ti aspetto anche in studio a Montebelluna."
         prima="letture"
+        immagine="velo"
       />
       <JsonLd
         data={[

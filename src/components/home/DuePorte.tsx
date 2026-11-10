@@ -1,44 +1,59 @@
 import Link from 'next/link';
-import { ArrowIcon, IconaLoto, IconaScintilla } from '@/components/icons';
+import { ArrowIcon } from '@/components/icons';
+import { IMMAGINI, type NomeImmagine } from '@/lib/immagini';
 import { ZONA } from '@/lib/site';
 
-const PORTE = [
+const PORTE: { href: string; eyebrow: string; titolo: string; testo: string; vai: string; immagine: NomeImmagine }[] = [
   {
     href: '/trattamenti',
-    titolo: `In studio, a ${ZONA.replace(' (TV)', '')}`,
+    eyebrow: 'In studio',
+    titolo: `A ${ZONA.replace(' (TV)', '')}`,
     // BOZZA
     testo: 'Quattro trattamenti, da 60 a 75 minuti, e dopo ognuno un momento relax di circa quindici minuti.',
     vai: 'Il listino',
-    Icona: IconaLoto,
+    immagine: 'seta',
   },
   {
     href: '/letture',
-    titolo: 'A distanza, via email',
+    eyebrow: 'A distanza',
+    titolo: 'Letture intuitive',
     // BOZZA (con le parole del form di Silvia)
     testo: 'Una lettura simbolica e intuitiva personalizzata: la foto della stesa e la mia interpretazione, scritta o video.',
     vai: 'Le letture',
-    Icona: IconaScintilla,
+    immagine: 'velo',
   },
-] as const;
+];
 
-/** Le due porte: lo studio a Montebelluna e le letture a distanza. */
+/**
+ * Le due porte: lo studio a Montebelluna e le letture a distanza. Due
+ * pannelli alti, a tutta larghezza, con l'immagine che si avvicina al
+ * passaggio; uno sopra l'altro sul telefono.
+ */
 export default function DuePorte() {
   return (
-    <section className="section-tight" aria-label="In studio o a distanza">
-      <div className="wrap grid gap-5 md:grid-cols-2" data-reveal="stagger">
-        {PORTE.map(({ href, titolo, testo, vai, Icona }) => (
-          <Link key={href} href={href} className="petalo petalo-lift group flex flex-col items-start gap-4 p-7 sm:p-9" data-tilt>
-            <span className="cerchio" data-pop>
-              <Icona />
+    <section className="grid md:grid-cols-2" aria-label="In studio o a distanza">
+      {PORTE.map(({ href, eyebrow, titolo, testo, vai, immagine }) => {
+        const img = IMMAGINI[immagine];
+        return (
+          <Link key={href} href={href} className="porta on-notte group">
+            <span className="scena-fondo" aria-hidden>
+              <picture data-parallax data-parallax-cover>
+                <source media="(min-width: 768px)" srcSet={img.src} />
+                <img src={img.srcVerticale} alt="" width={900} height={1500} loading="lazy" decoding="async" style={img.fuoco ? { objectPosition: img.fuoco } : undefined} />
+              </picture>
             </span>
-            <h2 className="display-sm">{titolo}</h2>
-            <p className="testo-mute">{testo}</p>
-            <span className="text-link mt-auto">
-              {vai} <ArrowIcon size={15} />
+            <span className="scena-velo velo-basso" aria-hidden />
+            <span className="relative flex flex-col items-start gap-4">
+              <span className="eyebrow">{eyebrow}</span>
+              <h2 className="display-lg">{titolo}</h2>
+              <span className="lead block max-w-[26em]">{testo}</span>
+              <span className="porta-vai">
+                {vai} <ArrowIcon size={16} />
+              </span>
             </span>
           </Link>
-        ))}
-      </div>
+        );
+      })}
     </section>
   );
 }

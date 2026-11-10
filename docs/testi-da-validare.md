@@ -28,9 +28,10 @@ qui. Quando un testo è approvato (o riscritto da lei) si toglie il commento
 
 | Dove | Testo | Nota |
 |---|---|---|
-| Hero, titolo | «Un'ora per te» | |
+| Hero, titolo | «Uno spazio per rallentare» | sostituisce «Un'ora per te», che si poteva leggere in modo ambiguo |
 | Hero, le due righe | «Sono Silvia. Nel mio studio a Montebelluna ti aspetto per un massaggio o un rituale olistico; e, a distanza, preparo letture intuitive personalizzate.» | |
-| Le due porte | «Quattro trattamenti, da 60 a 75 minuti, e dopo ognuno un momento relax di circa quindici minuti.» · «Una lettura simbolica e intuitiva personalizzata: la foto della stesa e la mia interpretazione, scritta o video.» | |
+| Hero, i tre fatti | «Quattro trattamenti» · «Relax compreso» · «Letture a distanza» | |
+| Le due porte | titoli «A Montebelluna» (In studio) e «Letture intuitive» (A distanza); «Quattro trattamenti, da 60 a 75 minuti, e dopo ognuno un momento relax di circa quindici minuti.» · «Una lettura simbolica e intuitiva personalizzata: la foto della stesa e la mia interpretazione, scritta o video.» | |
 | Il listino | «Scegli quella che ti somiglia di più. Se non sai quale, nella richiesta puoi lasciar scegliere a me.» | |
 | Il momento relax | «Dopo il trattamento non scappi via: ci sono quindici minuti solo per te, per tornare alla giornata con calma.» | |
 | Come funziona | titolo «Quattro passi, nessuna fretta»; «Nessun appuntamento automatico: mi scrivi, ti rispondo io e scegliamo insieme. Scorri, te lo racconto come una storia.»; i quattro passi: «Mi scrivi dal sito – Scegli il trattamento e quando ti va: due minuti, un passo alla volta.» · «Ti scrivo io – Per fissare insieme giorno e ora, come preferisci tu.» · «Il trattamento – Un'ora (o un'ora e un quarto) solo per te.» · «Il tuo momento relax – Circa quindici minuti, prima di tornare alla giornata.» | |
@@ -58,6 +59,7 @@ qui. Quando un testo è approvato (o riscritto da lei) si toglie il commento
 | Chi sono, Instagram e chiusura | «Mi trovi qui» · «Il mio profilo è il posto dove racconto Lily e la mia vita: scrivimi un messaggio quando vuoi.» · «Ci vediamo presto» · «In studio a Montebelluna, o a distanza con una lettura.» | |
 | Chi sono, descrizione per i motori | «Sono Silvia Chizio: vivo e sorrido. A Montebelluna (TV) ti aspetto con Lily Trattamenti Benessere; a distanza, preparo letture intuitive personalizzate.» | |
 | Contatti | titolo «Dove trovarmi»; «Lo studio è a Montebelluna (TV). Per un trattamento o una lettura mandami una richiesta dal sito; per tutto il resto scrivimi su Instagram.»; chiusura «Scrivimi, ti rispondo io» · «Un trattamento in studio o una lettura a distanza: un passo alla volta, poi ci pensiamo insieme.» | |
+| Letture, come funziona | titolo «Te lo racconto in quattro messaggi» (sopra la chat) | |
 | Link in bio | «Sono Silvia: trattamenti benessere in studio a Montebelluna (TV) e letture intuitive a distanza.» | |
 | Immagini per i social (`scripts/immagini.cjs`) | i titoli e i sottotitoli di ogni pagina | si rigenerano con lo script |
 

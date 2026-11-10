@@ -11,7 +11,7 @@ import { ArrowIcon } from '@/components/icons';
  */
 export default function ListinoHome() {
   return (
-    <section className="section" aria-labelledby="listino-titolo">
+    <section className="section fondo-blush" aria-labelledby="listino-titolo">
       <div className="wrap grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <div className="flex flex-col items-start gap-6 lg:sticky lg:top-28">
           <h2 id="listino-titolo" className="display-lg manifesto leading-[0.98]" data-split="wipe">
@@ -28,7 +28,7 @@ export default function ListinoHome() {
             Tutti i dettagli <ArrowIcon size={15} />
           </Link>
         </div>
-        <div className="petalo p-5 sm:p-8" data-reveal>
+        <div className="listino-foglio" data-reveal>
           <DivisoreLoto className="mb-4" />
           <Listino linkSezioni />
         </div>

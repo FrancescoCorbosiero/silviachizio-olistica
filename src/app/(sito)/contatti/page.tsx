@@ -3,6 +3,7 @@ import { ArrowIcon, InstagramIcon, WhatsAppIcon } from '@/components/icons';
 import JsonLd from '@/components/seo/JsonLd';
 import BottoniRichiesta from '@/components/ui/BottoniRichiesta';
 import Chiusura from '@/components/ui/Chiusura';
+import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
 import { orarioDisplay } from '@/lib/orari';
 import { breadcrumbLd, pageMetadata } from '@/lib/seo';
@@ -52,9 +53,8 @@ const CANALI: Canale[] = [
 export default function ContattiPage() {
   return (
     <>
-      <section className="relative isolate overflow-x-clip pb-[clamp(40px,6vw,80px)] pt-[clamp(28px,5vw,72px)]" aria-labelledby="contatti-titolo">
-        <div className="alone left-[70%] top-[40%] w-[min(680px,140vw)] -translate-x-1/2 -translate-y-1/2" aria-hidden />
-        <div className="wrap flex flex-col items-start gap-6">
+      <Scena immagine="seta" altezza="media" velo="sinistra" priorita aria-labelledby="contatti-titolo">
+        <div className="flex max-w-[640px] flex-col items-start gap-6">
           <p className="eyebrow intro">Contatti</p>
           {/* BOZZA */}
           <h1 id="contatti-titolo" className="display-xl intro" style={{ '--d': '0.1s' } as React.CSSProperties}>
@@ -66,10 +66,10 @@ export default function ContattiPage() {
             scrivimi su Instagram.
           </p>
           <div className="intro" style={{ '--d': '0.34s' } as React.CSSProperties}>
-            <BottoniRichiesta />
+            <BottoniRichiesta tono="notte" />
           </div>
         </div>
-      </section>
+      </Scena>
 
       <section className="section-tight" aria-labelledby="studio-titolo">
         <div className="wrap grid gap-5 md:grid-cols-2" data-reveal="stagger">

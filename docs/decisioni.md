@@ -177,7 +177,25 @@ misura, per gli schermi densi). Quando arriva il logo originale si rifà anche
 questo file.
 
 
+## Scene con immagini d'atmosfera, finché mancano le foto
+
+Rivedendo il sito: troppo bianco, troppo "galleggiante", troppi segni da
+modello generico; e «Un'ora per te», come titolo, si prestava a una lettura
+sbagliata. La risposta è in `brand.md` («Revisione: meno galleggiante, più
+architettura»): scene a tutto schermo con un'immagine in parallax, fondo
+sabbia e fasce di colore pieno, forme architettoniche con l'arco come unica
+curva. Le foto vere non ci sono ancora e le foto stock restano escluse
+(niente foto di altri presentate come lo studio di Silvia): le immagini sono
+atmosfere disegnate in canvas (`scripts/atmosfere.cjs`), astratte quanto basta
+per non dire niente di falso. Si sostituiscono in `src/lib/immagini.ts`.
+Costo misurato sulla build (stesso metodo, stessa sessione): TBT invariato
+(home 137 → 141 ms), LCP della home da 0,5 a 1,6 s col 4G lento, perché ora
+il primo schermo è un'immagine (60 kB in WebP, caricata con priorità alta).
+
 ## Senza foto, il giglio
+
+*(Superata in parte dalla decisione sopra: nell'hero e in Chi sono, al posto
+del cerchio col giglio, ci sono le scene e l'arco con l'immagine d'atmosfera.)*
 
 Le foto di Silvia e dello studio non ci sono ancora (domande aperte ★). Dove la
 spec mette una foto (l'hero, Chi sono, la scheda Instagram) c'è un cerchio

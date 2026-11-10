@@ -6,6 +6,7 @@ import { ArrowIcon, IconaOrologio, IconaTrattamentoSvg } from '@/components/icon
 import JsonLd from '@/components/seo/JsonLd';
 import Chiusura from '@/components/ui/Chiusura';
 import FaqList from '@/components/ui/FaqList';
+import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
 import { AVVISAMI, RICHIESTE } from '@/lib/richieste';
 import { breadcrumbLd, faqLd, pageMetadata } from '@/lib/seo';
@@ -49,7 +50,7 @@ function SezioneTrattamento({ t, i }: { t: Trattamento; i: number }) {
     <section
       id={t.slug}
       aria-labelledby={`${t.slug}-titolo`}
-      className={`relative isolate scroll-mt-24 overflow-hidden ${magic ? 'notte on-notte section' : 'section-tight'}`}
+      className={`relative isolate scroll-mt-24 overflow-hidden ${magic ? 'notte on-notte section' : `section ${i % 2 ? 'fondo-blush' : ''}`}`}
     >
       {magic && <div className="luce-candela -right-20 top-[8%] w-[min(620px,130vw)]" aria-hidden />}
       <div className={`wrap grid items-center gap-8 md:grid-cols-[auto_1fr] md:gap-14 ${i % 2 && !magic ? 'md:[direction:rtl]' : ''}`}>
@@ -58,7 +59,7 @@ function SezioneTrattamento({ t, i }: { t: Trattamento; i: number }) {
             <IconaTrattamentoSvg icona={t.icona} />
           </span>
         </div>
-        <div className={`[direction:ltr] flex flex-col items-start gap-5 ${magic ? '' : 'petalo p-6 sm:p-9'}`}>
+        <div className={`[direction:ltr] flex flex-col items-start gap-5 `}>
           <h2 id={`${t.slug}-titolo`} className={`display-md ${magic ? 'text-lily-bright' : 'text-lily'}`} data-split>
             {t.nome}
           </h2>
@@ -97,21 +98,24 @@ function SezioneTrattamento({ t, i }: { t: Trattamento; i: number }) {
 export default function TrattamentiPage() {
   return (
     <>
-      <section className="relative isolate overflow-x-clip pb-[clamp(40px,6vw,80px)] pt-[clamp(28px,5vw,72px)]" aria-labelledby="trattamenti-titolo">
-        <div className="alone left-1/2 top-[40%] w-[min(760px,150vw)] -translate-x-1/2 -translate-y-1/2" aria-hidden />
-        <div className="wrap flex flex-col items-center text-center">
-          <h1 id="trattamenti-titolo" className="display-xl manifesto intro leading-[0.98]">
-            Listino
-            <br />
-            <span className="text-lily">Trattamenti</span>
-          </h1>
-          <p className="intro mt-6" style={{ '--d': '0.15s' } as React.CSSProperties}>
-            <span className="pennellata text-[clamp(20px,2.2vw,25px)]">Quattro esperienze di benessere</span>
-          </p>
-          <DivisoreLoto className="intro-fade mt-6 w-full" />
+      <Scena immagine="seta" altezza="media" velo="vino" priorita aria-labelledby="trattamenti-titolo" contenuto="flex flex-col items-center text-center">
+        <p className="eyebrow intro">Studio a {ZONA}</p>
+        <h1 id="trattamenti-titolo" className="display-xl manifesto intro mt-6 leading-[0.98]" style={{ '--d': '0.08s' } as React.CSSProperties}>
+          Listino
+          <br />
+          <span className="text-petalo">Trattamenti</span>
+        </h1>
+        <p className="corsivo intro mt-6 text-[clamp(20px,2.2vw,26px)]" style={{ '--d': '0.18s' } as React.CSSProperties}>
+          Quattro esperienze di benessere
+        </p>
+      </Scena>
+
+      <section className="section-tight fondo-blush" aria-label="Indice dei trattamenti">
+        <div className="wrap flex flex-col items-center">
+          <DivisoreLoto className="w-full" />
           {/* L'indice: su desktop, quando ci saranno le foto, la foto segue il puntatore (data-path-row). */}
-          <nav aria-label="I trattamenti" className="intro mt-8 w-full max-w-[760px]" style={{ '--d': '0.3s' } as React.CSSProperties}>
-            <ol className="petalo divide-y divide-petalo/60 px-5 text-left sm:px-8">
+          <nav aria-label="I trattamenti" className="mt-6 w-full max-w-[760px]">
+            <ol className="listino-foglio divide-y divide-lily/20">
               {TRATTAMENTI.map((t) => (
                 <li key={t.slug} data-path-row>
                   <a href={`#${t.slug}`} className="group flex items-center gap-4 py-4">
@@ -132,7 +136,7 @@ export default function TrattamentiPage() {
               ))}
             </ol>
           </nav>
-          <FasciaRelax className="intro mt-6" />
+          <FasciaRelax className="mt-6" />
         </div>
       </section>
 
@@ -173,6 +177,7 @@ export default function TrattamentiPage() {
           </>
         }
         lead="Mandami la richiesta: ti scrivo io per fissare giorno e ora."
+        immagine="luce"
       />
       <JsonLd
         data={[

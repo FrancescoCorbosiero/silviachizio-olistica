@@ -1,20 +1,21 @@
 import Link from 'next/link';
 import { ArrowIcon } from '@/components/icons';
 import SectionHead from '@/components/ui/SectionHead';
+import { IMMAGINI } from '@/lib/immagini';
 
 /**
- * Chi sono, in breve: «Vivo e sorrido» (la prima riga della bio di Silvia),
- * due righe e il link a /chi-sono. Finché non c'è la sua foto, nel cerchio
- * c'è il giglio; i cuori al tocco (data-love) valgono per entrambi.
+ * Chi sono, in breve, su fondo vino: «Vivo e sorrido» (la prima riga della
+ * bio di Silvia), due righe e il link a /chi-sono. Nell'arco, finché non
+ * c'è la sua foto, la luce dello studio (src/lib/immagini.ts).
  */
 export default function ChiSonoBreve() {
   return (
-    <section className="section" aria-labelledby="chi-titolo">
+    <section className="section fondo-vino on-notte" aria-labelledby="chi-titolo">
       <div className="wrap grid items-center gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
-        <div className="mx-auto w-[min(340px,78%)]" data-reveal>
-          <div className="foto-cerchio foto-vuota aspect-square shadow-[var(--shadow-petalo-l)]" data-love data-clip>
+        <div className="mx-auto w-[min(360px,80%)]" data-reveal>
+          <div className="foto-arco aspect-[3/4]" data-clip>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/giglio.svg" alt="" width={240} height={180} loading="lazy" decoding="async" className="h-auto w-[78%]" />
+            <img src={IMMAGINI.luceSpecchio.srcVerticale} alt={IMMAGINI.luceSpecchio.alt} width={900} height={1500} loading="lazy" decoding="async" />
           </div>
         </div>
         <div className="flex flex-col items-start gap-6">

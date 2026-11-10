@@ -1,0 +1,212 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- Generatore delle immagini d'atmosfera (scripts/atmosfere.cjs).
+     Tutto disegnato qui, niente foto stock: restano finché non arrivano
+     le foto vere di Silvia e dello studio (src/lib/immagini.ts). -->
+<body style="margin:0;background:#000">
+<script>
+function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function canvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+
+/* Grana: rumore fine, come la carta o l'intonaco. */
+function grana(ctx, w, h, forza, seed) {
+  const r = rng(seed); const img = ctx.getImageData(0, 0, w, h); const d = img.data;
+  for (let i = 0; i < d.length; i += 4) { const n = (r() - 0.5) * forza; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  ctx.putImageData(img, 0, 0);
+}
+/* Intonaco: macchie larghe e morbide. */
+function intonaco(ctx, w, h, seed, alpha) {
+  const r = rng(seed);
+  for (let i = 0; i < 70; i++) {
+    const x = r() * w, y = r() * h, rr = (0.05 + r() * 0.22) * Math.max(w, h);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, rr);
+    const chiaro = r() > 0.5;
+    g.addColorStop(0, chiaro ? `rgba(255,236,226,${alpha})` : `rgba(60,20,25,${alpha})`);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  }
+}
+
+/* Una pianta di gigli in silhouette: stelo, foglie lunghe, fiori a trombetta. */
+function giglioSagoma(ctx, x0, y0, alto, r, inclina) {
+  ctx.save(); ctx.translate(x0, y0); ctx.rotate(inclina);
+  ctx.lineCap = 'round';
+  ctx.lineWidth = alto * 0.014; ctx.beginPath(); ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(alto * 0.05, -alto * 0.35, -alto * 0.04, -alto * 0.7, alto * 0.03, -alto); ctx.stroke();
+  // foglie
+  const nf = 5 + Math.floor(r() * 4);
+  for (let i = 0; i < nf; i++) {
+    const t = 0.1 + r() * 0.7, lato = r() > 0.5 ? 1 : -1, L = alto * (0.14 + r() * 0.14), cur = lato * (0.25 + r() * 0.35);
+    ctx.save(); ctx.translate(0, -alto * t); ctx.rotate(lato * (0.35 + r() * 0.7));
+    ctx.beginPath(); ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(L * 0.14, -L * 0.3, L * (0.1 + cur), -L * 0.75, L * cur * 1.4, -L);
+    ctx.bezierCurveTo(L * (cur - 0.02), -L * 0.7, -L * 0.1, -L * 0.3, 0, 0); ctx.fill(); ctx.restore();
+  }
+  // fiori in cima
+  const fiori = 2 + Math.floor(r() * 2);
+  for (let f = 0; f < fiori; f++) {
+    ctx.save(); ctx.translate(alto * 0.03, -alto * (0.9 + f * 0.04));
+    ctx.rotate((f - 1) * 0.9 + (r() - 0.5) * 0.4);
+    ctx.lineWidth = alto * 0.008; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, -alto * 0.08); ctx.stroke();
+    ctx.translate(0, -alto * 0.08);
+    const P = alto * 0.12;
+    for (let p = 0; p < 3; p++) {
+      const lato = p - 1;
+      ctx.save(); ctx.rotate(lato * 0.55 + (r() - 0.5) * 0.15);
+      ctx.beginPath(); ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(P * 0.45, -P * 0.35, P * 0.4, -P * 0.8, P * (0.15 + lato * 0.35), -P * 1.05);
+      ctx.bezierCurveTo(-P * 0.05 + lato * P * 0.2, -P * 0.85, -P * 0.4, -P * 0.4, 0, 0); ctx.fill(); ctx.restore();
+    }
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+/* 1. Ombre: luce del pomeriggio su un muro rosa antico, con le ombre dei gigli. */
+function ombre(w, h, seed, specchio) {
+  const r = rng(seed); const S = Math.max(w, h) / 2000;
+  const c = canvas(w, h), ctx = c.getContext('2d');
+  // muro in ombra
+  const g = ctx.createLinearGradient(0, 0, w, h);
+  g.addColorStop(0, '#6e3237'); g.addColorStop(0.55, '#5a262c'); g.addColorStop(1, '#3a171b');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  intonaco(ctx, w, h, seed + 1, 0.05);
+  // la luce della finestra: un trapezio inclinato, bordi morbidi
+  const luce = canvas(w, h), lc = luce.getContext('2d');
+  lc.filter = `blur(${38 * S}px)`; lc.fillStyle = '#fff';
+  const ox = w * 0.38;
+  lc.beginPath();
+  lc.moveTo(ox + w * 0.12, -h * 0.1); lc.lineTo(ox + w * 0.66, -h * 0.1);
+  lc.lineTo(ox + w * 0.52, h * 1.1); lc.lineTo(ox - w * 0.06, h * 1.1); lc.closePath(); lc.fill();
+  // il montante della finestra
+  lc.filter = `blur(${16 * S}px)`; lc.globalCompositeOperation = 'destination-out'; lc.lineWidth = 26 * S;
+  lc.beginPath(); lc.moveTo(ox + w * 0.39, -h * 0.1); lc.lineTo(ox + w * 0.23, h * 1.1); lc.stroke();
+  lc.lineWidth = 20 * S; lc.beginPath(); lc.moveTo(ox + w * 0.06, h * 0.46); lc.lineTo(ox + w * 0.64, h * 0.4); lc.stroke();
+  // le piante, sfocate come ombre lontane dal muro
+  const pianta = canvas(w, h), pc = pianta.getContext('2d');
+  pc.fillStyle = '#000'; pc.strokeStyle = '#000';
+  pc.filter = `blur(${16 * S}px)`; pc.globalAlpha = 0.85;
+  const base = w * 0.62;
+  for (let i = 0; i < 3; i++) giglioSagoma(pc, base + (i - 1) * w * 0.09 + r() * 40 * S, h * 1.05, h * (0.7 + r() * 0.3), r, (r() - 0.5) * 0.4 + 0.12);
+  pc.filter = `blur(${22 * S}px)`; pc.globalAlpha = 0.6;
+  for (let i = 0; i < 3; i++) giglioSagoma(pc, base + (r() - 0.3) * w * 0.4, h * 1.1, h * (0.9 + r() * 0.3), r, (r() - 0.5) * 0.5 + 0.2);
+  lc.globalCompositeOperation = 'destination-out'; lc.filter = 'none'; lc.globalAlpha = 0.7; lc.drawImage(pianta, 0, 0);
+  // la luce calda sul muro
+  ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = 0.85;
+  const tinta = canvas(w, h), tc = tinta.getContext('2d');
+  const tg = tc.createLinearGradient(0, 0, 0, h); tg.addColorStop(0, '#ffcfae'); tg.addColorStop(1, '#f19c8f');
+  tc.fillStyle = tg; tc.fillRect(0, 0, w, h); tc.globalCompositeOperation = 'destination-in'; tc.drawImage(luce, 0, 0);
+  ctx.drawImage(tinta, 0, 0);
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  // vignettatura
+  const v = ctx.createRadialGradient(w * 0.55, h * 0.4, Math.min(w, h) * 0.2, w * 0.5, h * 0.5, Math.max(w, h) * 0.8);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(25,8,10,0.55)'); ctx.fillStyle = v; ctx.fillRect(0, 0, w, h);
+  grana(ctx, w, h, 9, seed + 7);
+  if (!specchio) return c;
+  const m = canvas(w, h), mc = m.getContext('2d'); mc.translate(w, 0); mc.scale(-1, 1); mc.drawImage(c, 0, 0);
+  return m;
+}
+
+/* 2. Seta: un drappo color lily con pieghe morbide. */
+function seta(w, h, seed, scuro) {
+  const r = rng(seed); const c = canvas(w, h), ctx = c.getContext('2d');
+  const img = ctx.createImageData(w, h); const d = img.data;
+  const onde = Array.from({ length: 7 }, (_, i) => ({ a: (0.9 / (i + 1)) * (0.6 + r() * 0.6), k: (1.6 + i * 1.15 + r()) / Math.max(w, h) * 6.2832, ang: -0.55 + (r() - 0.5) * 0.5, ph: r() * 6.28, w: r() * 2 }));
+  const H = (x, y) => {
+    let s = 0; const warp = Math.sin(y / h * 3.1 + 1.3) * w * 0.05 + Math.sin(x / w * 2.3) * h * 0.03;
+    for (const o of onde) { const u = (x + warp) * Math.cos(o.ang) + y * Math.sin(o.ang); s += o.a * Math.sin(u * o.k + o.ph + o.w * Math.sin(y / h * 2)); }
+    return s;
+  };
+  const lx = -0.45, ly = -0.6, lz = 0.66; const e = 1.2;
+  const pal = scuro ? [[38, 6, 18], [120, 14, 52], [214, 70, 112], [255, 196, 206]] : [[96, 10, 42], [196, 10, 76], [242, 96, 140], [255, 214, 224]];
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const A = 55 * Math.max(w, h) / 2000;
+    const hx = (H(x + e, y) - H(x - e, y)) / (2 * e) * A, hy = (H(x, y + e) - H(x, y - e)) / (2 * e) * A;
+    const n = 1 / Math.hypot(hx, hy, 1); const nx = -hx * n, ny = -hy * n, nz = n;
+    let L = Math.max(0, nx * lx + ny * ly + nz * lz);
+    const spec = Math.pow(Math.max(0, nz * 0.9 + nx * -0.3 + ny * -0.3), 28) * 0.55;
+    L = Math.min(1, L * 0.9 + 0.05);
+    const t = L * 3, i0 = Math.min(2, Math.floor(t)), f = t - i0;
+    const i = (y * w + x) * 4;
+    for (let k = 0; k < 3; k++) d[i + k] = pal[i0][k] + (pal[i0 + 1][k] - pal[i0][k]) * f + spec * 255;
+    d[i + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  const v = ctx.createRadialGradient(w * 0.5, h * 0.45, Math.min(w, h) * 0.25, w * 0.5, h * 0.5, Math.max(w, h) * 0.75);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(30,4,14,0.5)'); ctx.fillStyle = v; ctx.fillRect(0, 0, w, h);
+  grana(ctx, w, h, 6, seed + 3);
+  return c;
+}
+
+/* 3. Candele: il buio caldo con le luci fuori fuoco. */
+function candela(w, h, seed) {
+  const r = rng(seed); const S = Math.max(w, h) / 2000; const c = canvas(w, h), ctx = c.getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#1c1210'); g.addColorStop(1, '#2a1915');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  const glow = (x, y, rr, col, a) => { const gg = ctx.createRadialGradient(x, y, 0, x, y, rr); gg.addColorStop(0, `rgba(${col},${a})`); gg.addColorStop(1, `rgba(${col},0)`); ctx.fillStyle = gg; ctx.fillRect(0, 0, w, h); };
+  glow(w * 0.74, h * 0.62, Math.max(w, h) * 0.55, '246,170,110', 0.32);
+  glow(w * 0.9, h * 0.2, Math.max(w, h) * 0.3, '224,60,110', 0.16);
+  ctx.globalCompositeOperation = 'screen';
+  for (let i = 0; i < 46; i++) {
+    const x = w * (0.42 + r() * 0.62), y = h * (0.12 + r() * 0.82), rr = (24 + r() * 90) * S;
+    const rosa = r() < 0.25; const col = rosa ? '242,79,128' : r() < 0.5 ? '246,194,139' : '252,226,188';
+    ctx.filter = `blur(${(2 + r() * 10) * S}px)`;
+    ctx.beginPath(); ctx.arc(x, y, rr, 0, 6.283);
+    const gg = ctx.createRadialGradient(x, y, rr * 0.2, x, y, rr);
+    const a = 0.12 + r() * 0.35;
+    gg.addColorStop(0, `rgba(${col},${a * 0.7})`); gg.addColorStop(0.85, `rgba(${col},${a})`); gg.addColorStop(1, `rgba(${col},${a * 0.4})`);
+    ctx.fillStyle = gg; ctx.fill();
+  }
+  // tre fiamme, piccole e nette
+  ctx.filter = `blur(${3 * S}px)`;
+  [[0.66, 0.7], [0.76, 0.64], [0.84, 0.74]].forEach(([fx, fy], i) => {
+    const x = w * fx, y = h * fy, s = (1 - i * 0.12) * 22 * S;
+    glow(x, y - s, s * 9, '255,200,140', 0.45);
+    ctx.fillStyle = 'rgba(255,240,215,0.95)'; ctx.beginPath(); ctx.ellipse(x, y - s, s * 0.45, s * 1.15, 0, 0, 6.283); ctx.fill();
+  });
+  ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over';
+  grana(ctx, w, h, 10, seed + 5);
+  return c;
+}
+
+/* 4. Velo: petali fuori fuoco, rosa e cera, luminosi. */
+function velo(w, h, seed) {
+  const r = rng(seed); const S = Math.max(w, h) / 2000; const c = canvas(w, h), ctx = c.getContext('2d');
+  const g = ctx.createLinearGradient(0, h, w, 0); g.addColorStop(0, '#8a1840'); g.addColorStop(0.5, '#c4405e'); g.addColorStop(1, '#f2b49a');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  const cols = ['248,170,198', '252,226,188', '224,11,87', '196,10,76', '255,240,236', '242,79,128'];
+  for (let i = 0; i < 26; i++) {
+    const x = r() * w, y = r() * h, rx = (160 + r() * 420) * S, ry = rx * (0.28 + r() * 0.3);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(r() * 3.14);
+    ctx.filter = `blur(${(30 + r() * 60) * S}px)`;
+    ctx.fillStyle = `rgba(${cols[Math.floor(r() * cols.length)]},${0.25 + r() * 0.4})`;
+    ctx.beginPath(); ctx.moveTo(-rx, 0); ctx.quadraticCurveTo(0, -ry * 2, rx, 0); ctx.quadraticCurveTo(0, ry * 0.6, -rx, 0); ctx.fill();
+    ctx.restore();
+  }
+  ctx.filter = 'none';
+  grana(ctx, w, h, 8, seed + 2);
+  return c;
+}
+
+/* 5. Lino: tela calda color sabbia rosata, con una piega di luce. */
+function lino(w, h, seed) {
+  const r = rng(seed); const c = canvas(w, h), ctx = c.getContext('2d');
+  ctx.fillStyle = '#efdcd3'; ctx.fillRect(0, 0, w, h);
+  const img = ctx.getImageData(0, 0, w, h), d = img.data;
+  const fx = Array.from({ length: w }, () => (r() - 0.5) * 9), fy = Array.from({ length: h }, () => (r() - 0.5) * 9);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = (y * w + x) * 4; const n = fx[x] + fy[y] + (r() - 0.5) * 6 + Math.sin(x * 1.9) * 1.5 + Math.sin(y * 2.1) * 1.5;
+    d[i] += n; d[i + 1] += n; d[i + 2] += n;
+  }
+  ctx.putImageData(img, 0, 0);
+  const l = ctx.createLinearGradient(0, 0, w, h * 0.6);
+  l.addColorStop(0, 'rgba(255,246,240,0.5)'); l.addColorStop(0.45, 'rgba(255,246,240,0)'); l.addColorStop(0.7, 'rgba(150,90,90,0.12)'); l.addColorStop(1, 'rgba(150,90,90,0.22)');
+  ctx.fillStyle = l; ctx.fillRect(0, 0, w, h);
+  return c;
+}
+
+window.genera = (nome, w, h, variante) => {
+  const f = { ombre: () => ombre(w, h, 11, variante === 'specchio'), seta: () => seta(w, h, 21, variante === 'scuro'), candela: () => candela(w, h, 31), velo: () => velo(w, h, 41), lino: () => lino(w, h, 51) }[nome];
+  return f().toDataURL('image/webp', 0.8);
+};
+</script>

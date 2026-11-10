@@ -3,6 +3,7 @@ import { IconaGiglio, IconaLoto, InstagramIcon } from '@/components/icons';
 import JsonLd from '@/components/seo/JsonLd';
 import Chiusura from '@/components/ui/Chiusura';
 import SchedaInstagram from '@/components/ui/SchedaInstagram';
+import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
 import { breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { IG_HANDLE, IG_URL, OWNER_NAME, SILVIA, STORIE_IN_EVIDENZA, ZONA } from '@/lib/site';
@@ -38,37 +39,22 @@ const PASSIONI = [
 export default function ChiSonoPage() {
   return (
     <>
-      <section className="relative isolate overflow-x-clip pb-[clamp(48px,7vw,96px)] pt-[clamp(28px,5vw,72px)]" aria-labelledby="chi-titolo">
-        <div className="alone left-[30%] top-1/2 w-[min(700px,140vw)] -translate-x-1/2 -translate-y-1/2" aria-hidden />
-        <div className="wrap">
-          <div className="petalo mx-auto grid max-w-[900px] items-center gap-8 p-7 sm:p-10 md:grid-cols-[auto_1fr] md:gap-12">
-            <div className="intro-fade mx-auto w-[min(240px,62vw)]">
-              <div className="foto-cerchio foto-vuota aspect-square shadow-[var(--shadow-petalo)] ring-4 ring-cipria" data-love>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/brand/giglio.svg" alt="" width={240} height={180} className="h-auto w-[78%]" />
-              </div>
-            </div>
-            <div className="flex flex-col items-start gap-4">
-              <p className="eyebrow intro">Chi sono</p>
-              <h1 id="chi-titolo" className="display-lg intro" style={{ '--d': '0.1s' } as React.CSSProperties}>
-                {OWNER_NAME}
-              </h1>
-              <p className="intro font-script text-[clamp(34px,4.6vw,48px)] leading-none text-lily" style={{ '--d': '0.22s' } as React.CSSProperties}>
-                Vivo e sorrido
-              </p>
-              <ul className="intro flex flex-wrap gap-2" style={{ '--d': '0.34s' } as React.CSSProperties} aria-label="In breve">
-                <li className="pill">Lily Trattamenti Benessere</li>
-                <li className="pill">{ZONA}</li>
-              </ul>
-              <a className="btn btn-outline btn-sm intro" style={{ '--d': '0.44s' } as React.CSSProperties} href={IG_URL} target="_blank" rel="noopener">
-                <InstagramIcon size={16} /> {IG_HANDLE}
-              </a>
-            </div>
-          </div>
+      <Scena immagine="luceSpecchio" altezza="alta" velo="basso" priorita aria-labelledby="chi-titolo" contenuto="flex flex-col justify-end self-stretch">
+        <div className="flex flex-col items-start gap-5 pt-[30svh]" data-hero-away="10">
+          <p className="eyebrow intro">Chi sono · {ZONA}</p>
+          <h1 id="chi-titolo" className="display-xl intro" style={{ '--d': '0.1s' } as React.CSSProperties}>
+            {OWNER_NAME}
+          </h1>
+          <p className="corsivo intro text-[clamp(26px,3.4vw,40px)] leading-none text-petalo" style={{ '--d': '0.22s' } as React.CSSProperties}>
+            Vivo e sorrido
+          </p>
+          <a className="btn btn-outline-latte btn-sm intro mt-2" style={{ '--d': '0.34s' } as React.CSSProperties} href={IG_URL} target="_blank" rel="noopener">
+            <InstagramIcon size={16} /> {IG_HANDLE}
+          </a>
         </div>
-      </section>
+      </Scena>
 
-      <section className="section" aria-labelledby="storia-titolo">
+      <section className="section fondo-blush" aria-labelledby="storia-titolo">
         <div className="wrap grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
           <div className="flex flex-col items-start gap-6">
             <SectionHead id="storia-titolo" eyebrow="La mia storia" title="Un tocco di" script="magia" />

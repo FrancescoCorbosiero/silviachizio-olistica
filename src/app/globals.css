@@ -32,6 +32,9 @@
   --color-foglia: #a09a5d;       /* le foglie: solo decoro, mai testo */
   --color-candela: #f6c28b;      /* la luce delle candele: Lily Magic */
   --color-cera: #fce2bc;         /* la cera: fondi caldi, aloni */
+  --color-sabbia: #f2e4dd;       /* il muro dello studio: il fondo pagina, caldo e non bianco */
+  --color-sabbia-deep: #e8d2c8;  /* fasce e filetti su sabbia */
+  --color-vino: #4a1027;         /* il lily in ombra: fasce piene, scene scure */
 
   /* ── Tipografia ──────────────────────────────────────────── */
   --font-serif: var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
@@ -43,16 +46,19 @@
   --color-brand-primary: #e00b57;
 
   /* ── Forme e movimento («respiro»: lento e morbido) ──────── */
-  --radius-petalo: 1.625rem;     /* 26px: card e pannelli */
-  --radius-tile: 1.25rem;        /* 20px */
+  /* Forme architettoniche: angoli appena smussati. L'unica curva vera è
+     l'arco delle foto (.foto-arco), come una porta o una finestra. */
+  --radius-petalo: 0.375rem;     /* 6px: pannelli */
+  --radius-tile: 0.25rem;        /* 4px */
+  --radius-btn: 2px;
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);      /* ≈ power3.out */
   --ease-breath: cubic-bezier(0.37, 0, 0.63, 1);    /* ≈ sine.inOut */
   --ease-pop: cubic-bezier(0.3, 1.25, 0.5, 1);      /* un pop morbido, mai un rimbalzo */
 
   /* ── Ombre tinte di rosa (mai grigie, mai piene) ─────────── */
-  --shadow-petalo-s: 0 1px 2px rgb(196 10 76 / 0.06), 0 6px 16px -10px rgb(196 10 76 / 0.28);
-  --shadow-petalo: 0 1px 3px rgb(196 10 76 / 0.06), 0 14px 32px -18px rgb(196 10 76 / 0.32);
-  --shadow-petalo-l: 0 2px 6px rgb(196 10 76 / 0.06), 0 26px 48px -24px rgb(196 10 76 / 0.38);
+  --shadow-petalo-s: 0 1px 2px rgb(74 16 39 / 0.06);
+  --shadow-petalo: 0 1px 2px rgb(74 16 39 / 0.05), 0 18px 40px -28px rgb(74 16 39 / 0.35);
+  --shadow-petalo-l: 0 2px 4px rgb(74 16 39 / 0.06), 0 30px 60px -34px rgb(74 16 39 / 0.45);
   --shadow-notte: 0 2px 6px rgb(0 0 0 / 0.2), 0 24px 44px -24px rgb(0 0 0 / 0.6);
 }
 
@@ -63,20 +69,15 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 88px;
-    background: var(--color-latte);
+    background: var(--color-sabbia);
   }
   @media (prefers-reduced-motion: no-preference) {
     html { scroll-behavior: smooth; }
   }
   body {
-    /* Il fondo del listino: latte con macchie d'acquerello rosa leggerissime. */
-    background-color: var(--color-latte);
-    background-image:
-      radial-gradient(38rem 26rem at 6% 2rem, rgb(248 170 198 / 0.22), rgb(248 170 198 / 0) 70%),
-      radial-gradient(30rem 24rem at 98% 18%, rgb(252 224 233 / 0.75), rgb(252 224 233 / 0) 70%),
-      radial-gradient(34rem 26rem at 0% 46%, rgb(251 232 238 / 0.9), rgb(251 232 238 / 0) 70%),
-      radial-gradient(30rem 22rem at 100% 72%, rgb(248 170 198 / 0.16), rgb(248 170 198 / 0) 70%);
-    background-repeat: no-repeat;
+    /* Il muro dello studio: sabbia rosata, pieno. Il ritmo lo danno le
+       fasce di colore e le scene con le immagini, non le macchie. */
+    background-color: var(--color-sabbia);
     color: var(--color-inchiostro);
     font-family: var(--font-sans);
     font-size: 17px;
@@ -147,19 +148,19 @@
 
   /* La parola scritta a mano: una sola per titolo, in rosa, con la
      sottolineatura a mano in petalo che si disegna per ultima (--draw). */
+  /* La parola in evidenza: il corsivo del listino (Playfair Italic), in
+     rosa. Damion resta al logo e al wordmark del footer: nei titoli il
+     corsivo pennellato ripetuto stancava (e sapeva di modello). */
   .script {
     position: relative;
-    display: inline-block;
-    font-family: var(--font-script);
+    display: inline;
+    font-family: var(--font-serif);
     font-weight: 400;
-    font-style: normal;
+    font-style: italic;
     text-transform: none;
-    letter-spacing: 0;
-    line-height: 1;
-    color: var(--color-lily);
-    padding-inline: 0.04em 0.08em;
+    letter-spacing: -0.01em;
+    color: var(--color-lily-deep);
   }
-  :is(h1, h2, h3, .display, .display-xl, .display-lg, .display-md, .display-sm) .script { font-size: 1.18em; }
   .script::after {
     content: '';
     position: absolute;
@@ -174,28 +175,28 @@
     transform-origin: left center;
     pointer-events: none;
   }
-  .script.no-line::after { display: none; }
+  .script::after { display: none; }
 
   /* Etichetta sopra i titoli: piccola, rosa profondo, con la scintilla. */
+  /* Etichetta sopra i titoli: maiuscoletto spaziato, con un filetto. */
   .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 14px;
     width: fit-content;
     color: var(--color-lily-deep);
-    font-size: 14px;
+    font-size: 12.5px;
     font-weight: 650;
-    letter-spacing: 0.01em;
-    line-height: 1.2;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.3;
   }
   .eyebrow::before {
     content: '';
-    width: 13px;
-    height: 13px;
+    width: 32px;
+    height: 1px;
     flex-shrink: 0;
     background: currentColor;
-    -webkit-mask: var(--scintilla) center / contain no-repeat;
-    mask: var(--scintilla) center / contain no-repeat;
   }
   .on-notte .eyebrow { color: var(--color-candela); }
 
@@ -214,16 +215,15 @@
     justify-content: center;
     gap: 10px;
     min-height: 48px;
-    padding: 12px 24px;
-    border-radius: 999px;
-    border: 1.5px solid var(--b-bd);
+    padding: 12px 26px;
+    border-radius: var(--radius-btn);
+    border: 1px solid var(--b-bd);
     background-color: var(--b-bg);
     color: var(--b-fg);
-    box-shadow: 0 12px 24px -14px var(--b-glow), 0 2px 5px -2px rgb(196 10 76 / 0.18);
     font-family: var(--font-sans);
-    font-size: 16px;
-    font-weight: 650;
-    letter-spacing: 0.005em;
+    font-size: 15.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     line-height: 1.15;
     text-align: center;
     white-space: nowrap;
@@ -237,25 +237,23 @@
     .btn:hover {
       --b-bg: var(--color-lily-deep);
       --b-bd: var(--color-lily-deep);
-      transform: translateY(-2px);
-      box-shadow: 0 18px 30px -16px var(--b-glow), 0 3px 8px -3px rgb(196 10 76 / 0.2);
     }
     .btn:hover svg.arrow { transform: translateX(3px); }
   }
-  .btn:active { transform: translateY(1px); box-shadow: 0 6px 14px -10px var(--b-glow); }
+  .btn:active { transform: translateY(1px); }
   .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.55; cursor: default; transform: none; }
   .btn-sm { min-height: 44px; padding: 9px 18px; font-size: 15px; }
   .btn-lg { min-height: 56px; padding: 16px 30px; font-size: 17px; }
   .btn-block { display: flex; width: 100%; }
   /* Secondario: contorno rosa su chiaro (testo --lily-deep, 5,6:1 su latte). */
   .btn-outline {
-    --b-bg: rgb(255 255 255 / 0.5);
+    --b-bg: transparent;
     --b-fg: var(--color-lily-deep);
     --b-bd: var(--color-lily);
     --b-glow: rgb(224 11 87 / 0);
   }
   @media (hover: hover) {
-    .btn-outline:hover { --b-bg: var(--color-cipria); --b-bd: var(--color-lily-deep); --b-glow: rgb(224 11 87 / 0.25); }
+    .btn-outline:hover { --b-bg: var(--color-lily-deep); --b-fg: #fff; --b-bd: var(--color-lily-deep); }
   }
   /* Sulle sezioni notte: pillola latte con testo inchiostro. */
   .btn-latte {
@@ -265,16 +263,16 @@
     --b-glow: rgb(0 0 0 / 0.5);
   }
   @media (hover: hover) {
-    .btn-latte:hover { --b-bg: var(--color-cipria); --b-bd: var(--color-cipria); }
+    .btn-latte:hover { --b-bg: #fff; --b-bd: #fff; }
   }
   .btn-outline-latte {
-    --b-bg: rgb(253 246 248 / 0.06);
+    --b-bg: rgb(34 24 20 / 0.12);
     --b-fg: var(--color-latte);
-    --b-bd: rgb(253 246 248 / 0.55);
+    --b-bd: rgb(253 246 248 / 0.7);
     --b-glow: rgb(0 0 0 / 0);
   }
   @media (hover: hover) {
-    .btn-outline-latte:hover { --b-bg: rgb(253 246 248 / 0.14); --b-bd: var(--color-latte); }
+    .btn-outline-latte:hover { --b-bg: var(--color-latte); --b-fg: var(--color-inchiostro); --b-bd: var(--color-latte); }
   }
   @media (max-width: 480px) { .btn { white-space: normal; } }
 
@@ -285,9 +283,9 @@
     width: 44px;
     height: 44px;
     flex-shrink: 0;
-    border-radius: 999px;
-    border: 1px solid rgb(248 170 198 / 0.55);
-    background-color: rgb(255 255 255 / 0.66);
+    border-radius: var(--radius-tile);
+    border: 1px solid rgb(196 10 76 / 0.22);
+    background-color: rgb(253 246 248 / 0.6);
     color: var(--color-lily-deep);
     box-shadow: var(--shadow-petalo-s);
     -webkit-backdrop-filter: blur(16px) saturate(1.5);
@@ -295,7 +293,7 @@
     transition: transform 0.4s var(--ease-soft), background-color 0.3s ease, color 0.3s ease;
     -webkit-tap-highlight-color: transparent;
   }
-  @media (hover: hover) { .icon-btn:hover { background-color: var(--color-cipria); transform: translateY(-2px); } }
+  @media (hover: hover) { .icon-btn:hover { background-color: var(--color-cipria); } }
   .icon-btn:active { transform: translateY(1px); }
   .on-notte .icon-btn { border-color: rgb(253 246 248 / 0.25); background-color: rgb(253 246 248 / 0.08); color: var(--color-latte); }
 
@@ -303,8 +301,8 @@
   .petalo {
     position: relative;
     border-radius: var(--radius-petalo);
-    border: 1px solid rgb(248 170 198 / 0.4);
-    background-color: var(--color-carta);
+    border: 1px solid rgb(74 16 39 / 0.08);
+    background-color: var(--color-latte);
     box-shadow: var(--shadow-petalo);
   }
   .petalo-latte { background-color: var(--color-latte); }
@@ -312,7 +310,7 @@
   .petalo-cipria { background-color: var(--color-cipria); border-color: rgb(248 170 198 / 0.6); }
   .petalo-lift { transition: transform 0.6s var(--ease-soft), box-shadow 0.6s var(--ease-soft); }
   @media (hover: hover) {
-    .petalo-lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-petalo-l); }
+    .petalo-lift:hover { box-shadow: var(--shadow-petalo-l); }
   }
   /* Petalo scuro, per le card dentro le sezioni notte. */
   .petalo-notte {
@@ -341,7 +339,7 @@
     border-top: 3px solid var(--color-lily-bright);
   }
   .on-notte { --script-line: rgb(242 79 128 / 0.55); color: var(--color-latte); }
-  .on-notte .script { color: var(--color-lily-bright); }
+  .on-notte .script { color: var(--color-petalo); }
   .on-notte .lead, .on-notte .testo-mute { color: rgb(253 246 248 / 0.82); }
   .on-notte .corsivo { color: var(--color-latte); }
 
@@ -370,7 +368,7 @@
 
   /* ── Filetti rosa (come intorno al logo) ──────────────────── */
   .filetti { display: flex; align-items: center; gap: 16px; }
-  .filetti::before, .filetti::after { content: ''; flex: 1; height: 1.5px; border-radius: 2px; background: var(--color-petalo); }
+  .filetti::before, .filetti::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.35; }
 
   /* ── Cerchi delle icone (cipria, icona a linea --lily) ────── */
   .cerchio {
@@ -456,8 +454,8 @@
     align-items: center;
     gap: 4px 10px;
     padding: 12px 22px;
-    border-radius: 1.5rem;
-    background: var(--color-blush);
+    border-radius: var(--radius-tile);
+    background: rgb(196 10 76 / 0.07);
     font-family: var(--font-serif);
     font-style: italic;
     font-size: 16px;
@@ -465,6 +463,8 @@
     color: var(--color-inchiostro);
   }
   .fascia-relax .punto { color: var(--color-lily); }
+  .on-notte .fascia-relax { background: rgb(253 246 248 / 0.12); color: var(--color-latte); }
+  .on-notte .fascia-relax .punto { color: var(--color-petalo); }
   @media (max-width: 639px) {
     .fascia-relax { flex-direction: column; gap: 0; }
     .fascia-relax .punto { display: none; }
@@ -476,17 +476,19 @@
     align-items: center;
     gap: 6px;
     width: fit-content;
-    padding: 6px 13px;
-    border-radius: 999px;
-    background-color: var(--color-cipria);
+    padding: 6px 12px;
+    border-radius: var(--radius-btn);
+    border: 1px solid rgb(196 10 76 / 0.3);
     color: var(--color-lily-deep);
-    font-size: 14px;
+    font-size: 12.5px;
     font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     line-height: 1.2;
   }
   .pill svg { width: 15px; height: 15px; }
   .pill-latte { background-color: var(--color-latte); border: 1px solid rgb(248 170 198 / 0.55); }
-  .on-notte .pill { background-color: rgb(242 79 128 / 0.16); color: var(--color-petalo); }
+  .on-notte .pill { border-color: rgb(253 246 248 / 0.4); color: var(--color-latte); }
 
   /* Elenco con i petali al posto dei puntini. */
   .elenco { display: flex; flex-direction: column; gap: 10px; }
@@ -520,10 +522,8 @@
 
   /* ── Foto: cerchi (come le storie di Instagram) e archi ───── */
   .foto-cerchio { border-radius: 999px; overflow: hidden; }
-  .foto-arco { border-radius: 999px 999px var(--radius-petalo) var(--radius-petalo); overflow: hidden; }
+  .foto-arco { border-radius: 999px 999px 0 0; overflow: hidden; }
   .foto-cerchio img, .foto-arco img { width: 100%; height: 100%; object-fit: cover; }
-  /* Senza foto (non ancora arrivate da Silvia): il cerchio cipria col giglio. */
-  .foto-vuota { display: grid; place-items: center; background: radial-gradient(circle at 50% 40%, var(--color-carta), var(--color-cipria) 75%); }
 
   /* ── Il giglio a linea (components/brand/Giglio.tsx) ──────── */
   .giglio { --giglio-fondo: #fff; --giglio-linea: var(--color-grafite); --giglio-antera: #7d7472; display: block; overflow: visible; }
@@ -539,6 +539,99 @@
   .divisore { display: flex; justify-content: center; color: var(--color-petalo); }
   .divisore svg { width: min(260px, 70%); height: auto; }
   .on-notte .divisore { color: rgb(242 79 128 / 0.7); }
+
+  /* ── Le scene: sezioni a tutto schermo con l'immagine (Scena.tsx) ──
+     L'immagine sta in un fondo ritagliato e scorre più lenta della pagina
+     (data-parallax-cover); il velo tiene leggibile il testo. */
+  .scena {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    display: flex;
+    align-items: center;
+    padding-block: clamp(72px, 10vw, 140px);
+    background-color: var(--color-notte);
+    color: var(--color-latte);
+  }
+  .scena-piena { min-height: calc(100svh - 64px); }
+  /* Sul telefono la barra in basso copre l'ultimo pezzo dello schermo. */
+  @media (max-width: 1023px) {
+    .scena-piena, .scena-alta { padding-bottom: calc(clamp(72px, 10vw, 140px) + 56px); }
+  }
+  .scena-alta { min-height: 86svh; }
+  .scena-media { min-height: 68svh; }
+  @media (min-width: 1024px) {
+    .scena-piena { min-height: calc(100svh - 76px); }
+  }
+  .scena-fondo { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+  .scena-fondo picture, .scena-fondo img { display: block; width: 100%; height: 100%; }
+  .scena-fondo img { object-fit: cover; }
+  .scena-velo { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .velo-notte { background: rgb(34 24 20 / 0.5); }
+  .velo-vino { background: linear-gradient(180deg, rgb(74 16 39 / 0.25), rgb(74 16 39 / 0.72)); }
+  .velo-basso { background: linear-gradient(0deg, rgb(34 24 20 / 0.86) 0%, rgb(34 24 20 / 0.45) 50%, rgb(34 24 20 / 0.1) 100%); }
+  .velo-sinistra { background: linear-gradient(0deg, rgb(34 24 20 / 0.88) 0%, rgb(34 24 20 / 0.55) 50%, rgb(34 24 20 / 0) 85%); }
+  @media (min-width: 768px) {
+    .velo-sinistra { background: linear-gradient(90deg, rgb(34 24 20 / 0.8) 0%, rgb(34 24 20 / 0.5) 45%, rgb(34 24 20 / 0) 80%); }
+  }
+  .velo-chiaro { background: linear-gradient(90deg, rgb(242 228 221 / 0.92), rgb(242 228 221 / 0.6) 55%, rgb(242 228 221 / 0.1)); }
+
+  /* I tre fatti dell'hero: testo spaziato tra filetti, niente pillole. */
+  .fatti { display: flex; flex-wrap: wrap; gap: 8px 0; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(253 246 248 / 0.85); }
+  .fatti > li { display: flex; align-items: center; }
+  .fatti > li + li::before { content: ''; width: 1px; height: 14px; margin-inline: 16px; background: currentColor; opacity: 0.5; }
+  @media (max-width: 639px) {
+    .fatti { flex-direction: column; gap: 6px; }
+    .fatti > li + li::before { display: none; }
+  }
+
+  /* La chiusura: il bordino rosa della divisa in alto. */
+  .chiusura { border-top: 3px solid var(--color-lily-bright); }
+
+  /* Le due porte (DuePorte.tsx): pannelli alti con l'immagine e il velo. */
+  .porta {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    display: flex;
+    align-items: flex-end;
+    min-height: 78svh;
+    padding: clamp(28px, 5vw, 64px) clamp(20px, 4vw, 56px);
+    color: var(--color-latte);
+    background: var(--color-notte);
+  }
+  .porta + .porta { border-top: 1px solid rgb(253 246 248 / 0.2); }
+  @media (min-width: 768px) {
+    .porta + .porta { border-top: 0; border-left: 1px solid rgb(253 246 248 / 0.2); }
+  }
+  .porta .scena-fondo img { transition: scale 1.2s var(--ease-soft); }
+  @media (hover: hover) { .porta:hover .scena-fondo img { scale: 1.05; } }
+  .porta-vai {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid currentColor;
+    font-size: 13px;
+    font-weight: 650;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: gap 0.4s var(--ease-soft);
+  }
+  @media (hover: hover) { .porta:hover .porta-vai { gap: 16px; } }
+
+  /* Il listino senza card: righe su fondo pieno, filetti sottili. */
+  .listino-foglio { padding-block: 8px; border-block: 1px solid rgb(196 10 76 / 0.25); }
+
+  /* Fasce di colore pieno: il ritmo della pagina senza il bianco. */
+  .fondo-sabbia { background-color: var(--color-sabbia); }
+  .fondo-cipria { background-color: var(--color-cipria); }
+  .fondo-blush { background-color: var(--color-blush); }
+  .fondo-lino { background: var(--color-sabbia) url('/atmosfere/lino.webp') center / cover; }
+  .fondo-vino { background-color: var(--color-vino); color: var(--color-latte); }
+  .fondo-notte { background-color: var(--color-notte); color: var(--color-latte); }
+  .fondo-lily { background-color: var(--color-lily-deep); color: #fff; }
 
   /* ── Testo lungo (privacy) ───────────────────────────────── */
   .prose-lily { font-size: 17.5px; line-height: 1.7; color: var(--color-inchiostro); }
@@ -582,7 +675,6 @@
    ===================================================================== */
 @keyframes intro-up { from { opacity: 0; translate: 0 22px; filter: blur(6px); } to { opacity: 1; translate: 0 0; filter: blur(0); } }
 @keyframes intro-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes respiro { 0%, 100% { scale: 0.9; opacity: 0.55; } 50% { scale: 1.06; opacity: 0.95; } }
 @keyframes tremolio {
   0%, 100% { opacity: 0.85; scale: 1; }
   22% { opacity: 0.95; scale: 1.03; }
@@ -591,9 +683,6 @@
   80% { opacity: 0.82; scale: 0.99; }
 }
 
-/* Il bagliore che respira: un alone rosa dietro l'hero (4 s dentro, 4 s fuori). */
-.alone { position: absolute; z-index: -1; pointer-events: none; border-radius: 999px; aspect-ratio: 1;
-  background: radial-gradient(closest-side, rgb(248 170 198 / 0.62), rgb(252 224 233 / 0.35) 55%, rgb(252 224 233 / 0)); }
 /* La luce della candela (Lily Magic): tremola appena. */
 .luce-candela { position: absolute; z-index: -1; pointer-events: none; border-radius: 999px; aspect-ratio: 1;
   background: radial-gradient(closest-side, rgb(246 194 139 / 0.5), rgb(252 226 188 / 0.16) 55%, rgb(252 226 188 / 0)); }
@@ -601,7 +690,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .intro { animation: intro-up 1.1s var(--ease-soft) both; animation-delay: var(--d, 0s); }
   .intro-fade { animation: intro-fade 1.2s ease both; animation-delay: var(--d, 0s); }
-  .alone { animation: respiro 8s var(--ease-breath) infinite; }
   .luce-candela { animation: tremolio 3.2s ease-in-out infinite; }
 }
 
@@ -692,46 +780,6 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
   [data-marquee="right"] .marquee-track { animation-direction: reverse; }
 }
 
-/* Il nastro dei trattamenti sulla pennellata blush (Nastro.tsx). */
-.nastro { position: relative; isolation: isolate; overflow-x: clip; }
-.nastro::before {
-  content: '';
-  position: absolute;
-  inset: 0 0.5%;
-  z-index: -1;
-  background: linear-gradient(90deg, var(--color-blush), var(--color-cipria) 50%, var(--color-blush));
-  -webkit-mask: var(--pennello) center / 100% 100% no-repeat;
-  mask: var(--pennello) center / 100% 100% no-repeat;
-}
-
-/* L'anello di testo intorno alla foto (data-spin). */
-.anello { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; color: var(--color-lily-deep); }
-.anello text { font-family: var(--font-serif); font-style: italic; font-size: 11.5px; letter-spacing: 0.05em; fill: currentColor; }
-
-/* Il badge rotondo "Prenota" della chiusura (data-magnetic, data-spin). */
-.badge-prenota {
-  position: relative;
-  place-items: center;
-  width: 176px;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: var(--color-lily);
-  color: #fff;
-  box-shadow: 0 24px 44px -20px rgb(242 79 128 / 0.65);
-}
-.badge-prenota .anello { color: #fff; }
-.badge-prenota .anello text { font-family: var(--font-sans); font-style: normal; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
-.badge-core {
-  display: grid;
-  place-items: center;
-  width: 44%;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: var(--color-latte);
-  color: var(--color-lily);
-  transition: transform 0.6s var(--ease-soft);
-}
-.badge-prenota:hover .badge-core { transform: scale(1.08) rotate(-10deg); }
 
 /* La chat (data-chat): i fumetti arrivano uno alla volta. */
 .chat-bub { transition: opacity 0.6s ease, transform 0.75s var(--ease-soft); transition-delay: calc(var(--i, 0) * 650ms + 200ms); }

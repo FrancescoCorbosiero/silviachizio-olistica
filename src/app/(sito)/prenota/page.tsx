@@ -35,7 +35,6 @@ export default function PrenotaPage() {
   return (
     <>
       <section className="section-tight relative isolate overflow-x-clip !pb-10">
-        <div className="alone -left-24 -top-10 w-[min(620px,120vw)]" aria-hidden />
         <div className="wrap">
           <p className="eyebrow intro">Prenota</p>
           {/* BOZZA */}

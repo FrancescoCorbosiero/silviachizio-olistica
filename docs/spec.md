@@ -45,18 +45,14 @@ Niente blog in fase 1 (nessun contenuto da pubblicare: Silvia scrive su Instagra
 
 ### Home `/`
 
-1. **Hero.** Titolo con una parola scritta a mano, due righe in cui Silvia si
-   presenta, le due richieste come bottoni, tre fatti brevi e veri (es.
-   "Montebelluna (TV)", "Quattro trattamenti", "Letture a distanza"). Accanto (sotto,
-   su telefono): la foto di Silvia in un cerchio con l'anello di testo che gira
-   (`data-spin`: «trattamenti benessere · Montebelluna ·»), il giglio del logo che
-   si disegna (`data-draw`), qualche petalo che ondeggia (`data-float`), il
-   bagliore rosa che respira. Su desktop, petali dietro al puntatore
-   (`data-petal-trail`).
-2. **Nastro** con i nomi dei trattamenti e delle letture sulla pennellata blush
-   del listino (`data-marquee`).
-3. **Le due porte**: "In studio, a Montebelluna" → `/trattamenti`; "A distanza,
-   via email" → `/letture`.
+1. **Hero.** Uno schermo intero con un'immagine di fondo in parallax (oggi
+   atmosfera, domani lo studio: `src/lib/immagini.ts`). Titolo con una parola in
+   corsivo, due righe in cui Silvia si presenta, le due richieste come bottoni,
+   tre fatti brevi e veri. Niente cerchi, anelli, petali o cuori: l'immagine
+   basta. (Revisione di novembre 2026, vedi `decisioni.md`.)
+2. *(Il nastro dei nomi è stato tolto nella stessa revisione.)*
+3. **Le due porte**: due pannelli alti con l'immagine, "In studio" →
+   `/trattamenti`; "A distanza" → `/letture`.
 4. **Il listino**: le quattro righe come nell'immagine di Silvia (icona nel
    cerchio cipria che entra con un pop, nome, descrizione, durata con l'orologio),
    poi la fascia «Momento relax post-trattamento incluso • circa 15 minuti». Ogni

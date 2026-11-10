@@ -27,7 +27,6 @@ export default function BioPage() {
   return (
     <>
       <section className="relative isolate overflow-x-clip pb-10 pt-2" aria-labelledby="bio-titolo">
-        <div className="alone left-1/2 top-[30%] w-[min(560px,130vw)] -translate-x-1/2 -translate-y-1/2" aria-hidden />
         <div className="wrap-narrow flex flex-col items-center text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

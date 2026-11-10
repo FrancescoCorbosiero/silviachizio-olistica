@@ -81,7 +81,6 @@ export default function StilePage() {
   return (
     <>
       <header className="section-tight relative isolate overflow-x-clip">
-        <div className="alone left-1/2 top-1/2 w-[min(640px,120vw)] -translate-x-1/2 -translate-y-1/2" aria-hidden />
         <div className="wrap">
           <p className="eyebrow">Brand System</p>
           <h1 className="display-xl mt-4">
@@ -306,7 +305,6 @@ export default function StilePage() {
       <Blocco id="movimento" titolo="Movimento «respiro»" nota="Lento e morbido: le cose leggere galleggiano, le cose care si disegnano. Con “riduci movimento” tutto è fermo.">
         <div className="grid gap-5 md:grid-cols-2">
           <div className="petalo relative isolate grid h-64 place-items-center overflow-hidden">
-            <div className="alone w-72" aria-hidden />
             <p className="corsivo text-xl">Il bagliore che respira</p>
           </div>
           <div className="notte on-notte relative isolate grid h-64 place-items-center overflow-hidden rounded-[var(--radius-petalo)]">

@@ -102,7 +102,7 @@ npm run anteprima    # sito statico in anteprima-netlify/ (Netlify Drop, senza i
 Per provare le richieste senza email vere:
 `SES_DRY_RUN=true SES_TO_TRATTAMENTI=prova@esempio.it SES_TO_LETTURE=prova@esempio.it npm run dev`
 (le email finiscono nei log). Le misure di leggerezza: `scripts/misura.cjs`
-sulla build; icone e immagini per i social: `scripts/immagini.cjs` (entrambi
+sulla build; icone e immagini per i social: `scripts/immagini.cjs`; le immagini d'atmosfera delle scene: `scripts/atmosfere.cjs` (tutti
 con Playwright, che non è una dipendenza del progetto).
 
 Il blocco in cima a questo file lo scrive `next dev` (e lo riscrive se manca):

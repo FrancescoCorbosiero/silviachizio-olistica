@@ -6,7 +6,6 @@ import InstagramHome from '@/components/home/InstagramHome';
 import LettureChat from '@/components/home/LettureChat';
 import ListinoHome from '@/components/home/ListinoHome';
 import MomentoRelax from '@/components/home/MomentoRelax';
-import Nastro from '@/components/home/Nastro';
 import JsonLd from '@/components/seo/JsonLd';
 import Chiusura from '@/components/ui/Chiusura';
 import FaqList from '@/components/ui/FaqList';
@@ -53,7 +52,6 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <Nastro />
       <DuePorte />
       <ListinoHome />
       <MomentoRelax />

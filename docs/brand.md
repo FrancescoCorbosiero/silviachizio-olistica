@@ -165,8 +165,8 @@ calmo.
 
 Due effetti nuovi, solo CSS:
 
-- **Il bagliore che respira**: dietro l'hero un alone rosa si gonfia e si sgonfia
-  al ritmo di un respiro calmo (4 s dentro, 4 s fuori).
+- ~~Il bagliore che respira~~: tolto nella revisione di novembre 2026 (vedi
+  sotto, «Revisione: meno galleggiante, più architettura»).
 - **La candela**: in Lily Magic la luce tremola appena.
 
 | Effetto | Da dove | Per Lily |
@@ -222,3 +222,39 @@ Regole per ogni effetto portato:
 - Più di una parola a mano per titolo; maiuscolo nei testi lunghi.
 - Foto stock; immagini con il testo dentro (come il listino in JPG).
 - Simboli esoterici pesanti: per le letture bastano carte, luce e stelle discrete.
+
+## Revisione: meno galleggiante, più architettura (novembre 2026)
+
+Prima revisione dopo aver visto il sito intero. Il giudizio: troppo bianco,
+tutto "galleggiante" (card, cerchi, aloni sullo stesso fondo chiaro), poche
+sezioni che riempiono lo schermo, e troppi segni da modello generico (etichette
+con la scintilla, pillole, aloni che respirano, anello di testo che gira, nastro
+con le scintille, una parola scritta a mano in ogni titolo). Cosa cambia:
+
+- **Scene a tutto schermo.** `components/ui/Scena.tsx`: sezioni alte quanto lo
+  schermo (o quasi) con un'immagine di fondo che scorre più lenta della pagina
+  (`data-parallax-cover`) e un velo che tiene leggibile il testo. Le usano
+  l'hero e la chiusura di ogni pagina, le testate di Trattamenti, Letture, Chi
+  sono e Contatti, il momento relax e le letture in home. Le due porte della
+  home sono due pannelli alti con l'immagine.
+- **Le immagini** stanno in `src/lib/immagini.ts`. Oggi sono **atmosfere
+  disegnate da noi** (`scripts/atmosfere.cjs`: ombre di gigli su un muro rosa
+  antico, seta, candele fuori fuoco, petali fuori fuoco, lino): niente stock,
+  niente persone, niente studio finto. Con le foto vere di Silvia si cambia solo
+  quel file.
+- **Fondo pieno, non bianco.** Il fondo pagina è `--sabbia` (#F2E4DD, il muro);
+  il ritmo lo danno le fasce `fondo-blush`, `fondo-vino` (`--vino` #4A1027, il
+  lily in ombra), `fondo-notte` e le scene. Via le macchie d'acquerello.
+- **Forme architettoniche.** Raggi da 2–6 px (`--radius-btn`, `--radius-tile`,
+  `--radius-petalo`) al posto delle pillole e dei petali da 26 px. L'unica curva
+  vera è **l'arco** delle foto (`.foto-arco`), come una porta o una finestra; i
+  cerchi restano solo per le icone del listino, che vengono dal listino di
+  Silvia. Bottoni rettangolari, senza ombra né sollevamento.
+- **Tipografia.** La parola in evidenza dei titoli (`.script`) è il corsivo di
+  Playfair, non più Damion: Damion resta al logo, al wordmark del footer e alla
+  firma «Silvia». Le etichette sono in maiuscoletto spaziato con un filetto, senza
+  scintilla.
+- **Tolti**: l'alone che respira, l'anello di testo dell'hero, i petali che
+  ondeggiano e i petali/cuori dietro al puntatore nell'hero, i cuori al tocco sul
+  ritratto, il badge rotondo "Prenota", il nastro dei nomi. Gli effetti restano
+  nel motore, spenti.
