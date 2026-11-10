@@ -18,9 +18,10 @@ export const metadata: Metadata = {
   authors: [{ name: OWNER_NAME }],
   creator: OWNER_NAME,
   formatDetection: { telephone: false, address: false, email: false },
-  openGraph: { type: 'website', locale: 'it_IT', siteName: SITE_NAME },
+  openGraph: { type: 'website', locale: 'it_IT', siteName: SITE_NAME, images: [{ url: '/og/home.jpg', width: 1200, height: 630 }] },
   twitter: { card: 'summary_large_image' },
   alternates: { canonical: '/' },
+  appleWebApp: { capable: true, title: 'Lily', statusBarStyle: 'default' },
   verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined },
 };
 

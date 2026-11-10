@@ -28,7 +28,8 @@
                             [data-story-slide], [data-story-bar],
                             [data-story-piece], [data-story-dock]
      data-rail              tappe che si accendono ([data-rail-step])
-     data-fan               foto che si aprono a ventaglio ([data-fan-item])
+     data-fan               foto che si aprono a ventaglio ([data-fan-item],
+                            didascalie in [data-fan-label])
      data-trail             sentiero con le foglie: [data-trail-svg],
                             [data-trail-path], [data-trail-leaves],
                             [data-trail-step] con il suo [data-trail-stop]
@@ -713,6 +714,9 @@ function fans(): void {
         0,
       );
     });
+    // Le didascalie ([data-fan-label]) arrivano quando il ventaglio è quasi aperto.
+    const labels = root.querySelectorAll('[data-fan-label]');
+    if (labels.length) tl.fromTo(labels, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'none' }, 0.7);
   });
 }
 

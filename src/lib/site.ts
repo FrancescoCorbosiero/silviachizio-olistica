@@ -105,6 +105,21 @@ export type Giorno = 'lun' | 'mar' | 'mer' | 'gio' | 'ven' | 'sab' | 'dom';
 export const ORARI: { giorni: Giorno[]; dalle: string; alle: string }[] = [];
 export const HAS_ORARI = ORARI.length > 0;
 
+/* ── Silvia, con le sue parole (pagina Chi sono) ────────────────────── */
+
+/**
+ * La storia di Silvia, perché "Lily", formazione e corsi: solo con le sue
+ * parole (domande aperte). Finché sono vuoti, i blocchi non compaiono.
+ */
+export const SILVIA: { storia: string[]; percheLily: string; formazione: string[] } = {
+  storia: [],
+  percheLily: '',
+  formazione: [],
+};
+
+/** Le storie in evidenza del suo profilo Instagram (titoli esatti). */
+export const STORIE_IN_EVIDENZA = ['Creatività', 'Lily', 'Wonderful places', 'Tenerife', 'Me', 'Alicante'] as const;
+
 /* ── Le richieste ───────────────────────────────────────────────────── */
 
 export type StatoPrenotazioni = 'aperte' | 'sospese';

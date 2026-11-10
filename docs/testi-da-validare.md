@@ -49,3 +49,14 @@ qui. Quando un testo è approvato (o riscritto da lei) si toglie il commento
 | Il momento relax (versione distesa) | «Il tempo di riaprire gli occhi, senza fretta. È compreso in ogni trattamento.» | |
 | Domande frequenti | titolo «Prima di scegliere» e le quattro risposte (relax, Holistic e Holistic Ritual, consiglio, dove) | |
 | Chiusura | «Scegli il tuo momento» · «Mandami la richiesta: ti scrivo io per fissare giorno e ora.» | |
+
+## Chi sono, Contatti, Link in bio
+
+| Dove | Testo | Nota |
+|---|---|---|
+| Chi sono, la storia (finché Silvia non scrive la sua) | titolo «Un tocco di magia»; «Arrampico, viaggio, scrivo e fotografo: le mie giornate le racconto su Instagram, nelle storie in evidenza. Con Lily porto un po' di quella energia nello studio di Montebelluna.» | da sostituire con le parole di Silvia (`SILVIA.storia` in `src/lib/site.ts`) |
+| Chi sono, Instagram e chiusura | «Mi trovi qui» · «Il mio profilo è il posto dove racconto Lily e la mia vita: scrivimi un messaggio quando vuoi.» · «Ci vediamo presto» · «In studio a Montebelluna, o a distanza con una lettura.» | |
+| Chi sono, descrizione per i motori | «Sono Silvia Chizio: vivo e sorrido. A Montebelluna (TV) ti aspetto con Lily Trattamenti Benessere; a distanza, preparo letture intuitive personalizzate.» | |
+| Contatti | titolo «Dove trovarmi»; «Lo studio è a Montebelluna (TV). Per un trattamento o una lettura mandami una richiesta dal sito; per tutto il resto scrivimi su Instagram.»; chiusura «Scrivimi, ti rispondo io» · «Un trattamento in studio o una lettura a distanza: un passo alla volta, poi ci pensiamo insieme.» | |
+| Link in bio | «Sono Silvia: trattamenti benessere in studio a Montebelluna (TV) e letture intuitive a distanza.» | |
+| Immagini per i social (`scripts/immagini.cjs`) | i titoli e i sottotitoli di ogni pagina | si rigenerano con lo script |

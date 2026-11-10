@@ -150,6 +150,18 @@ export function faqLd(items: readonly { q: string; a: string }[]): Record<string
   };
 }
 
+/** L'immagine per i social di ogni pagina (public/og, generate da scripts/immagini.cjs). */
+const OG: Record<string, string> = {
+  '/': '/og/home.jpg',
+  '/trattamenti': '/og/trattamenti.jpg',
+  '/letture': '/og/letture.jpg',
+  '/prenota': '/og/prenota.jpg',
+  '/chi-sono': '/og/chi-sono.jpg',
+  '/contatti': '/og/contatti.jpg',
+  '/privacy': '/og/privacy.jpg',
+  '/bio': '/og/bio.jpg',
+};
+
 /** Metadata di una pagina: titolo, descrizione, canonical e anteprima social. */
 export function pageMetadata({
   title,
@@ -167,13 +179,14 @@ export function pageMetadata({
   noindex?: boolean;
 }): Metadata {
   const plain = typeof title === 'string' ? title : title.absolute;
-  const images = image ? [{ url: image, alt: imageAlt ?? plain }] : undefined;
+  const img = image ?? OG[path] ?? OG['/'];
+  const images = img ? [{ url: img, width: 1200, height: 630, alt: imageAlt ?? plain }] : undefined;
   return {
     title,
     description,
     alternates: { canonical: path },
     openGraph: { type: 'website', url: path, title: plain, description, images, locale: 'it_IT', siteName: SITE_NAME },
-    twitter: { card: 'summary_large_image', title: plain, description, images: image ? [image] : undefined },
+    twitter: { card: 'summary_large_image', title: plain, description, images: img ? [img] : undefined },
     ...(noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
