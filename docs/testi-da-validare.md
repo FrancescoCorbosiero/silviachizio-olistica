@@ -39,6 +39,7 @@ qui. Quando un testo è approvato (o riscritto da lei) si toglie il commento
 | Le letture | la chat: «Ciao Silvia, vorrei una lettura.» · «Ciao! Scegli il tema, io preparo la stesa.» · «Amore / Relazioni» · «Ti mando la foto della stesa e la mia interpretazione, scritta o in video, via email.» | |
 | Instagram | «Ogni giorno, un pezzetto della mia vita» · «Trattamenti, viaggi, arrampicate e un po' di magia: è lì che racconto Lily, ed è lì che puoi scrivermi.» | |
 | Domande frequenti | titolo «Quello che mi chiedete spesso» e le cinque risposte (durata, dove, come prenoto, consigliami tu, letture a distanza) | risposte vere, parole da approvare |
+| Recensioni | titolo «Dicono di Lily» | il blocco compare solo con recensioni vere (in anteprima, segnaposto dichiarati) |
 | Chiusura | «Il resto può aspettare» · «Scegli un trattamento in studio o una lettura a distanza: ti rispondo io, di persona.» | |
 
 ## Trattamenti
@@ -47,6 +48,8 @@ qui. Quando un testo è approvato (o riscritto da lei) si toglie il commento
 |---|---|---|
 | Titolo e descrizione per i motori | «Listino trattamenti · Massaggi e rituali olistici a Montebelluna (TV)» e la descrizione con le parole del listino | |
 | Per ogni trattamento, "Cosa aspettarti" e "Per chi è" (`src/lib/trattamenti.ts`) | Lily Holistic: «Un massaggio lento e avvolgente sul lettino, con movimenti morbidi e un ritmo che ti lascia il tempo di rallentare.» / «Per chi ha voglia di staccare e concedersi un'ora di calma.» · Lily Holistic Ritual: «Un rituale più lungo, sul futon: settantacinque minuti per lasciarti andare, senza fretta.» / «Per chi desidera un momento più ampio e raccolto, tutto per sé.» · Lily Sportive: «Un massaggio più deciso, dedicato ai muscoli che lavorano tanto: un tocco più profondo, sempre attento a come stai.» / «Per chi fa sport, cammina in montagna o passa molte ore nella stessa posizione.» · Lily Magic: «Il rituale più magico: la luce della candela, le pietre, il biotensor e un momento di meditazione, in un'atmosfera raccolta.» / «Per chi ama i rituali e ha voglia di lasciarsi sorprendere.» | vanno riscritti con le parole di Silvia: sono la parte più importante da validare |
+| Testata, i tre fatti | «Da 60 a 75 minuti» · «Relax compreso» · «Montebelluna (TV)» | |
+| La galleria dello studio | «Lo studio» · «Dove ti aspetto» | compare con le foto dello studio |
 | Il momento relax (versione distesa) | «Il tempo di riaprire gli occhi, senza fretta. È compreso in ogni trattamento.» | |
 | Domande frequenti | titolo «Prima di scegliere» e le quattro risposte (relax, Holistic e Holistic Ritual, consiglio, dove) | |
 | Chiusura | «Scegli il tuo momento» · «Mandami la richiesta: ti scrivo io per fissare giorno e ora.» | |
@@ -60,6 +63,10 @@ qui. Quando un testo è approvato (o riscritto da lei) si toglie il commento
 | Chi sono, descrizione per i motori | «Sono Silvia Chizio: vivo e sorrido. A Montebelluna (TV) ti aspetto con Lily Trattamenti Benessere; a distanza, preparo letture intuitive personalizzate.» | |
 | Contatti | titolo «Dove trovarmi»; «Lo studio è a Montebelluna (TV). Per un trattamento o una lettura mandami una richiesta dal sito; per tutto il resto scrivimi su Instagram.»; chiusura «Scrivimi, ti rispondo io» · «Un trattamento in studio o una lettura a distanza: un passo alla volta, poi ci pensiamo insieme.» | |
 | Letture, come funziona | titolo «Te lo racconto in quattro messaggi» (sopra la chat) | |
+| Letture, testata | i tre fatti «A distanza» · «Via email» · «Scritta o video» | |
+| Letture, la stesa | «Una stesa vera» · «Così ti arriva: la foto delle carte, come le ho disposte per te, insieme alla mia interpretazione.» | compare con la foto di una stesa vera |
+| Chi sono, il percorso | «Il mio percorso» · «Passo dopo passo» | compare con le tappe di Silvia |
+| Contatti, i canali | «Ti rispondo io, di persona: scegli il modo che ti è più comodo.» | |
 | Link in bio | «Sono Silvia: trattamenti benessere in studio a Montebelluna (TV) e letture intuitive a distanza.» | |
 | Immagini per i social (`scripts/immagini.cjs`) | i titoli e i sottotitoli di ogni pagina | si rigenerano con lo script |
 

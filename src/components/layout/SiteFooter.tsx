@@ -1,35 +1,15 @@
 import Link from 'next/link';
 import AlpacodeBadge from '@/components/layout/AlpacodeBadge';
 import { etichetta, RICHIESTE } from '@/lib/richieste';
-import {
-  EMAIL,
-  HAS_EMAIL,
-  HAS_INDIRIZZO,
-  HAS_ORARI,
-  HAS_PHONE,
-  HAS_WA,
-  IG_DM_URL,
-  IG_HANDLE,
-  IG_URL,
-  INDIRIZZO_DISPLAY,
-  LEGAL,
-  NAV,
-  ORARI,
-  OWNER_NAME,
-  PHONE,
-  PHONE_DISPLAY,
-  PRIVACY_HREF,
-  SITE_NAME,
-  THREADS_URL,
-  WA_LINK,
-  ZONA,
-} from '@/lib/site';
-import { orarioDisplay } from '@/lib/orari';
+import Esempio from '@/components/ui/Esempio';
+import { EMAIL_PUBBLICA, INDIRIZZO, ORARI_STUDIO, TELEFONO, whatsapp } from '@/lib/anteprima';
+import { IG_DM_URL, IG_HANDLE, IG_URL, LEGAL, NAV, OWNER_NAME, PRIVACY_HREF, SITE_NAME, THREADS_URL, ZONA } from '@/lib/site';
 
 /** Il wordmark grande in fondo: ogni lettera sale dalla sua maschera (data-wordmark). */
 const WORDMARK = 'Lily';
 
-type Voce = { href: string; label: string; external?: boolean };
+type Voce = { href: string; label: string; external?: boolean; esempio?: boolean };
+const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
 
 const SITO: Voce[] = [{ href: '/', label: 'Home' }, ...NAV];
 
@@ -37,9 +17,10 @@ const CANALI: Voce[] = [
   { href: IG_DM_URL, label: 'Messaggio su Instagram', external: true },
   { href: IG_URL, label: `Instagram ${IG_HANDLE}`, external: true },
   { href: THREADS_URL, label: 'Threads', external: true },
-  ...(HAS_WA ? [{ href: WA_LINK, label: 'WhatsApp', external: true }] : []),
-  ...(HAS_PHONE ? [{ href: `tel:${PHONE}`, label: PHONE_DISPLAY }] : []),
-  ...(HAS_EMAIL ? [{ href: `mailto:${EMAIL}`, label: EMAIL }] : []),
+  // In anteprima anche quelli che aspettano il dato, col segno (src/lib/anteprima.ts).
+  ...(WA ? [{ href: WA.valore, label: 'WhatsApp', external: !WA.esempio, esempio: WA.esempio }] : []),
+  ...(TELEFONO ? [{ href: TELEFONO.valore.href, label: TELEFONO.valore.testo, esempio: TELEFONO.esempio }] : []),
+  ...(EMAIL_PUBBLICA ? [{ href: EMAIL_PUBBLICA.valore.href, label: EMAIL_PUBBLICA.valore.testo, esempio: EMAIL_PUBBLICA.esempio }] : []),
 ];
 
 function Colonna({ titolo, children }: { titolo: string; children: React.ReactNode }) {
@@ -92,18 +73,27 @@ export default function SiteFooter() {
           </Colonna>
           <Colonna titolo="Scrivimi">
             {CANALI.map((l) => (
-              <a key={l.href} href={l.href} className={linkClass} {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}>
+              <a key={l.label} href={l.href} className={linkClass} {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}>
                 {l.label}
+                {l.esempio && <Esempio className="ml-2" />}
               </a>
             ))}
           </Colonna>
           <Colonna titolo="Lo studio">
-            <p className="text-[15.5px] text-latte/80">{HAS_INDIRIZZO ? INDIRIZZO_DISPLAY : ZONA}</p>
-            {HAS_ORARI && (
+            <p className="text-[15.5px] text-latte/80">
+              {INDIRIZZO ? INDIRIZZO.valore : ZONA}
+              {INDIRIZZO?.esempio && <Esempio className="ml-2" />}
+            </p>
+            {ORARI_STUDIO && (
               <ul className="text-[15.5px] text-latte/80">
-                {ORARI.map((o) => (
-                  <li key={o.giorni.join('-') + o.dalle}>{orarioDisplay(o)}</li>
+                {ORARI_STUDIO.valore.map((o) => (
+                  <li key={o}>{o}</li>
                 ))}
+                {ORARI_STUDIO.esempio && (
+                  <li>
+                    <Esempio />
+                  </li>
+                )}
               </ul>
             )}
             <Link href="/contatti" className={linkClass}>

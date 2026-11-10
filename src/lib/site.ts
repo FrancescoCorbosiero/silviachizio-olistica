@@ -111,11 +111,24 @@ export const HAS_ORARI = ORARI.length > 0;
  * La storia di Silvia, perché "Lily", formazione e corsi: solo con le sue
  * parole (domande aperte). Finché sono vuoti, i blocchi non compaiono.
  */
-export const SILVIA: { storia: string[]; percheLily: string; formazione: string[] } = {
+export const SILVIA: {
+  storia: string[];
+  percheLily: string;
+  formazione: string[];
+  /** Le tappe del suo percorso (il sentiero di Chi sono): quando, cosa, due righe. */
+  percorso: { quando: string; titolo: string; testo: string }[];
+} = {
   storia: [],
   percheLily: '',
   formazione: [],
+  percorso: [],
 };
+
+/**
+ * Recensioni vere da citare (domande aperte: per esempio da Google), solo
+ * con il permesso di chi le ha scritte. Vuoto: il blocco non compare.
+ */
+export const RECENSIONI: { testo: string; nome: string; fonte: string }[] = [];
 
 /** Le storie in evidenza del suo profilo Instagram (titoli esatti). */
 export const STORIE_IN_EVIDENZA = ['Creatività', 'Lily', 'Wonderful places', 'Tenerife', 'Me', 'Alicante'] as const;

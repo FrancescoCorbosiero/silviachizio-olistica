@@ -26,11 +26,11 @@ export default function BioPage() {
   const sospese = (['trattamenti', 'letture'] as const).filter((t) => RICHIESTE[t].sospesa);
   return (
     <>
-      <section className="relative isolate overflow-x-clip pb-10 pt-2" aria-labelledby="bio-titolo">
+      <section className="fondo-notte on-notte relative isolate overflow-x-clip border-t-[3px] border-lily-bright pb-12 pt-10" aria-labelledby="bio-titolo">
         <div className="wrap-narrow flex flex-col items-center text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/logo.svg"
+            src="/brand/logo-notte.svg"
             alt="Lily Trattamenti Benessere"
             width={244}
             height={252}
@@ -45,27 +45,27 @@ export default function BioPage() {
             Sono Silvia: trattamenti benessere in studio a {ZONA} e letture intuitive a distanza.
           </p>
           <div className="intro mt-7 flex w-full max-w-[420px] flex-col gap-3" style={{ '--d': '0.2s' } as React.CSSProperties}>
-            <Link className="btn btn-lg btn-block" href={RICHIESTE.trattamenti.href}>
+            <Link className="btn btn-latte btn-lg btn-block" href={RICHIESTE.trattamenti.href}>
               {etichetta('trattamenti', { contesto: true })} <ArrowIcon size={16} />
             </Link>
-            <Link className="btn btn-outline btn-lg btn-block" href={RICHIESTE.letture.href}>
+            <Link className="btn btn-outline-latte btn-lg btn-block" href={RICHIESTE.letture.href}>
               {etichetta('letture', { contesto: true })}
             </Link>
           </div>
           {sospese.map((t) => (
-            <p key={t} className="testo-mute mt-4 max-w-[30em] text-[15px]">
+            <p key={t} className="mt-4 max-w-[30em] text-[15px] text-latte/80">
               {rigaSospensione(t)}
             </p>
           ))}
         </div>
       </section>
 
-      <section className="pb-12" aria-labelledby="bio-listino">
+      <section className="fondo-blush pb-14 pt-12" aria-labelledby="bio-listino">
         <div className="wrap-narrow">
           <h2 id="bio-listino" className="text-center">
-            <span className="pennellata text-[19px]">Quattro esperienze di benessere</span>
+            <span className="eyebrow">Quattro esperienze di benessere</span>
           </h2>
-          <div className="petalo mt-6 px-4 py-2 sm:px-6">
+          <div className="listino-foglio mt-6">
             <div className="listino">
               {TRATTAMENTI.map((t) => (
                 <RigaListino key={t.slug} trattamento={t} href={`/trattamenti#${t.slug}`} />

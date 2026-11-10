@@ -11,6 +11,10 @@
    richieste non partono e mostrano il ripiego (testo da copiare e
    Instagram). Su Netlify si trascina la cartella anteprima-netlify
    (contiene index.html), non public/.
+   È un'anteprima anche nei contenuti: NEXT_PUBLIC_ANTEPRIMA=1 mostra ogni
+   blocco, anche quelli che aspettano un dato di Silvia, con un esempio
+   segnato «Esempio» (src/lib/anteprima.ts). Per un'anteprima solo con i
+   dati veri: NEXT_PUBLIC_ANTEPRIMA=0 npm run anteprima.
    ===================================================================== */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
@@ -39,7 +43,13 @@ try {
     cwd: ROOT,
     stdio: 'inherit',
     shell: true,
-    env: { ...process.env, ANTEPRIMA_STATICA: '1', NEXT_TELEMETRY_DISABLED: '1', ...(url ? { NEXT_PUBLIC_SITE_URL: url } : {}) },
+    env: {
+      ...process.env,
+      ANTEPRIMA_STATICA: '1',
+      NEXT_PUBLIC_ANTEPRIMA: process.env.NEXT_PUBLIC_ANTEPRIMA ?? '1',
+      NEXT_TELEMETRY_DISABLED: '1',
+      ...(url ? { NEXT_PUBLIC_SITE_URL: url } : {}),
+    },
   });
   ok = r.status === 0;
 } finally {

@@ -1,0 +1,204 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- Generatore del video di sfondo della hero (scripts/video-hero.cjs).
+     È l'immagine d'atmosfera «ombre» (scripts/atmosfere.html) che prende
+     vita: la luce del pomeriggio su un muro rosa antico e le ombre dei
+     gigli che ondeggiano piano, come mosse da un filo d'aria. Tutto
+     disegnato qui, niente video stock: resta finché non c'è un video vero
+     dello studio. Ogni movimento è periodico sulla durata del video, così
+     il ciclo si ripete senza salto. -->
+<body style="margin:0;background:#000">
+<script>
+const TAU = Math.PI * 2;
+function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function canvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+
+/* Intonaco: macchie larghe e morbide (come in atmosfere.html). */
+function intonaco(ctx, w, h, seed, alpha) {
+  const r = rng(seed);
+  for (let i = 0; i < 70; i++) {
+    const x = r() * w, y = r() * h, rr = (0.05 + r() * 0.22) * Math.max(w, h);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, rr);
+    const chiaro = r() > 0.5;
+    g.addColorStop(0, chiaro ? `rgba(255,236,226,${alpha})` : `rgba(60,20,25,${alpha})`);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  }
+}
+
+/* ── La pianta: struttura fissa, scelta una volta sola ─────────────────
+   Ogni parte ha la sua oscillazione: lo stelo si piega dalla base, le
+   foglie e i fiori tremano un poco di più, sfasati. Le frequenze sono
+   multipli interi del ciclo (k = 1, 2, 3…): così il video torna identico
+   all'inizio. */
+function pianta(r, x0, y0, alto, inclina, vento) {
+  const foglie = [];
+  const nf = 5 + Math.floor(r() * 4);
+  for (let i = 0; i < nf; i++) {
+    const lato = r() > 0.5 ? 1 : -1;
+    foglie.push({
+      t: 0.1 + r() * 0.7, lato, L: alto * (0.14 + r() * 0.14), cur: lato * (0.25 + r() * 0.35),
+      ang: lato * (0.35 + r() * 0.7),
+      a: (0.035 + r() * 0.035) * vento, k: 2 + Math.floor(r() * 2), f: r() * TAU,
+    });
+  }
+  const fiori = [];
+  const nfi = 2 + Math.floor(r() * 2);
+  for (let f = 0; f < nfi; f++) {
+    fiori.push({
+      su: f * 0.04, ang: (f - 1) * 0.9 + (r() - 0.5) * 0.4,
+      petali: [0, 1, 2].map((p) => (p - 1) * 0.55 + (r() - 0.5) * 0.15),
+      a: (0.04 + r() * 0.04) * vento, k: 2 + Math.floor(r() * 2), f: r() * TAU,
+    });
+  }
+  return {
+    x0, y0, alto, inclina, foglie, fiori,
+    // la piega dello stelo: frazione dell'altezza alla punta
+    piega: [(0.022 + r() * 0.012) * vento, (0.007 + r() * 0.005) * vento],
+    fase: [r() * TAU, r() * TAU],
+    onda: 0.02 + r() * 0.015, // la curva a S dello stelo, ferma
+  };
+}
+
+/* Disegna la pianta all'istante u (0…1 lungo il ciclo). */
+function disegnaPianta(ctx, p, u) {
+  const H = p.alto;
+  const dx = H * (p.piega[0] * Math.sin(TAU * u + p.fase[0]) + p.piega[1] * Math.sin(TAU * 2 * u + p.fase[1]));
+  // lo stelo: x(s) = curva a S ferma + piega del vento che cresce verso la punta
+  const X = (s) => H * (0.03 * s + p.onda * Math.sin(TAU * 0.9 * s)) + dx * s * s;
+  const pend = (s) => Math.atan2(H * (0.03 + p.onda * TAU * 0.9 * Math.cos(TAU * 0.9 * s)) + 2 * dx * s, H);
+  ctx.save(); ctx.translate(p.x0, p.y0); ctx.rotate(p.inclina);
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.lineWidth = H * 0.014; ctx.beginPath(); ctx.moveTo(0, 0);
+  for (let i = 1; i <= 24; i++) { const s = i / 24; ctx.lineTo(X(s), -H * s); }
+  ctx.stroke();
+  for (const f of p.foglie) {
+    const L = f.L;
+    ctx.save(); ctx.translate(X(f.t), -H * f.t);
+    ctx.rotate(pend(f.t) + f.ang + f.a * Math.sin(TAU * f.k * u + f.f));
+    ctx.beginPath(); ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(L * 0.14, -L * 0.3, L * (0.1 + f.cur), -L * 0.75, L * f.cur * 1.4, -L);
+    ctx.bezierCurveTo(L * (f.cur - 0.02), -L * 0.7, -L * 0.1, -L * 0.3, 0, 0); ctx.fill(); ctx.restore();
+  }
+  for (const fi of p.fiori) {
+    const s = 0.9 + fi.su;
+    ctx.save(); ctx.translate(X(Math.min(1, s)), -H * s);
+    ctx.rotate(pend(1) + fi.ang + fi.a * Math.sin(TAU * fi.k * u + fi.f));
+    ctx.lineWidth = H * 0.008; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, -H * 0.08); ctx.stroke();
+    ctx.translate(0, -H * 0.08);
+    const P = H * 0.12;
+    fi.petali.forEach((rot, i) => {
+      const lato = i - 1;
+      ctx.save(); ctx.rotate(rot);
+      ctx.beginPath(); ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(P * 0.45, -P * 0.35, P * 0.4, -P * 0.8, P * (0.15 + lato * 0.35), -P * 1.05);
+      ctx.bezierCurveTo(-P * 0.05 + lato * P * 0.2, -P * 0.85, -P * 0.4, -P * 0.4, 0, 0); ctx.fill(); ctx.restore();
+    });
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+/* ── La scena ───────────────────────────────────────────────────────── */
+let S = null;
+
+/* Prepara la scena (una volta per formato): muro, vignettatura, grana e
+   piante restano fermi; a ogni fotogramma cambiano solo luce e ombre. */
+window.prepara = (w, h, verticale) => {
+  const r = rng(11);
+  const scala = Math.max(w, h) / 2000;
+  // il muro in penombra
+  const muro = canvas(w, h), mc = muro.getContext('2d');
+  const g = mc.createLinearGradient(0, 0, w, h);
+  g.addColorStop(0, '#6e3237'); g.addColorStop(0.55, '#5a262c'); g.addColorStop(1, '#3a171b');
+  mc.fillStyle = g; mc.fillRect(0, 0, w, h);
+  intonaco(mc, w, h, 12, 0.05);
+  // vignettatura
+  const vig = canvas(w, h), vc = vig.getContext('2d');
+  const v = vc.createRadialGradient(w * 0.55, h * 0.4, Math.min(w, h) * 0.2, w * 0.5, h * 0.5, Math.max(w, h) * 0.8);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(25,8,10,0.55)'); vc.fillStyle = v; vc.fillRect(0, 0, w, h);
+  // grana fine e ferma: la stessa in ogni fotogramma (niente rumore che bolle)
+  const rg = rng(18), grana = new Float32Array(w * h);
+  for (let i = 0; i < grana.length; i++) grana[i] = (rg() - 0.5) * 7;
+  // la tinta calda della luce
+  const tinta = canvas(w, h), tc = tinta.getContext('2d');
+  const tg = tc.createLinearGradient(0, 0, 0, h); tg.addColorStop(0, '#ffcfae'); tg.addColorStop(1, '#f19c8f');
+  tc.fillStyle = tg; tc.fillRect(0, 0, w, h);
+
+  // Dove cadono luce e ombre. Orizzontale: al centro-destra (il testo sta a
+  // sinistra). Verticale: luce larga al centro, fiori nella metà alta (il
+  // testo sta in basso).
+  const vicine = [], lontane = [];
+  let finestra;
+  if (!verticale) {
+    finestra = { ox: w * 0.38, top: [0.12, 0.66], bottom: [-0.06, 0.52], mont: [0.39, 0.23], trav: [0.46, 0.4] };
+    const base = w * 0.62;
+    for (let i = 0; i < 3; i++) vicine.push(pianta(r, base + (i - 1) * w * 0.09 + r() * 40 * scala, h * 1.05, h * (0.7 + r() * 0.3), (r() - 0.5) * 0.4 + 0.12, 1));
+    for (let i = 0; i < 3; i++) lontane.push(pianta(r, base + (r() - 0.3) * w * 0.4, h * 1.1, h * (0.9 + r() * 0.3), (r() - 0.5) * 0.5 + 0.2, 0.8));
+  } else {
+    finestra = { ox: w * 0.2, top: [0.12, 0.74], bottom: [-0.08, 0.52], mont: [0.44, 0.26], trav: [0.36, 0.33] };
+    const base = w * 0.55;
+    for (let i = 0; i < 3; i++) vicine.push(pianta(r, base + (i - 1) * w * 0.16 + r() * 30 * scala, h * 1.04, h * (0.62 + r() * 0.2), (r() - 0.5) * 0.3 + 0.06, 1));
+    for (let i = 0; i < 3; i++) lontane.push(pianta(r, base + (r() - 0.45) * w * 0.7, h * 1.08, h * (0.72 + r() * 0.2), (r() - 0.5) * 0.4 + 0.1, 0.8));
+  }
+  const out = canvas(w, h);
+  // si legge a ogni fotogramma (la grana): meglio un canvas in memoria
+  out.getContext('2d', { willReadFrequently: true });
+  S = { w, h, scala, verticale, muro, vig, grana, tinta, finestra, vicine, lontane,
+    luce: canvas(w, h), ombra: canvas(w, h), out };
+  return true;
+};
+
+/* Un fotogramma all'istante u (0…1 lungo il ciclo). */
+function disegna(u) {
+  const { w, h, scala, muro, vig, grana, tinta, finestra: F, vicine, lontane, luce, ombra, out } = S;
+  // la macchia di luce scivola appena e respira (±6%)
+  const deriva = w * 0.008 * Math.sin(TAU * u + 0.7);
+  const respiro = 1 + 0.06 * Math.sin(TAU * u + 2.1);
+  const ox = F.ox + deriva;
+
+  const lc = luce.getContext('2d');
+  lc.globalCompositeOperation = 'source-over'; lc.globalAlpha = 1; lc.filter = 'none';
+  lc.clearRect(0, 0, w, h);
+  lc.filter = `blur(${38 * scala}px)`; lc.fillStyle = '#fff';
+  lc.beginPath();
+  lc.moveTo(ox + w * F.top[0], -h * 0.1); lc.lineTo(ox + w * F.top[1], -h * 0.1);
+  lc.lineTo(ox + w * F.bottom[1], h * 1.1); lc.lineTo(ox + w * F.bottom[0], h * 1.1); lc.closePath(); lc.fill();
+  // il montante e la traversa della finestra
+  lc.filter = `blur(${16 * scala}px)`; lc.globalCompositeOperation = 'destination-out'; lc.lineWidth = 26 * scala;
+  lc.beginPath(); lc.moveTo(ox + w * F.mont[0], -h * 0.1); lc.lineTo(ox + w * F.mont[1], h * 1.1); lc.stroke();
+  lc.lineWidth = 20 * scala; lc.beginPath(); lc.moveTo(ox + w * 0.06, h * F.trav[0]); lc.lineTo(ox + w * 0.64, h * F.trav[1]); lc.stroke();
+
+  // le ombre dei gigli: vicine più nette, lontane più sfocate
+  const oc = ombra.getContext('2d');
+  oc.globalCompositeOperation = 'source-over'; oc.filter = 'none'; oc.globalAlpha = 1;
+  oc.clearRect(0, 0, w, h);
+  oc.fillStyle = '#000'; oc.strokeStyle = '#000';
+  oc.filter = `blur(${16 * scala}px)`; oc.globalAlpha = 0.85;
+  for (const p of vicine) disegnaPianta(oc, p, u);
+  oc.filter = `blur(${22 * scala}px)`; oc.globalAlpha = 0.6;
+  for (const p of lontane) disegnaPianta(oc, p, u);
+  lc.filter = 'none'; lc.globalAlpha = 0.7; lc.drawImage(ombra, 0, 0);
+
+  // la luce calda sul muro: la tinta dentro la macchia, in "screen"
+  const ctx = out.getContext('2d');
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.filter = 'none';
+  ctx.drawImage(muro, 0, 0);
+  const lt = ombra; // riuso il secondo foglio: tinta mascherata dalla luce
+  oc.globalCompositeOperation = 'source-over'; oc.filter = 'none'; oc.globalAlpha = 1;
+  oc.clearRect(0, 0, w, h); oc.drawImage(tinta, 0, 0);
+  oc.globalCompositeOperation = 'destination-in'; oc.drawImage(luce, 0, 0);
+  ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = Math.min(1, 0.85 * respiro);
+  ctx.drawImage(lt, 0, 0);
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  ctx.drawImage(vig, 0, 0);
+  // la grana, ferma
+  const img = ctx.getImageData(0, 0, w, h), d = img.data;
+  for (let i = 0, j = 0; j < grana.length; i += 4, j++) { const n = grana[j]; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  ctx.putImageData(img, 0, 0);
+  return out;
+}
+
+/* Il fotogramma i di n, come JPEG (per ffmpeg) o WebP (il poster). */
+window.fotogramma = (i, n, tipo = 'image/jpeg', q = 0.94) => disegna(i / n).toDataURL(tipo, q);
+</script>

@@ -5,7 +5,9 @@ Silvia. Tra parentesi, dove serve la risposta; quelle segnate ★ bloccano la
 messa online.
 
 Finché una risposta manca, il valore resta vuoto in `src/lib/site.ts` (o
-`prezzo: null` nel catalogo) e il blocco che lo usa non compare. Quando arriva,
+`prezzo: null` nel catalogo) e il blocco che lo usa non compare. Nell'anteprima
+(sviluppo e `npm run anteprima`) compare lo stesso, con un esempio segnato
+«Esempio»: è un modo veloce per vedere cosa manca. Quando arriva la risposta,
 si aggiorna il dato e si toglie la domanda da qui.
 
 ## L'attività
@@ -41,6 +43,7 @@ si aggiorna il dato e si toglie la domanda da qui.
 
 - [ ] Due righe su di te, con parole tue. (chi sono, home)
 - [ ] Formazione e corsi, da quanto fai trattamenti. (chi sono)
+- [ ] Le tappe del tuo percorso: quando hai iniziato, i corsi, l'arrivo delle letture, Lily. (chi sono, il sentiero)
 - [ ] Perché "Lily"? (chi sono)
 - [ ] Possiamo usare alcune foto del tuo profilo (arrampicata, viaggi, creatività)? (chi sono)
 - [ ] Vuoi che il sito citi i tuoi follower? (home)
@@ -51,6 +54,9 @@ si aggiorna il dato e si toglie la domanda da qui.
 - [ ] L'illustrazione del listino in alta risoluzione: chi l'ha fatta, si può usare sul sito? (404, link in bio)
 - [ ] ★ Foto dello studio e di te al lavoro, nella divisa. Se non ci sono, un piccolo servizio fotografico. (home, trattamenti, chi sono)
 - [ ] Recensioni vere da poter citare (per esempio da Google), con il permesso. (home)
+- [ ] Una foto per ognuno dei quattro trattamenti, e qualche foto dello studio per la galleria. (trattamenti)
+- [ ] Le due foto dell'anteprima (Montebelluna dall'alto, le carte su marmo): da dove vengono, si possono usare? Quella di Montebelluna serve più grande: oggi è 617×324. (home, contatti, letture, prenota)
+- [ ] Un video breve dello studio (luce, mani, candele) al posto di quello d'atmosfera nella home? (home)
 
 ## Canali
 

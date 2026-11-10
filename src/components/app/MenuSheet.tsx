@@ -7,7 +7,11 @@ import { House, Mail, MapPin, MessageCircleHeart, Phone, UserRound } from 'lucid
 import { IconaLoto, IconaScintilla, InstagramIcon, WhatsAppIcon } from '@/components/icons';
 import { useReducedMotion } from '@/lib/hooks';
 import { etichetta, RICHIESTE } from '@/lib/richieste';
-import { EMAIL, HAS_EMAIL, HAS_PHONE, HAS_WA, IG_DM_URL, IG_HANDLE, IG_URL, PHONE, PHONE_DISPLAY, waLink } from '@/lib/site';
+import Esempio from '@/components/ui/Esempio';
+import { EMAIL_PUBBLICA, TELEFONO, whatsapp } from '@/lib/anteprima';
+import { IG_DM_URL, IG_HANDLE, IG_URL } from '@/lib/site';
+
+const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
 
 /* Da andrea-bellettati (src/components/app/MenuSheet.tsx). I sottotitoli
    sono BOZZE (docs/testi-da-validare.md). */
@@ -84,12 +88,13 @@ export default function MenuSheet({ open, onClose, onNavigate }: { open: boolean
                 after={IG_HANDLE}
                 media={media(MessageCircleHeart, 'bg-lily text-white')}
               />
-              {HAS_WA && (
+              {WA && (
                 <ListItem
                   link
-                  href={waLink('Ciao Silvia! Ti scrivo dal sito 🌸')}
-                  target="_blank"
+                  href={WA.valore}
+                  target={WA.esempio ? undefined : '_blank'}
                   title="WhatsApp"
+                  after={WA.esempio ? <Esempio /> : undefined}
                   media={
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-[#25d366] text-white">
                       <WhatsAppIcon size={18} />
@@ -97,8 +102,24 @@ export default function MenuSheet({ open, onClose, onNavigate }: { open: boolean
                   }
                 />
               )}
-              {HAS_PHONE && <ListItem link href={`tel:${PHONE}`} title="Telefono" after={PHONE_DISPLAY} media={media(Phone)} />}
-              {HAS_EMAIL && <ListItem link href={`mailto:${EMAIL}`} title="Email" after="Scrivimi" media={media(Mail)} />}
+              {TELEFONO && (
+                <ListItem
+                  link
+                  href={TELEFONO.valore.href}
+                  title="Telefono"
+                  after={TELEFONO.esempio ? <Esempio /> : TELEFONO.valore.testo}
+                  media={media(Phone)}
+                />
+              )}
+              {EMAIL_PUBBLICA && (
+                <ListItem
+                  link
+                  href={EMAIL_PUBBLICA.valore.href}
+                  title="Email"
+                  after={EMAIL_PUBBLICA.esempio ? <Esempio /> : 'Scrivimi'}
+                  media={media(Mail)}
+                />
+              )}
               <ListItem
                 link
                 href={IG_URL}

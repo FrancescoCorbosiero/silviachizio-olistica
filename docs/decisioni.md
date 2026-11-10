@@ -192,6 +192,43 @@ Costo misurato sulla build (stesso metodo, stessa sessione): TBT invariato
 (home 137 → 141 ms), LCP della home da 0,5 a 1,6 s col 4G lento, perché ora
 il primo schermo è un'immagine (60 kB in WebP, caricata con priorità alta).
 
+## L'anteprima mostra ogni blocco
+
+Il sito si rivede intero prima di avere tutti i dati: in sviluppo e in `npm run
+anteprima` ogni blocco compare, anche quelli che aspettano Silvia, con un valore
+d'esempio e il segno «Esempio» che dice cosa serve. Così l'anteprima è anche la
+lista di quello che manca, sotto gli occhi. Tutto passa da `src/lib/anteprima.ts`
+(`dato(vero, presente, esempio)`): le pagine chiedono lì; i dati veri restano in
+`site.ts`, `trattamenti.ts` e `immagini.ts`. La build di produzione (`npm run
+build`, Docker) non ha esempi (`NEXT_PUBLIC_ANTEPRIMA` spento): lì vale ancora
+"senza il dato, il blocco non compare". Gli esempi non entrano mai nei dati
+strutturati, nelle email, nei flussi o nell'informativa; i link d'esempio non
+portano da nessuna parte (`#anteprima`).
+
+## Il video della hero
+
+Un video di sfondo nella hero della home, disegnato da noi come le immagini
+d'atmosfera (`scripts/video-hero.cjs`): niente video stock. 12 s in loop, due
+tagli (1280×720 e 720×1280), WebM VP9 (circa 300 kB) e MP4 H.264 (circa 700
+kB). Il primo fotogramma è il poster ed è l'immagine del primo schermo (28 kB),
+quindi l'LCP non aspetta il video. Il video lo accende il motore
+(`video[data-video]`), ultimo tra le tappe di avvio: solo con il movimento
+permesso, mai con "risparmio dati" o in 2G; parte quando è a schermo e si ferma
+fuori. Misurato sulla build (stesso metodo): home TBT 173 ms, LCP 1,24 s;
+accenderlo per primo costava circa 40 ms di TBT in più, per questo arriva per
+ultimo.
+
+## Le foto dell'anteprima
+
+Per le due porte della home lo studio ha dato due foto: Montebelluna dall'alto
+col Duomo e le carte su marmo. Si usano anche nella testata di Contatti, nella
+stesa con la lente (come esempio) e nella fascia delle letture di Prenota. Sono
+segnate `fonte: 'anteprima'` in `src/lib/immagini.ts`: prima di andare online si
+verificano i diritti d'uso o si sostituiscono (domande aperte). La foto di
+Montebelluna è piccola (617×324): `scripts/foto.cjs` la ingrandisce con una
+grana fine e una qualità più bassa (pesa 59 kB sul telefono, LCP di Contatti
+1,96 s), ma serve una versione più grande.
+
 ## Senza foto, il giglio
 
 *(Superata in parte dalla decisione sopra: nell'hero e in Chi sono, al posto

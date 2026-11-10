@@ -1,31 +1,14 @@
-import { Clock, Mail, MapPin, MessageCircleHeart, Phone } from 'lucide-react';
+import { AtSign, Mail, MessageCircleHeart, Phone } from 'lucide-react';
 import { ArrowIcon, InstagramIcon, WhatsAppIcon } from '@/components/icons';
 import JsonLd from '@/components/seo/JsonLd';
 import BottoniRichiesta from '@/components/ui/BottoniRichiesta';
 import Chiusura from '@/components/ui/Chiusura';
+import Esempio from '@/components/ui/Esempio';
 import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
-import { orarioDisplay } from '@/lib/orari';
+import { COME_ARRIVARE, EMAIL_PUBBLICA, INDIRIZZO, MAPS, ORARI_STUDIO, TELEFONO, whatsapp } from '@/lib/anteprima';
 import { breadcrumbLd, pageMetadata } from '@/lib/seo';
-import {
-  EMAIL,
-  HAS_EMAIL,
-  HAS_INDIRIZZO,
-  HAS_ORARI,
-  HAS_PHONE,
-  HAS_WA,
-  IG_DM_URL,
-  IG_HANDLE,
-  IG_URL,
-  INDIRIZZO_DISPLAY,
-  ORARI,
-  PHONE,
-  PHONE_DISPLAY,
-  STUDIO,
-  THREADS_URL,
-  ZONA,
-  waLink,
-} from '@/lib/site';
+import { IG_DM_URL, IG_HANDLE, IG_URL, THREADS_URL, ZONA } from '@/lib/site';
 
 export const metadata = pageMetadata({
   title: 'Contatti',
@@ -34,28 +17,40 @@ export const metadata = pageMetadata({
   path: '/contatti',
 });
 
-type Canale = { href: string; titolo: string; dettaglio: string; Icona: React.ComponentType<{ size?: number }>; esterno?: boolean };
+type Canale = {
+  href: string;
+  titolo: string;
+  dettaglio: string;
+  Icona: React.ComponentType<{ size?: number }>;
+  esterno?: boolean;
+  esempio?: boolean;
+};
 
-const CANALI: Canale[] = [
+const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
+
+/** I canali: quelli veri e, in anteprima, quelli che aspettano il dato (col segno). */
+const canali: Canale[] = [
   { href: IG_DM_URL, titolo: 'Messaggio su Instagram', dettaglio: IG_HANDLE, Icona: MessageCircleHeart, esterno: true },
-  ...(HAS_WA ? [{ href: waLink('Ciao Silvia! Ti scrivo dal sito 🌸'), titolo: 'WhatsApp', dettaglio: 'Scrivimi', Icona: WhatsAppIcon, esterno: true }] : []),
-  ...(HAS_PHONE ? [{ href: `tel:${PHONE}`, titolo: 'Telefono', dettaglio: PHONE_DISPLAY, Icona: Phone }] : []),
-  ...(HAS_EMAIL ? [{ href: `mailto:${EMAIL}`, titolo: 'Email', dettaglio: EMAIL, Icona: Mail }] : []),
+  ...(WA ? [{ href: WA.valore, titolo: 'WhatsApp', dettaglio: 'Scrivimi', Icona: WhatsAppIcon, esterno: true, esempio: WA.esempio }] : []),
+  ...(TELEFONO ? [{ href: TELEFONO.valore.href, titolo: 'Telefono', dettaglio: TELEFONO.valore.testo, Icona: Phone, esempio: TELEFONO.esempio }] : []),
+  ...(EMAIL_PUBBLICA ? [{ href: EMAIL_PUBBLICA.valore.href, titolo: 'Email', dettaglio: EMAIL_PUBBLICA.valore.testo, Icona: Mail, esempio: EMAIL_PUBBLICA.esempio }] : []),
   { href: IG_URL, titolo: 'Instagram', dettaglio: 'Seguimi', Icona: InstagramIcon, esterno: true },
+  { href: THREADS_URL, titolo: 'Threads', dettaglio: IG_HANDLE, Icona: AtSign, esterno: true },
 ];
 
 /**
- * Contatti (docs/spec.md): dove si trova lo studio, giorni e orari, come
- * arrivare, i canali e le due richieste. Indirizzo, orari, telefono ed
- * email compaiono solo quando Silvia li dà (src/lib/site.ts); niente mappa
+ * Contatti (docs/spec.md): Montebelluna dall'alto, dove si trova lo
+ * studio, giorni e orari, come arrivare, i canali e le due richieste.
+ * Indirizzo, orari, telefono ed email compaiono solo quando Silvia li dà
+ * (src/lib/site.ts; in anteprima con un esempio segnato); niente mappa
  * incorporata, solo il link "Apri in Maps".
  */
 export default function ContattiPage() {
   return (
     <>
-      <Scena immagine="seta" altezza="media" velo="sinistra" priorita aria-labelledby="contatti-titolo">
-        <div className="flex max-w-[640px] flex-col items-start gap-6">
-          <p className="eyebrow intro">Contatti</p>
+      <Scena immagine="montebelluna" altezza="alta" velo="basso" priorita aria-labelledby="contatti-titolo" contenuto="flex flex-col justify-end self-stretch">
+        <div className="flex max-w-[680px] flex-col items-start gap-6 pt-[24svh]" data-hero-away="10">
+          <p className="eyebrow intro">Contatti · {ZONA}</p>
           {/* BOZZA */}
           <h1 id="contatti-titolo" className="display-xl intro" style={{ '--d': '0.1s' } as React.CSSProperties}>
             Dove <span className="script">trovarmi</span>
@@ -71,69 +66,64 @@ export default function ContattiPage() {
         </div>
       </Scena>
 
-      <section className="section-tight" aria-labelledby="studio-titolo">
-        <div className="wrap grid gap-5 md:grid-cols-2" data-reveal="stagger">
-          <div className="petalo flex flex-col items-start gap-4 p-7 sm:p-9">
-            <span className="cerchio">
-              <MapPin size={26} strokeWidth={1.75} aria-hidden />
-            </span>
-            <h2 id="studio-titolo" className="display-sm">
-              Lo studio
-            </h2>
-            <p className="text-[18px]">{HAS_INDIRIZZO ? INDIRIZZO_DISPLAY : ZONA}</p>
-            {STUDIO.comeArrivare && <p className="testo-mute">{STUDIO.comeArrivare}</p>}
-            {STUDIO.mapsUrl && (
-              <a className="text-link" href={STUDIO.mapsUrl} target="_blank" rel="noopener">
-                Apri in Maps <ArrowIcon size={15} />
-              </a>
+      <section className="section" aria-labelledby="studio-titolo">
+        <div className="wrap">
+          <div className="colonne-filetto" data-reveal="stagger">
+            <div className="flex flex-col items-start gap-4">
+              <h2 id="studio-titolo" className="eyebrow">
+                Lo studio
+              </h2>
+              <p className="font-serif text-[clamp(24px,2.6vw,32px)] font-bold leading-tight">{INDIRIZZO ? INDIRIZZO.valore : ZONA}</p>
+              {INDIRIZZO?.esempio && <Esempio cosa="l'indirizzo" />}
+              {MAPS && (
+                <a className="text-link" href={MAPS.valore} {...(MAPS.esempio ? {} : { target: '_blank', rel: 'noopener' })}>
+                  Apri in Maps <ArrowIcon size={15} />
+                </a>
+              )}
+            </div>
+            {ORARI_STUDIO && (
+              <div className="flex flex-col items-start gap-4">
+                <h2 className="eyebrow">Giorni e orari</h2>
+                <ul className="space-y-1 font-serif text-[clamp(20px,2vw,24px)] italic">
+                  {ORARI_STUDIO.valore.map((o) => (
+                    <li key={o}>{o}</li>
+                  ))}
+                </ul>
+                {ORARI_STUDIO.esempio && <Esempio cosa="giorni e orari" />}
+              </div>
+            )}
+            {COME_ARRIVARE && (
+              <div className="flex flex-col items-start gap-4">
+                <h2 className="eyebrow">Come arrivare</h2>
+                <p className="testo-mute text-[17px]">{COME_ARRIVARE.valore}</p>
+                {COME_ARRIVARE.esempio && <Esempio cosa="le indicazioni" />}
+              </div>
             )}
           </div>
-          {HAS_ORARI && (
-            <div className="petalo flex flex-col items-start gap-4 p-7 sm:p-9">
-              <span className="cerchio">
-                <Clock size={26} strokeWidth={1.75} aria-hidden />
-              </span>
-              <h2 className="display-sm">Giorni e orari</h2>
-              <ul className="space-y-1 text-[17px]">
-                {ORARI.map((o) => (
-                  <li key={o.giorni.join('-') + o.dalle}>{orarioDisplay(o)}</li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       </section>
 
-      <section className="section-tight" aria-labelledby="canali-titolo">
-        <div className="wrap">
-          <SectionHead id="canali-titolo" eyebrow="Scrivimi" title="I miei" script="canali" />
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal="stagger">
-            {CANALI.map(({ href, titolo, dettaglio, Icona, esterno }) => (
+      <section className="section fondo-vino on-notte" aria-labelledby="canali-titolo">
+        <div className="wrap grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <SectionHead id="canali-titolo" eyebrow="Scrivimi" title="I miei" script="canali" lead="Ti rispondo io, di persona: scegli il modo che ti è più comodo." />
+          <ul className="righe border-y border-latte/20" data-reveal="stagger">
+            {canali.map(({ href, titolo, dettaglio, Icona, esterno, esempio }) => (
               <li key={titolo}>
-                <a
-                  href={href}
-                  {...(esterno ? { target: '_blank', rel: 'noopener' } : {})}
-                  className="petalo petalo-lift flex items-center gap-4 p-5"
-                >
-                  <span className="cerchio cerchio-sm">
+                <a href={href} {...(esterno && !esempio ? { target: '_blank', rel: 'noopener' } : {})} className="riga-link">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-latte/30 text-petalo">
                     <Icona size={20} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block font-semibold">{titolo}</span>
-                    <span className="testo-mute block truncate text-[15px]">{dettaglio}</span>
+                    <span className="block font-serif text-[clamp(20px,2vw,24px)] font-bold leading-tight">{titolo}</span>
+                    <span className="flex flex-wrap items-center gap-2 text-[15px] text-latte/75">
+                      <span className="truncate">{dettaglio}</span>
+                      {esempio && <Esempio cosa="il contatto" />}
+                    </span>
                   </span>
+                  <ArrowIcon size={18} className="riga-freccia text-petalo" />
                 </a>
               </li>
             ))}
-            <li>
-              <a href={THREADS_URL} target="_blank" rel="noopener" className="petalo petalo-lift flex items-center gap-4 p-5">
-                <span className="cerchio cerchio-sm font-serif text-[22px] font-bold">@</span>
-                <span className="min-w-0">
-                  <span className="block font-semibold">Threads</span>
-                  <span className="testo-mute block truncate text-[15px]">{IG_HANDLE}</span>
-                </span>
-              </a>
-            </li>
           </ul>
         </div>
       </section>

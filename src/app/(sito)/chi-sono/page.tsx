@@ -2,9 +2,11 @@ import { Camera, Cat, Flower2, Leaf, Mountain, Music, PenLine, Plane, Waves } fr
 import { IconaGiglio, IconaLoto, InstagramIcon } from '@/components/icons';
 import JsonLd from '@/components/seo/JsonLd';
 import Chiusura from '@/components/ui/Chiusura';
+import Esempio from '@/components/ui/Esempio';
 import SchedaInstagram from '@/components/ui/SchedaInstagram';
 import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
+import { FORMAZIONE, PERCHE_LILY, PERCORSO } from '@/lib/anteprima';
 import { breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { IG_HANDLE, IG_URL, OWNER_NAME, SILVIA, STORIE_IN_EVIDENZA, ZONA } from '@/lib/site';
 
@@ -90,48 +92,83 @@ export default function ChiSonoPage() {
         </div>
       </section>
 
-      <section className="section-tight" aria-labelledby="amo-titolo">
+      {PERCORSO && (
+        <section className="section" aria-labelledby="percorso-titolo">
+          <div className="wrap">
+            <div className="flex flex-col items-center gap-4 text-center">
+              {/* BOZZA */}
+              <SectionHead id="percorso-titolo" eyebrow="Il mio percorso" title="Passo dopo" script="passo" align="center" />
+              {PERCORSO.esempio && <Esempio cosa="le tappe di Silvia" />}
+            </div>
+            {/* Il sentiero (data-trail): un tratteggio passa per i punti delle tappe e le foglie lo percorrono scorrendo. */}
+            <div className="sentiero mt-14" data-trail>
+              <svg className="sentiero-svg" aria-hidden data-trail-svg>
+                <path data-trail-path />
+              </svg>
+              <div className="sentiero-foglie" aria-hidden data-trail-leaves />
+              <ol className="relative flex flex-col gap-12 md:gap-6">
+                {PERCORSO.valore.map((p, i) => (
+                  <li key={`${p.titolo}-${i}`} className="tappa" data-trail-step>
+                    <span className="tappa-punto" data-trail-stop aria-hidden />
+                    <div>
+                      <p className="eyebrow">{p.quando}</p>
+                      <h3 className="display-sm mt-3">{p.titolo}</h3>
+                      <p className="testo-mute mt-2">{p.testo}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="section fondo-vino on-notte" aria-labelledby="amo-titolo">
         <div className="wrap">
           <SectionHead id="amo-titolo" eyebrow="Dalla mia bio" title="Le cose che" script="amo" align="center" />
-          <ul className="mx-auto mt-10 grid max-w-[900px] grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5" data-reveal="stagger">
+          <ul className="mx-auto mt-12 grid max-w-[1000px] grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-petalo)] bg-latte/15 sm:grid-cols-3 lg:grid-cols-5" data-reveal="stagger">
             {PASSIONI.map(({ nome, Icona }) => (
-              <li key={nome} className="petalo flex flex-col items-center gap-3 px-3 py-6 text-center">
-                <span className="cerchio" data-pop>
-                  <Icona size={26} strokeWidth={1.75} aria-hidden />
+              <li key={nome} className="flex flex-col items-center gap-4 bg-vino px-3 py-8 text-center">
+                <span className="text-petalo" data-pop>
+                  <Icona size={34} strokeWidth={1.4} aria-hidden />
                 </span>
-                <span className="font-semibold">{nome}</span>
+                <span className="font-serif text-[19px] italic">{nome}</span>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      {(SILVIA.percheLily || SILVIA.formazione.length > 0) && (
-        <section className="section-tight" aria-label="Perché Lily e formazione">
-          <div className="wrap grid gap-6 md:grid-cols-2">
-            {SILVIA.percheLily && (
-              <div className="petalo p-7">
-                <h2 className="display-sm">
+      {(PERCHE_LILY || FORMAZIONE) && (
+        <section className="section" aria-label="Perché Lily e formazione">
+          <div className="wrap grid items-start gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
+            {PERCHE_LILY && (
+              <div className="flex flex-col items-start gap-5">
+                <h2 className="display-lg">
                   Perché <span className="script">Lily</span>
                 </h2>
-                <p className="mt-4">{SILVIA.percheLily}</p>
+                <p className="citazione">{PERCHE_LILY.valore}</p>
+                {PERCHE_LILY.esempio && <Esempio cosa="le parole di Silvia" />}
               </div>
             )}
-            {SILVIA.formazione.length > 0 && (
-              <div className="petalo p-7">
-                <h2 className="display-sm">Formazione</h2>
-                <ul className="elenco mt-4">
-                  {SILVIA.formazione.map((f) => (
-                    <li key={f}>{f}</li>
+            {FORMAZIONE && (
+              <div className="flex flex-col items-start gap-5">
+                <h2 className="display-md">Formazione</h2>
+                <ul className="righe w-full">
+                  {FORMAZIONE.valore.map((f, i) => (
+                    <li key={`${f}-${i}`} className="py-4 text-[17px]">
+                      {f}
+                    </li>
                   ))}
                 </ul>
+                {FORMAZIONE.esempio && <Esempio cosa="corsi e certificazioni" />}
               </div>
             )}
           </div>
         </section>
       )}
 
-      <section className="section-tight" aria-labelledby="ig-titolo">
+      <section className="section fondo-blush" aria-labelledby="ig-titolo">
         <div className="wrap grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
           <SectionHead
             id="ig-titolo"
@@ -154,6 +191,7 @@ export default function ChiSonoPage() {
           </>
         }
         lead="In studio a Montebelluna, o a distanza con una lettura."
+        immagine="velo"
       />
       <JsonLd
         data={breadcrumbLd([

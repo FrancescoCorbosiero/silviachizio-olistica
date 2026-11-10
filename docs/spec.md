@@ -45,12 +45,15 @@ Niente blog in fase 1 (nessun contenuto da pubblicare: Silvia scrive su Instagra
 
 ### Home `/`
 
-1. **Hero.** Uno schermo intero con un'immagine di fondo in parallax (oggi
-   atmosfera, domani lo studio: `src/lib/immagini.ts`). Titolo con una parola in
-   corsivo, due righe in cui Silvia si presenta, le due richieste come bottoni,
-   tre fatti brevi e veri. Niente cerchi, anelli, petali o cuori: l'immagine
-   basta. (Revisione di novembre 2026, vedi `decisioni.md`.)
-2. *(Il nastro dei nomi è stato tolto nella stessa revisione.)*
+1. **Hero.** Uno schermo intero con il video di sfondo (luce e ombre di gigli
+   sul muro; il primo fotogramma è il poster, `src/lib/immagini.ts`) in
+   parallax. Titolo con una parola in corsivo, due righe in cui Silvia si
+   presenta, le due richieste come bottoni, tre fatti brevi e veri.
+   Nell'angolo il sigillo: il giglio che si disegna nell'anello di testo che
+   gira (`data-spin`). Niente petali o cuori nell'hero. (Revisioni di
+   novembre 2026, vedi `decisioni.md`.)
+2. **Nastro** con i nomi dei trattamenti e delle letture su una fascia lily
+   piena (`data-marquee`).
 3. **Le due porte**: due pannelli alti con l'immagine, "In studio" →
    `/trattamenti`; "A distanza" → `/letture`.
 4. **Il listino**: le quattro righe come nell'immagine di Silvia (icona nel
@@ -62,17 +65,23 @@ Niente blog in fase 1 (nessun contenuto da pubblicare: Silvia scrive su Instagra
 6. **Come funziona**, raccontato come stories di Instagram nel telefono
    (`data-stories`): richiedi → Silvia ti scrive per fissare giorno e ora → il
    trattamento → il tuo momento relax.
-7. **Chi sono**: foto, «Vivo e sorrido», due righe, link a `/chi-sono`.
-8. **Le letture**: un'anteprima con la chat che si scrive da sola (`data-chat`) e
+7. **Chi sono**: foto nell'arco (cuori al tocco, `data-love`), «Vivo e
+   sorrido», due righe, link a `/chi-sono`.
+8. **Recensioni**: solo vere, con il permesso (`RECENSIONI` in `site.ts`); in
+   anteprima con tre segnaposto dichiarati.
+9. **Le letture**: un'anteprima con la chat che si scrive da sola (`data-chat`) e
    il link a `/letture`.
-9. **Instagram**: scheda statica del profilo (foto, @silvia_chizio, "Seguimi").
+10. **Instagram**: scheda statica del profilo (foto, @silvia_chizio, "Seguimi").
    Niente embed.
-10. **Domande frequenti** (accordion morbido), solo con risposte vere.
-11. **Chiusura**: le due richieste; il giglio che spunta dal fondo della sezione
+11. **Domande frequenti** (accordion morbido), solo con risposte vere.
+12. **Chiusura**: le due richieste; il giglio che spunta dal fondo della sezione
     (`data-peek`); su desktop un badge rotondo "Prenota" attirato dal puntatore
     (`data-magnetic`).
 
 ### Trattamenti `/trattamenti`
+
+In anteprima ogni blocco qui sotto compare anche senza i dati di Silvia (foto,
+prezzi, prima di venire, galleria dello studio), con il segno «Esempio».
 
 1. **Hero**: «Listino trattamenti» e, sulla pennellata, «Quattro esperienze di
    benessere». Sotto, l'indice dei quattro; su desktop la foto del trattamento
@@ -118,13 +127,15 @@ canali (messaggio su Instagram, email, WhatsApp se c'è).
 3. **Le cose che amo**: le emoji della bio diventano icone a linea (natura,
    meditazione, fiori, gatti, arrampicata, surf, ballo, viaggi, fotografia,
    scrittura).
-4. **Perché "Lily"** e **formazione**: solo con le parole e i dati di Silvia.
-5. Chiusura con la scheda Instagram.
+4. **Il mio percorso**: le tappe su un sentiero tratteggiato che le foglie
+   percorrono scorrendo (`data-trail`), solo con le tappe di Silvia.
+5. **Perché "Lily"** e **formazione**: solo con le parole e i dati di Silvia.
+6. Chiusura con la scheda Instagram.
 
 ### Contatti `/contatti`
 
-Dove si trova lo studio (indirizzo, link "Apri in Maps", un'immagine statica
-della zona se serve), giorni e orari, come arrivare. I canali: messaggio diretto
+Montebelluna dall'alto nella testata. Dove si trova lo studio (indirizzo, link
+"Apri in Maps"), giorni e orari, come arrivare. I canali: messaggio diretto
 su Instagram (`https://ig.me/m/silvia_chizio`), email, WhatsApp e telefono se
 Silvia li vuole pubblicare. Le due richieste.
 

@@ -11,7 +11,7 @@ const PORTE: { href: string; eyebrow: string; titolo: string; testo: string; vai
     // BOZZA
     testo: 'Quattro trattamenti, da 60 a 75 minuti, e dopo ognuno un momento relax di circa quindici minuti.',
     vai: 'Il listino',
-    immagine: 'seta',
+    immagine: 'montebelluna',
   },
   {
     href: '/letture',
@@ -20,7 +20,7 @@ const PORTE: { href: string; eyebrow: string; titolo: string; testo: string; vai
     // BOZZA (con le parole del form di Silvia)
     testo: 'Una lettura simbolica e intuitiva personalizzata: la foto della stesa e la mia interpretazione, scritta o video.',
     vai: 'Le letture',
-    immagine: 'velo',
+    immagine: 'carte',
   },
 ];
 

@@ -3,9 +3,12 @@ import Link from 'next/link';
 import PrenotaInline from '@/components/flows/PrenotaInline';
 import { ArrowIcon, InstagramIcon, WhatsAppIcon } from '@/components/icons';
 import JsonLd from '@/components/seo/JsonLd';
+import Esempio from '@/components/ui/Esempio';
+import Scena from '@/components/ui/Scena';
 import { etichetta, RICHIESTE, rigaSospensione } from '@/lib/richieste';
 import { breadcrumbLd, pageMetadata } from '@/lib/seo';
-import { EMAIL, HAS_EMAIL, HAS_WA, IG_DM_URL, IG_HANDLE, ZONA, mailtoLink, waLink } from '@/lib/site';
+import { dato, whatsapp } from '@/lib/anteprima';
+import { HAS_EMAIL, IG_DM_URL, IG_HANDLE, ZONA, EMAIL, mailtoLink } from '@/lib/site';
 import { RELAX_MINUTI } from '@/lib/trattamenti';
 
 export const metadata: Metadata = pageMetadata({
@@ -30,76 +33,79 @@ const DOPO = [
  * l'altra richiesta. Con le prenotazioni dei trattamenti sospese la
  * richiesta lascia il posto all'avviso di riapertura.
  */
+const testoMessaggio = 'Ciao Silvia! 🌸 Vorrei prenotare un trattamento.';
+const WA = whatsapp(testoMessaggio);
+const MAIL = dato({ href: mailtoLink('Vorrei prenotare un trattamento', testoMessaggio), testo: EMAIL }, HAS_EMAIL, { href: '#anteprima', testo: 'silvia@…' });
+
 export default function PrenotaPage() {
-  const testoMessaggio = 'Ciao Silvia! 🌸 Vorrei prenotare un trattamento.';
   return (
     <>
-      <section className="section-tight relative isolate overflow-x-clip !pb-10">
-        <div className="wrap">
-          <p className="eyebrow intro">Prenota</p>
+      <Scena immagine="luce" altezza="bassa" velo="sinistra" priorita aria-labelledby="prenota-titolo">
+        <div className="flex max-w-[640px] flex-col items-start gap-5">
+          <p className="eyebrow intro">Prenota · {ZONA}</p>
           {/* BOZZA */}
-          <h1 className="display-xl intro mt-4" style={{ '--d': '0.08s' } as React.CSSProperties}>
+          <h1 id="prenota-titolo" className="display-xl intro" style={{ '--d': '0.08s' } as React.CSSProperties}>
             Prenota il tuo <span className="script">momento</span>
           </h1>
-          <p className="lead misura intro mt-5" style={{ '--d': '0.2s' } as React.CSSProperties}>
+          <p className="lead misura intro" style={{ '--d': '0.2s' } as React.CSSProperties}>
             {/* BOZZA */}
             {sospesa ? rigaSospensione('trattamenti') : 'Scegli il trattamento e dimmi quando ti va: ti scrivo io per fissare giorno e ora.'}
           </p>
         </div>
-      </section>
+      </Scena>
 
-      <section aria-labelledby="richiesta-titolo" className="pb-[clamp(64px,9vw,120px)]">
-        <div className="wrap grid items-start gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-14">
-          <div className="intro" style={{ '--d': '0.3s' } as React.CSSProperties}>
+      <section aria-labelledby="richiesta-titolo" className="section fondo-blush">
+        <div className="wrap grid items-start gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
+          <div>
             <h2 id="richiesta-titolo" className="sr-only">
               {sospesa ? 'Avvisami quando riapro' : 'La tua richiesta'}
             </h2>
             <PrenotaInline />
           </div>
 
-          <aside className="grid gap-10 lg:sticky lg:top-28">
+          <aside className="grid gap-12 lg:sticky lg:top-28">
             {!sospesa && (
               <div>
-                <h2 className="display-sm">Cosa succede dopo</h2>
-                <ol className="mt-5 grid gap-4">
-                  {DOPO.map((p, i) => (
-                    <li key={p.titolo} className="grid grid-cols-[auto_1fr] items-start gap-4">
-                      <span
-                        className={`grid h-10 w-10 place-items-center rounded-full font-serif text-[18px] font-[700] ${
-                          i === 0 ? 'bg-lily text-white' : 'bg-cipria text-lily-deep'
-                        }`}
-                        aria-hidden
-                      >
-                        {i + 1}
-                      </span>
-                      <div>
-                        <p className="font-[700] text-inchiostro">{p.titolo}</p>
-                        <p className="text-[16px] leading-snug text-ink-mute">{p.testo}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
+                <h2 className="eyebrow">Cosa succede dopo</h2>
+                {/* Le tappe si accendono mentre scorri (data-rail). */}
+                <div className="rail mt-6" data-rail>
+                  <span className="rail-linea" aria-hidden />
+                  <ol className="grid gap-7">
+                    {DOPO.map((p, i) => (
+                      <li key={p.titolo} className="rail-step relative grid grid-cols-[auto_1fr] items-start gap-5" data-rail-step>
+                        <span className="rail-dot" aria-hidden>
+                          {i + 1}
+                        </span>
+                        <div>
+                          <p className="font-serif text-[21px] font-bold leading-tight text-inchiostro">{p.titolo}</p>
+                          <p className="mt-1 text-[16px] leading-snug text-ink-mute">{p.testo}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
               </div>
             )}
 
-            <div className="petalo petalo-blush p-6">
+            <div className="border-t border-lily/25 pt-8">
               {/* BOZZA */}
               <h2 className="display-sm">Preferisci scrivermi?</h2>
               <p className="mt-2 text-[16px] text-inchiostro/85">Mandami un messaggio dove ti è più comodo: ti rispondo io.</p>
-              <div className="mt-4 flex flex-wrap gap-2.5">
+              <div className="mt-5 flex flex-wrap items-center gap-2.5">
                 <a className="btn btn-sm" href={IG_DM_URL} target="_blank" rel="noopener">
                   <InstagramIcon size={16} /> Messaggio su Instagram
                 </a>
-                {HAS_WA && (
-                  <a className="btn btn-outline btn-sm" href={waLink(testoMessaggio)} target="_blank" rel="noopener">
+                {WA && (
+                  <a className="btn btn-outline btn-sm" href={WA.valore} {...(WA.esempio ? {} : { target: '_blank', rel: 'noopener' })}>
                     <WhatsAppIcon size={16} /> WhatsApp
                   </a>
                 )}
-                {HAS_EMAIL && (
-                  <a className="btn btn-outline btn-sm" href={mailtoLink('Vorrei prenotare un trattamento', testoMessaggio)}>
-                    {EMAIL}
+                {MAIL && (
+                  <a className="btn btn-outline btn-sm" href={MAIL.valore.href}>
+                    {MAIL.valore.testo}
                   </a>
                 )}
+                {(WA?.esempio || MAIL?.esempio) && <Esempio cosa="WhatsApp ed email" />}
               </div>
               <p className="mt-3 text-[14px] text-ink-mute">Su Instagram mi trovi come {IG_HANDLE}.</p>
             </div>
@@ -107,20 +113,19 @@ export default function PrenotaPage() {
         </div>
       </section>
 
-      <section className="notte on-notte section-tight">
-        <div className="wrap flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
-          <div>
-            {/* BOZZA */}
-            <h2 className="display-md">
-              Cerchi una <span className="script">lettura</span>?
-            </h2>
-            <p className="lead mt-3 misura">Le letture intuitive sono a distanza: scegli il tema, io preparo la stesa.</p>
-          </div>
-          <Link className="btn btn-latte btn-lg shrink-0" href={RICHIESTE.letture.href}>
+      <Scena immagine="carte" altezza="media" velo="sinistra" aria-labelledby="lettura-titolo">
+        <div className="flex max-w-[600px] flex-col items-start gap-6">
+          <p className="eyebrow">A distanza</p>
+          {/* BOZZA */}
+          <h2 id="lettura-titolo" className="display-lg">
+            Cerchi una <span className="script">lettura</span>?
+          </h2>
+          <p className="lead misura">Le letture intuitive sono a distanza: scegli il tema, io preparo la stesa.</p>
+          <Link className="btn btn-latte btn-lg" href={RICHIESTE.letture.href}>
             {etichetta('letture', { contesto: true })} <ArrowIcon size={16} />
           </Link>
         </div>
-      </section>
+      </Scena>
       <JsonLd
         data={breadcrumbLd([
           { name: 'Home', path: '/' },

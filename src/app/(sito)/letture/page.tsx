@@ -7,6 +7,9 @@ import FaqList from '@/components/ui/FaqList';
 import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
 import BottoniRichiesta from '@/components/ui/BottoniRichiesta';
+import Esempio from '@/components/ui/Esempio';
+import { FOTO_STESA, PREZZO_LETTURA } from '@/lib/anteprima';
+import { IMMAGINI } from '@/lib/immagini';
 import { breadcrumbLd, faqLd, pageMetadata } from '@/lib/seo';
 import { LETTURA, TEMI_LETTURA } from '@/lib/trattamenti';
 
@@ -16,8 +19,6 @@ export const metadata = pageMetadata({
   path: '/letture',
 });
 
-/** La foto di una stesa vera di Silvia (domande aperte): con la lente su desktop. */
-const FOTO_STESA = '';
 
 /* BOZZE: "come funziona" raccontato come messaggi diretti. */
 const COME: Messaggio[] = [
@@ -46,6 +47,8 @@ const FAQ = [
  * pagina (#richiesta), le domande con risposte vere e la chiusura.
  */
 export default function LetturePage() {
+  const stesa = FOTO_STESA;
+  const stesaImg = stesa ? IMMAGINI[stesa.valore] : null;
   return (
     <>
       <Scena immagine="candela" altezza="piena" velo="sinistra" priorita aria-labelledby="letture-titolo">
@@ -60,6 +63,11 @@ export default function LetturePage() {
           <div className="intro" style={{ '--d': '0.34s' } as React.CSSProperties}>
             <BottoniRichiesta prima="letture" tono="notte" />
           </div>
+          <ul className="fatti intro mt-4" style={{ '--d': '0.46s' } as React.CSSProperties} aria-label="In breve">
+            <li>A distanza</li>
+            <li>Via email</li>
+            <li>Scritta o video</li>
+          </ul>
         </div>
       </Scena>
 
@@ -71,50 +79,78 @@ export default function LetturePage() {
         </div>
       </section>
 
-      <section className="section-tight" aria-labelledby="ricevi-titolo">
-        <div className="wrap grid items-start gap-10 md:grid-cols-2 md:gap-16">
-          <SectionHead id="ricevi-titolo" eyebrow="Cosa ricevi" title="Riceverai" script="via email" />
-          <ul className="petalo elenco p-7 text-[18px] sm:p-9">
-            {LETTURA.riceverai.map((r) => (
-              <li key={r}>{r}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="section fondo-vino on-notte" aria-labelledby="temi-titolo">
+      <section className="section" aria-labelledby="ricevi-titolo">
         <div className="wrap">
-          <SectionHead id="temi-titolo" eyebrow="I temi" title="Su cosa vuoi fare" script="luce" align="center" />
-          <ul className="mx-auto mt-10 flex max-w-[860px] flex-wrap justify-center gap-3" data-reveal="stagger">
-            {TEMI_LETTURA.map((t) => (
-              <li key={t} className="flex items-center gap-3 rounded-[var(--radius-tile)] border border-latte/30 px-5 py-4 text-[17px] font-semibold">
-                <IconaScintilla size={18} className="text-petalo" /> {t}
+          <SectionHead id="ricevi-titolo" eyebrow="Cosa ricevi" title="Riceverai" script="via email" />
+          <ol className="colonne-filetto mt-12" data-reveal="stagger">
+            {LETTURA.riceverai.map((r, i) => (
+              <li key={r} className="flex flex-col gap-4">
+                <span className="numero" aria-hidden>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="font-serif text-[clamp(21px,2.2vw,26px)] font-bold leading-snug first-letter:uppercase">{r}</span>
               </li>
             ))}
-          </ul>
+          </ol>
+          {PREZZO_LETTURA && (
+            <p className="mt-10 flex flex-wrap items-center gap-3 text-[18px]">
+              <span className="eyebrow">Prezzo</span>
+              <span className="font-serif text-[24px] font-bold">{PREZZO_LETTURA.valore}</span>
+              {PREZZO_LETTURA.esempio && <Esempio cosa="il prezzo della lettura" />}
+            </p>
+          )}
         </div>
       </section>
 
-      {FOTO_STESA && (
-        <section className="section-tight" aria-labelledby="stesa-titolo">
-          <div className="wrap">
-            <SectionHead id="stesa-titolo" eyebrow="La stesa" title="Una stesa" script="vera" />
-            <div className="foto-arco relative mt-8 aspect-[4/3]" data-lens={FOTO_STESA}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={FOTO_STESA} alt="Una stesa di Silvia" className="h-full w-full object-cover" loading="lazy" />
+      <Scena immagine="velo" altezza="media" velo="vino" aria-labelledby="temi-titolo" contenuto="flex flex-col items-center text-center">
+        <SectionHead id="temi-titolo" eyebrow="I temi" title="Su cosa vuoi fare" script="luce" align="center" size="xl" />
+        <ul className="mx-auto mt-10 flex max-w-[860px] flex-wrap justify-center gap-3" data-reveal="stagger">
+          {TEMI_LETTURA.map((t) => (
+            <li key={t} className="tag-contorno">
+              <IconaScintilla size={16} className="text-petalo" /> {t}
+            </li>
+          ))}
+        </ul>
+      </Scena>
+
+      {stesa && (
+        <section className="section fondo-notte on-notte" aria-labelledby="stesa-titolo">
+          <div className="wrap grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <div className="flex flex-col items-start gap-5">
+              <SectionHead id="stesa-titolo" eyebrow="La stesa" title="Una stesa" script="vera" />
+              <p className="lead misura">
+                {/* BOZZA */}
+                Così ti arriva: la foto delle carte, come le ho disposte per te, insieme alla mia interpretazione.
+              </p>
+              <p className="testo-mute hidden text-[15px] lg:block">Passa sopra la foto con il mouse: la lente ingrandisce le carte.</p>
+              {stesa.esempio && <Esempio cosa="la foto di una tua stesa vera" />}
+            </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-petalo)]" data-lens={stesaImg?.src}>
+              {stesaImg && (
+                <picture>
+                  <source media="(min-width: 768px)" srcSet={stesaImg.src} />
+                  <img
+                    src={stesaImg.srcVerticale}
+                    alt={stesa.esempio ? 'Foto d’esempio: carte e cristalli su un piano di marmo' : 'Una stesa di Silvia'}
+                    width={900}
+                    height={1500}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                </picture>
+              )}
             </div>
           </div>
         </section>
       )}
 
-      <section className="section-tight" aria-labelledby="disclaimer-titolo">
-        <div className="wrap-narrow">
-          <div className="petalo petalo-blush p-7 sm:p-9">
-            <h2 id="disclaimer-titolo" className="display-sm">
-              Da sapere prima di chiedere
-            </h2>
-            <p className="mt-4 text-[18px] leading-relaxed">{LETTURA.disclaimer}</p>
-          </div>
+      <section className="section fondo-cipria" aria-labelledby="disclaimer-titolo">
+        <div className="wrap-narrow flex flex-col items-center text-center">
+          <span className="eyebrow" id="disclaimer-titolo">
+            Da sapere prima di chiedere
+          </span>
+          <p className="corsivo mt-6 max-w-[30em] text-[clamp(21px,2.2vw,27px)] leading-[1.45]">{LETTURA.disclaimer}</p>
         </div>
       </section>
 
@@ -147,7 +183,7 @@ export default function LetturePage() {
         }
         lead="E se sei in zona, ti aspetto anche in studio a Montebelluna."
         prima="letture"
-        immagine="velo"
+        immagine="setaChiara"
       />
       <JsonLd
         data={[

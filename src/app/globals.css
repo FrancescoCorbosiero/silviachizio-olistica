@@ -185,6 +185,7 @@
     gap: 14px;
     width: fit-content;
     color: var(--color-lily-deep);
+    font-family: var(--font-sans);
     font-size: 12.5px;
     font-weight: 650;
     letter-spacing: 0.18em;
@@ -744,8 +745,11 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
 /* Il ritratto da accarezzare (data-love): un battito, cuori al tocco. */
 [data-love] { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
-/* Le tappe (data-rail): si accendono quando il petalo le raggiunge. */
-.rail { --p: 1; }
+/* Le tappe (data-rail): si accendono quando la linea le raggiunge. */
+.rail { --p: 1; position: relative; }
+.rail-linea { position: absolute; left: 19px; top: 20px; bottom: 20px; width: 2px; background: rgb(196 10 76 / 0.18); }
+.rail-linea::after { content: ''; position: absolute; inset: 0; background: var(--color-lily); transform-origin: top; transform: scaleY(var(--p)); }
+.rail-dot { position: relative; z-index: 1; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: var(--color-lily); color: #fff; font-family: var(--font-serif); font-size: 18px; font-weight: 700; }
 .rail-step { transition: opacity 0.6s ease; }
 .rail-dot { transition: background-color 0.5s ease, color 0.5s ease, scale 0.7s var(--ease-soft); }
 .has-motion .rail-step:not(.is-reached) { opacity: 0.45; }
@@ -920,3 +924,204 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
 /* Il giglio della barra dei passi: un piccolo salto a ogni passo. */
 @keyframes giglio-hop { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -12px; rotate: -10deg; } }
 @media (prefers-reduced-motion: no-preference) { .giglio-hop { animation: giglio-hop 0.75s var(--ease-soft); } }
+
+/* =====================================================================
+   Seconda revisione (novembre 2026): l'anteprima con ogni blocco, il
+   video nella hero, i blocchi ritrovati (nastro, anello, badge) e le
+   pagine interne al livello della home.
+   ===================================================================== */
+@layer components {
+  /* ── Anteprima: il segno sui dati d'esempio (Esempio.tsx) ─── */
+  .esempio {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 2px 8px;
+    border: 1px dashed currentColor;
+    border-radius: var(--radius-btn);
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    color: var(--color-lily-deep);
+  }
+  .esempio-cosa { font-weight: 600; letter-spacing: 0.04em; text-transform: none; }
+  .on-notte .esempio { color: var(--color-candela); }
+  .esempio-sopra {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    z-index: 2;
+    border-color: rgb(253 246 248 / 0.7);
+    background: rgb(34 24 20 / 0.55);
+    color: var(--color-latte);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  /* ── Scene: lo strato che scorre (immagine e video insieme) ──── */
+  .scena-bassa { min-height: 52svh; }
+  .scena-strato { position: absolute; inset: 0; }
+  .scena-strato video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+  }
+  .scena-strato video.is-playing { opacity: 1; }
+
+  /* ── L'anello di testo (data-spin): hero e badge della chiusura ── */
+  .anello { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; color: var(--color-lily-deep); }
+  .anello text { font-family: var(--font-serif); font-style: italic; font-size: 11.5px; letter-spacing: 0.05em; fill: currentColor; }
+
+  /* Il sigillo dell'hero: l'anello che gira intorno al giglio a linea. */
+  .sigillo { position: relative; display: grid; place-items: center; width: clamp(108px, 12vw, 172px); aspect-ratio: 1; color: rgb(253 246 248 / 0.9); }
+  .sigillo .anello { color: currentColor; }
+  .sigillo .anello text { font-family: var(--font-sans); font-style: normal; font-weight: 600; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; }
+  .sigillo img { width: 46%; height: auto; opacity: 0.95; }
+  .sigillo::before { content: ''; position: absolute; inset: 17%; border-radius: 999px; border: 1px solid rgb(253 246 248 / 0.35); }
+  .sigillo .giglio { width: 52%; height: auto; --giglio-fondo: transparent; --giglio-linea: var(--color-latte); --giglio-antera: var(--color-petalo); }
+  .sigillo-posto { position: absolute; z-index: 1; top: 18px; right: 16px; }
+  @media (min-width: 768px) {
+    .sigillo-posto { top: auto; right: max(32px, calc((100vw - 1180px) / 2 + 32px)); bottom: clamp(32px, 8svh, 80px); }
+  }
+
+  /* Il badge rotondo "Prenota" della chiusura (data-magnetic, data-spin). */
+  .badge-prenota {
+    position: relative;
+    place-items: center;
+    width: 176px;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: var(--color-lily);
+    color: #fff;
+    box-shadow: 0 24px 44px -20px rgb(0 0 0 / 0.55);
+  }
+  .badge-prenota .anello { color: #fff; }
+  .badge-prenota .anello text { font-family: var(--font-sans); font-style: normal; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .badge-core {
+    display: grid;
+    place-items: center;
+    width: 44%;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: var(--color-latte);
+    color: var(--color-lily);
+    transition: transform 0.6s var(--ease-soft);
+  }
+  .badge-prenota:hover .badge-core { transform: scale(1.08) rotate(-10deg); }
+
+  /* ── Il nastro dei nomi (Nastro.tsx), su fascia lily ─────────── */
+  .nastro { overflow-x: clip; background: var(--color-lily-deep); color: #fff; padding-block: 18px; }
+  .nastro-voce { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; font-family: var(--font-serif); font-style: italic; font-size: clamp(24px, 3.2vw, 40px); line-height: 1.1; white-space: nowrap; }
+  .nastro-voce img { width: clamp(22px, 2.4vw, 30px); height: auto; opacity: 0.9; }
+
+  /* ── Numeri e righe editoriali ───────────────────────────────── */
+  .numero { font-family: var(--font-serif); font-weight: 400; font-style: italic; font-size: clamp(44px, 5vw, 72px); line-height: 0.9; color: var(--color-lily-deep); }
+  .on-notte .numero { color: var(--color-petalo); }
+  .righe > * + * { border-top: 1px solid rgb(74 16 39 / 0.14); }
+  .on-notte .righe > * + * { border-top-color: rgb(253 246 248 / 0.18); }
+  .colonne-filetto { display: grid; gap: 0; }
+  .colonne-filetto > * { padding-block: 28px; border-top: 1px solid rgb(74 16 39 / 0.16); }
+  @media (min-width: 768px) {
+    .colonne-filetto { grid-auto-flow: column; grid-auto-columns: 1fr; }
+    .colonne-filetto > * { padding: 8px 32px 8px 0; border-top: 0; }
+    .colonne-filetto > * + * { padding-left: 32px; border-left: 1px solid rgb(74 16 39 / 0.16); }
+  }
+  .on-notte .colonne-filetto > * { border-color: rgb(253 246 248 / 0.18); }
+
+  /* Un link a riga intera, con la freccia che si sposta. */
+  .riga-link { display: flex; align-items: center; gap: 18px; padding-block: 22px; color: inherit; transition: padding 0.5s var(--ease-soft), color 0.3s ease; }
+  .riga-link .riga-freccia { margin-left: auto; transition: transform 0.5s var(--ease-soft); }
+  @media (hover: hover) {
+    .riga-link:hover { padding-left: 10px; }
+    .riga-link:hover .riga-freccia { transform: translateX(6px); }
+  }
+
+  /* La citazione: le recensioni, il disclaimer, «perché Lily». */
+  .citazione { position: relative; font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(21px, 2.2vw, 27px); line-height: 1.4; }
+  .citazione::before { content: '“'; display: block; height: 0.55em; margin-bottom: 0.15em; font-size: 3.2em; line-height: 1; color: var(--color-lily); font-style: normal; }
+  .on-notte .citazione::before { color: var(--color-petalo); }
+
+  /* ── La galleria dello studio (data-hscroll) ─────────────────── */
+  .galleria { overflow: clip; }
+  .galleria-fila {
+    display: flex;
+    gap: clamp(12px, 2vw, 24px);
+    overflow-x: auto;
+    padding-inline: max(20px, calc((100vw - 1180px) / 2 + 32px));
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .galleria-fila::-webkit-scrollbar { display: none; }
+  .galleria-foto {
+    position: relative;
+    flex: 0 0 auto;
+    width: min(74vw, 400px);
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius-tile);
+    scroll-snap-align: center;
+    background: var(--color-notte);
+  }
+  .galleria-foto:nth-child(3n + 1) { border-radius: 999px 999px var(--radius-tile) var(--radius-tile); }
+  .galleria-foto:nth-child(2n) { width: min(64vw, 340px); align-self: flex-end; }
+  .galleria-foto img { width: 100%; height: 100%; object-fit: cover; }
+  .is-hscroll .galleria-fila { overflow: visible; scroll-snap-type: none; }
+
+  /* ── Il sentiero (data-trail, Chi sono) ──────────────────────── */
+  .sentiero { position: relative; }
+  .sentiero-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .sentiero-svg path { fill: none; stroke: var(--color-petalo); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1 10; }
+  .sentiero-foglie { position: absolute; inset: 0; pointer-events: none; }
+  .trail-leaf { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; color: var(--color-foglia); rotate: var(--a, 0deg); scale: 0; opacity: 0; transition: scale 0.6s var(--ease-pop), opacity 0.4s ease; }
+  .trail-leaf.is-on { scale: 1; opacity: 1; }
+  .trail-leaf svg { display: block; width: 100%; height: 100%; }
+  .tappa { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start; transition: opacity 0.6s ease; }
+  .tappa-punto { position: relative; z-index: 1; display: grid; place-items: center; width: 18px; height: 18px; margin-top: 8px; border-radius: 999px; background: var(--color-sabbia); border: 2px solid var(--color-lily); transition: background-color 0.5s ease, scale 0.6s var(--ease-soft); }
+  .has-trail .tappa:not(.is-reached) { opacity: 0.45; }
+  .has-trail .tappa.is-reached .tappa-punto { background: var(--color-lily); }
+  @media (min-width: 768px) {
+    .tappa { width: 50%; }
+    .tappa:nth-child(even) { margin-left: 50%; }
+    .tappa:nth-child(odd) { grid-template-columns: 1fr auto; text-align: right; }
+    .tappa:nth-child(odd) .tappa-punto { order: 2; margin-right: -9px; }
+    .tappa:nth-child(even) .tappa-punto { margin-left: -9px; }
+  }
+
+  /* La foto che segue il puntatore nell'indice dei trattamenti (data-path-row). */
+  .path-thumb { width: 210px; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 999px 999px var(--radius-tile) var(--radius-tile); box-shadow: var(--shadow-petalo-l); }
+  .path-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .foto-arco picture, .foto-cerchio picture { display: block; width: 100%; height: 100%; }
+
+  /* ── Le recensioni ───────────────────────────────────────────── */
+  .recensione { display: flex; flex-direction: column; gap: 18px; }
+  .recensione-chi { font-size: 13px; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-ink-mute); }
+  .on-notte .recensione-chi { color: rgb(253 246 248 / 0.75); }
+
+  /* ── Pannello su immagine (Lily Magic, temi): vetro scuro ────── */
+  .pannello-notte {
+    border: 1px solid rgb(253 246 248 / 0.16);
+    border-radius: var(--radius-petalo);
+    background: rgb(34 24 20 / 0.55);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .pannello-notte { background: var(--color-notte); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+  /* Etichette a contorno sulle scene (i temi delle letture). */
+  .tag-contorno { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border: 1px solid rgb(253 246 248 / 0.45); border-radius: var(--radius-tile); font-size: 16px; font-weight: 600; }
+}

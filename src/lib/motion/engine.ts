@@ -42,6 +42,13 @@
      data-peek              il giglio che spunta dal fondo della sezione
      data-chat              la chat: i fumetti (.chat-bub, ritardo con --i)
                             arrivano uno alla volta quando è a schermo
+     data-hscroll           galleria: su desktop la sezione resta ferma e
+                            la fila ([data-hscroll-track]) scorre di lato
+     video[data-video]      video di sfondo: le sorgenti (data-mp4,
+                            data-webm, data-mp4-v, data-webm-v) arrivano
+                            solo qui, dopo l'idratazione; parte quando è
+                            a schermo, si ferma fuori; resta il poster con
+                            "riduci movimento" o "risparmio dati"
    ─ Sempre, piano
      data-float             petali e gigli che ondeggiano (CSS, durata e
                             ritardo diversi per ognuno)
@@ -602,6 +609,78 @@ function storiesScroll(media: gsap.MatchMedia): void {
         unstick();
         sec.classList.remove('is-story');
       };
+    });
+  });
+}
+
+/* ── Galleria orizzontale (data-hscroll, solo desktop) ──────────────
+   La sezione resta ferma (sticky, [data-pin-stage]) e la fila
+   ([data-hscroll-track]) scorre di lato mentre si scende. Su telefono, e
+   senza script, è una fila che si scorre col dito. */
+function hscroll(media: gsap.MatchMedia): void {
+  gsap.utils.toArray<HTMLElement>('[data-hscroll]').forEach((sec) => {
+    const track = sec.querySelector<HTMLElement>('[data-hscroll-track]');
+    if (!track) return;
+    media.add(DESKTOP, () => {
+      sec.classList.add('is-hscroll');
+      const dist = (): number => Math.max(0, track.scrollWidth - track.clientWidth);
+      const unstick = stick(sec, dist);
+      const tween = gsap.to(track, {
+        x: () => -dist(),
+        ease: 'none',
+        scrollTrigger: { trigger: sec, start: 'top top', end: () => `+=${dist()}`, scrub: 0.6, invalidateOnRefresh: true },
+      });
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+        gsap.set(track, { clearProps: 'transform' });
+        unstick();
+        sec.classList.remove('is-hscroll');
+      };
+    });
+  });
+}
+
+/* ── Video di sfondo (video[data-video]) ─────────────────────────────
+   Il poster (l'immagine sotto, il primo fotogramma) è già a schermo:
+   il video arriva dopo, solo se la connessione non chiede di
+   risparmiare, nel taglio giusto (verticale sul telefono). Entra in
+   dissolvenza quando parte davvero, si ferma fuori dallo schermo. */
+function videos(): void {
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  if (conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? '')) return;
+  gsap.utils.toArray<HTMLVideoElement>('video[data-video]').forEach((v) => {
+    const verticale = !window.matchMedia('(min-width: 768px)').matches;
+    const fonti: [string | undefined, string][] = [
+      [verticale ? v.dataset.webmV : v.dataset.webm, 'video/webm'],
+      [verticale ? v.dataset.mp4V : v.dataset.mp4, 'video/mp4'],
+    ];
+    const nodi = fonti
+      .filter((f): f is [string, string] => Boolean(f[0]))
+      .map(([src, type]) => {
+        const s = document.createElement('source');
+        s.src = src;
+        s.type = type;
+        return s;
+      });
+    if (!nodi.length) return;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.append(...nodi);
+    v.load();
+    on(v, 'playing', () => v.classList.add('is-playing'));
+    const io = new IntersectionObserver(([e]) => {
+      if (e?.isIntersecting) void v.play().catch(() => {});
+      else v.pause();
+    });
+    io.observe(v);
+    cleanups.push(() => {
+      io.disconnect();
+      v.pause();
+      v.classList.remove('is-playing');
+      nodi.forEach((n) => n.remove());
+      v.load();
     });
   });
 }
@@ -1189,7 +1268,10 @@ export function startPage(): () => void {
   // Poi le sezioni legate allo scroll, una tappa per task. Prima quelle
   // ferme: allungano la pagina, e ciò che sta sotto si misura dopo.
   const stages: (() => void)[] = [
-    () => storiesScroll(media),
+    () => {
+      storiesScroll(media);
+      hscroll(media);
+    },
     () => heroAway(),
     () => {
       parallax();
@@ -1204,6 +1286,9 @@ export function startPage(): () => void {
     },
     () => chats(),
     () => trails(),
+    // Per ultimo il video: il poster è già a schermo, il video può aspettare
+    // che il telefono abbia finito di accendere la pagina.
+    () => videos(),
   ];
   staging = true;
   void (async () => {

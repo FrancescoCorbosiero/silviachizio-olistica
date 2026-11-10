@@ -5,7 +5,11 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { InstagramIcon, WhatsAppIcon } from '@/components/icons';
 import { etichetta, RICHIESTE } from '@/lib/richieste';
-import { HAS_WA, IG_HANDLE, IG_URL, NAV, waLink } from '@/lib/site';
+import { whatsapp } from '@/lib/anteprima';
+import { IG_HANDLE, IG_URL, NAV } from '@/lib/site';
+
+/** WhatsApp, se Silvia lo dà (in anteprima un esempio, che non porta da nessuna parte). */
+const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
 import Logo from './Logo';
 
 /**
@@ -68,8 +72,13 @@ export default function SiteHeader() {
           <a className="icon-btn" href={IG_URL} target="_blank" rel="noopener" aria-label={`Instagram di Silvia, ${IG_HANDLE}`}>
             <InstagramIcon size={19} />
           </a>
-          {HAS_WA && (
-            <a className="icon-btn" href={waLink('Ciao Silvia! Ti scrivo dal sito 🌸')} target="_blank" rel="noopener" aria-label="Scrivi a Silvia su WhatsApp">
+          {WA && (
+            <a
+              className="icon-btn"
+              href={WA.valore}
+              {...(WA.esempio ? { title: 'Esempio: WhatsApp, quando Silvia dà il numero' } : { target: '_blank', rel: 'noopener' })}
+              aria-label="Scrivi a Silvia su WhatsApp"
+            >
               <WhatsAppIcon size={18} />
             </a>
           )}

@@ -197,7 +197,8 @@ Due effetti nuovi, solo CSS:
 | `data-pet` → `data-love` | entrambi | cuori al tocco sul ritratto: un battito, niente "scodinzolo" |
 | `celebrate()` | entrambi (`fx.ts` in andrea-bellettati) | all'invio petali, cuori e scintille, al posto di zampe e ossa |
 | `data-hero-zoom` (facoltativo) | ireandlunaslife | un cerchio, come la storia in evidenza «Lily 🌸», che si allarga fino a riempire lo schermo: si entra nello studio. Solo desktop, solo con una foto dello studio all'altezza |
-| `data-hscroll` (facoltativo) | ireandlunaslife | galleria orizzontale dello studio su desktop |
+| `data-hscroll` | ireandlunaslife | galleria orizzontale dello studio su desktop (Trattamenti) |
+| `video[data-video]` | nuovo | il video di sfondo della hero: arriva dopo l'idratazione, sopra il suo primo fotogramma |
 
 Non si portano: `data-sticker-wall`, `data-stamp`, `data-strike`, `data-venn`, le
 rotazioni, le forme di zampe e ossa.
@@ -254,7 +255,45 @@ con le scintille, una parola scritta a mano in ogni titolo). Cosa cambia:
   Playfair, non più Damion: Damion resta al logo, al wordmark del footer e alla
   firma «Silvia». Le etichette sono in maiuscoletto spaziato con un filetto, senza
   scintilla.
-- **Tolti**: l'alone che respira, l'anello di testo dell'hero, i petali che
-  ondeggiano e i petali/cuori dietro al puntatore nell'hero, i cuori al tocco sul
-  ritratto, il badge rotondo "Prenota", il nastro dei nomi. Gli effetti restano
-  nel motore, spenti.
+- **Tolti**: l'alone che respira, i petali che ondeggiano e i petali/cuori
+  dietro al puntatore nell'hero (i «cuori troppo invasivi»). Anello di testo,
+  badge "Prenota", nastro dei nomi e cuori sul ritratto, tolti in un primo
+  momento, sono tornati nella seconda revisione (sotto).
+
+## Seconda revisione: ogni blocco, il video, le pagine interne (novembre 2026)
+
+Rivedendo la prima revisione: la direzione è giusta, ma alcuni blocchi belli
+erano spariti, le pagine interne erano rimaste indietro e il sito, essendo
+un'anteprima, deve mostrare tutto. Cosa cambia:
+
+- **Ogni blocco, in anteprima.** In sviluppo e in `npm run anteprima` compaiono
+  anche i blocchi che aspettano un dato di Silvia (prezzi, indirizzo, orari,
+  canali, recensioni, percorso, «perché Lily», formazione, prima di venire, la
+  stesa, la galleria dello studio, una foto per trattamento), con un valore
+  d'esempio e il **segno «Esempio»** (`components/ui/Esempio.tsx`: piccolo,
+  tratteggiato, dice cosa serve). Nella build di produzione non c'è nessun
+  esempio: la regola dei fatti resta (`src/lib/anteprima.ts`, `decisioni.md`).
+- **Il video della hero.** La luce del pomeriggio e le ombre dei gigli che si
+  muovono piano sul muro (12 s in loop, disegnato da noi:
+  `scripts/video-hero.cjs`). Il primo fotogramma è il poster; il video arriva
+  dopo, solo se il movimento è permesso e la connessione non chiede di
+  risparmiare.
+- **Tornati, nello stile nuovo**: il **nastro** dei nomi su una fascia lily
+  piena, con il giglio a linea al posto della scintilla; il **sigillo**
+  nell'hero (il giglio che si disegna dentro l'anello di testo che gira); il
+  **badge "Prenota"** magnetico e il **giglio che spunta** nella chiusura; i
+  **cuori al tocco** sul ritratto di Chi sono (solo lì, mai nell'hero).
+- **Le foto dell'anteprima** nelle due porte della home: Montebelluna dall'alto
+  (In studio, anche nella testata di Contatti) e le carte (Letture, anche nella
+  stesa con la lente e nella fascia delle letture di Prenota).
+- **Pagine interne** al livello della home: testate in scena in ogni pagina;
+  Trattamenti con l'indice (la foto segue il puntatore), una sezione per
+  trattamento con la foto nell'arco, Lily Magic come scena con le candele, la
+  galleria dello studio che scorre di lato; Letture con i tre punti numerati,
+  i temi su una scena, la stesa con la lente; Chi sono con il sentiero del
+  percorso e le passioni su fondo vino; Contatti a colonne con i canali in
+  righe; Prenota con le tappe che si accendono (`data-rail`).
+- **Nuovi componenti** in `globals.css`: `.numero` (i numeri in corsivo),
+  `.righe` e `.colonne-filetto` (impaginazione a filetti), `.riga-link`,
+  `.citazione`, `.galleria`, `.sentiero` e `.tappa`, `.pannello-notte`,
+  `.tag-contorno`, `.sigillo`, `.esempio`.

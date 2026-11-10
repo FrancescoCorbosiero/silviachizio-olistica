@@ -61,7 +61,10 @@ git clone --depth 1 https://github.com/FrancescoCorbosiero/ireandlunaslife ../ri
 - **Fatti, mai inventati**: prezzi, indirizzo, orari, numeri, formazione,
   recensioni e testimonianze arrivano solo da Silvia. Finché mancano, il valore in
   `src/lib/site.ts` resta vuoto e il blocco che lo usa non compare; la domanda sta
-  in `docs/domande-aperte.md`.
+  in `docs/domande-aperte.md`. Eccezione dichiarata: l'**anteprima** (sviluppo e
+  `npm run anteprima`) mostra ogni blocco con un esempio segnato «Esempio»,
+  passando da `src/lib/anteprima.ts`; nella build di produzione gli esempi non ci
+  sono e non vanno mai in dati strutturati, email o flussi.
 - **Bozze dichiarate**: i testi scritti da te sono bozze. Segnale con un commento
   `BOZZA` accanto al testo e tieni l'elenco in `docs/testi-da-validare.md`.
 - **Una fonte per ogni dato**: contatti, link e stato delle prenotazioni in
@@ -102,8 +105,11 @@ npm run anteprima    # sito statico in anteprima-netlify/ (Netlify Drop, senza i
 Per provare le richieste senza email vere:
 `SES_DRY_RUN=true SES_TO_TRATTAMENTI=prova@esempio.it SES_TO_LETTURE=prova@esempio.it npm run dev`
 (le email finiscono nei log). Le misure di leggerezza: `scripts/misura.cjs`
-sulla build; icone e immagini per i social: `scripts/immagini.cjs`; le immagini d'atmosfera delle scene: `scripts/atmosfere.cjs` (tutti
-con Playwright, che non è una dipendenza del progetto).
+sulla build; icone e immagini per i social: `scripts/immagini.cjs`; le immagini
+d'atmosfera delle scene: `scripts/atmosfere.cjs`; il video della hero:
+`scripts/video-hero.cjs` (tutti con Playwright, che non è una dipendenza del
+progetto; il video anche con ffmpeg). Le foto vere per le scene (due tagli,
+WebP): `scripts/foto.cjs`, con sharp, che arriva con Next.
 
 Il blocco in cima a questo file lo scrive `next dev` (e lo riscrive se manca):
 si tiene e si committa. `CLAUDE.md` contiene solo `@AGENTS.md`.

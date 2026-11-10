@@ -3,6 +3,9 @@ import { Camera, Heart, Leaf, MapPin, Sparkles } from 'lucide-react';
 import DivisoreLoto from '@/components/brand/DivisoreLoto';
 import Giglio from '@/components/brand/Giglio';
 import Listino from '@/components/brand/Listino';
+import Esempio from '@/components/ui/Esempio';
+import Scena from '@/components/ui/Scena';
+import { IMMAGINI, type NomeImmagine } from '@/lib/immagini';
 import {
   ArrowIcon,
   IconaCandela,
@@ -32,8 +35,11 @@ const PALETTE = [
   { nome: 'petalo', hex: '#F8AAC6', uso: 'filetti, sottolineature a mano, decoro' },
   { nome: 'cipria', hex: '#FCE0E9', uso: 'cerchi delle icone, pillole, campi scelti' },
   { nome: 'blush', hex: '#FBE8EE', uso: 'nastri, fasce, sezioni chiare' },
-  { nome: 'latte', hex: '#FDF6F8', uso: 'fondo pagina' },
-  { nome: 'carta', hex: '#FFFFFF', uso: 'card' },
+  { nome: 'latte', hex: '#FDF6F8', uso: 'testo su fondi scuri, campi dei moduli' },
+  { nome: 'sabbia', hex: '#F2E4DD', uso: 'il muro dello studio: il fondo pagina' },
+  { nome: 'sabbia-deep', hex: '#E8D2C8', uso: 'fasce e filetti su sabbia' },
+  { nome: 'vino', hex: '#4A1027', uso: 'il lily in ombra: fasce piene, scene scure', scuro: true },
+  { nome: 'carta', hex: '#FFFFFF', uso: 'fogli delle richieste' },
   { nome: 'inchiostro', hex: '#2A1B17', uso: 'titoli scuri e testo', scuro: true },
   { nome: 'ink-mute', hex: '#6E5A5E', uso: 'testo secondario', scuro: true },
   { nome: 'notte', hex: '#221814', uso: 'sezioni scure, footer', scuro: true },
@@ -45,6 +51,11 @@ const PALETTE = [
 
 /** Le coppie sicure per il testo (WCAG AA), calcolate sui colori qui sopra. */
 const COPPIE = [
+  { testo: 'inchiostro', fondo: 'sabbia', ratio: '13,3:1', classe: 'bg-sabbia text-inchiostro' },
+  { testo: 'ink-mute', fondo: 'sabbia', ratio: '5,1:1', classe: 'bg-sabbia text-ink-mute' },
+  { testo: 'lily-deep', fondo: 'sabbia', ratio: '4,8:1', classe: 'bg-sabbia text-lily-deep' },
+  { testo: 'latte', fondo: 'vino', ratio: '14,1:1', classe: 'bg-vino text-latte' },
+  { testo: 'petalo', fondo: 'vino', ratio: '8,3:1', classe: 'bg-vino text-petalo' },
   { testo: 'inchiostro', fondo: 'latte', ratio: '15,6:1', classe: 'bg-latte text-inchiostro' },
   { testo: 'ink-mute', fondo: 'latte', ratio: '6,0:1', classe: 'bg-latte text-ink-mute' },
   { testo: 'lily', fondo: 'carta', ratio: '4,8:1', classe: 'bg-carta text-lily' },
@@ -61,7 +72,7 @@ const COPPIE = [
 
 function Blocco({ id, titolo, children, nota }: { id: string; titolo: string; children: React.ReactNode; nota?: string }) {
   return (
-    <section id={id} aria-labelledby={`${id}-titolo`} className="section-tight border-t border-petalo/50">
+    <section id={id} aria-labelledby={`${id}-titolo`} className="section-tight border-t border-lily/15">
       <div className="wrap">
         <h2 id={`${id}-titolo`} className="display-md">
           {titolo}
@@ -80,18 +91,47 @@ function Blocco({ id, titolo, children, nota }: { id: string; titolo: string; ch
 export default function StilePage() {
   return (
     <>
-      <header className="section-tight relative isolate overflow-x-clip">
-        <div className="wrap">
-          <p className="eyebrow">Brand System</p>
-          <h1 className="display-xl mt-4">
-            Lo stile di <span className="script">Lily</span>
-          </h1>
-          <p className="lead misura mt-5">
-            Colori, caratteri, componenti ed effetti del sito, tutti in una pagina: per rivederli insieme a Silvia
-            prima di usarli. Riferimenti in <code>docs/brand.md</code>.
-          </p>
+      <Scena immagine="seta" altezza="bassa" velo="vino" priorita aria-labelledby="stile-titolo">
+        <p className="eyebrow">Brand System</p>
+        <h1 id="stile-titolo" className="display-xl mt-4">
+          Lo stile di <span className="script">Lily</span>
+        </h1>
+        <p className="lead misura mt-5">
+          Colori, caratteri, componenti ed effetti del sito, tutti in una pagina: per rivederli insieme a Silvia prima
+          di usarli. Riferimenti in <code>docs/brand.md</code>.
+        </p>
+      </Scena>
+
+      <Blocco
+        id="scene"
+        titolo="Scene e immagini"
+        nota="Le sezioni a tutto schermo (Scena): l'immagine scorre più lenta della pagina, il velo tiene leggibile il testo. Le immagini stanno in src/lib/immagini.ts: atmosfere disegnate da noi, foto per l'anteprima, domani le foto di Silvia."
+      >
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {(Object.keys(IMMAGINI) as NomeImmagine[]).map((nome) => (
+            <li key={nome} className="flex flex-col gap-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-tile)] bg-notte">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={IMMAGINI[nome].src} alt="" width={2000} height={1250} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+              </div>
+              <p className="text-sm">
+                <span className="font-semibold">{nome}</span> · <span className="testo-mute">{IMMAGINI[nome].fonte}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+        <h3 className="display-sm mt-12">Il segno dell&apos;anteprima</h3>
+        <p className="lead misura mt-3">
+          In anteprima ogni blocco compare, anche quelli che aspettano un dato di Silvia: il valore d&apos;esempio porta questo
+          segno. Nel sito online non c&apos;è.
+        </p>
+        <div className="mt-5 flex flex-wrap items-center gap-4">
+          <Esempio cosa="il prezzo" />
+          <span className="notte on-notte rounded-[var(--radius-tile)] px-4 py-3">
+            <Esempio cosa="l'indirizzo" />
+          </span>
         </div>
-      </header>
+      </Blocco>
 
       <Blocco id="logo" titolo="Logo e giglio" nota="Ricostruzione provvisoria in SVG del logo del listino: va sostituita dal file originale di Silvia.">
         <div className="grid gap-5 md:grid-cols-3">
@@ -169,7 +209,7 @@ export default function StilePage() {
         </div>
       </Blocco>
 
-      <Blocco id="bottoni" titolo="Bottoni" nota="Pillola piena rosa (principale), contorno rosa (secondario), latte sulle sezioni notte.">
+      <Blocco id="bottoni" titolo="Bottoni" nota="Rettangoli con gli angoli appena smussati: pieno rosa (principale), contorno rosa (secondario), latte e contorno latte sulle scene e sulle sezioni scure.">
         <div className="flex flex-wrap items-center gap-4">
           <a className="btn" href="#bottoni">
             Prenota un trattamento
