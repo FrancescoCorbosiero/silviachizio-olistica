@@ -16,9 +16,9 @@ import { etichetta, RICHIESTE } from '@/lib/richieste';
  */
 export default function MobileTabbar() {
   const pathname = usePathname();
-  const { openMenu, menuOpen } = useApp();
+  const { openMenu, menuOpen, flowOpen } = useApp();
   const on = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
-  const nothingOpen = !menuOpen;
+  const nothingOpen = !menuOpen && !flowOpen;
 
   // Konsta mette role="link" su ogni voce della barra, anche sui bottoni:
   // "Menu" apre un foglio, per i lettori di schermo è un bottone.
@@ -53,7 +53,7 @@ export default function MobileTabbar() {
           />
           <TabbarLink
             linkProps={{ href: RICHIESTE.trattamenti.href, className: 'tab-prenota' }}
-            active={nothingOpen && on('/prenota')}
+            active={flowOpen === 'prenota' || (nothingOpen && on('/prenota'))}
             icon={
               <span className="tab-prenota-icona">
                 <CalendarHeart size={21} strokeWidth={1.9} aria-hidden />
@@ -64,7 +64,7 @@ export default function MobileTabbar() {
           <TabbarLink
             component={Link}
             linkProps={{ href: '/letture' }}
-            active={nothingOpen && on('/letture')}
+            active={flowOpen === 'lettura' || (nothingOpen && on('/letture'))}
             icon={<IconaScintilla size={24} />}
             label="Letture"
           />
