@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { fontVariables } from './fonts';
 import { OWNER_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -28,11 +29,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it" data-scroll-behavior="smooth">
+    <html lang="it" className={fontVariables} data-scroll-behavior="smooth">
       <body className="k-ios min-h-dvh">
         <a
           href="#contenuto"
-          className="sr-only z-[60] rounded-full px-4 py-2 focus:not-sr-only focus:fixed focus:left-4 focus:top-3"
+          className="sr-only z-[60] rounded-full bg-inchiostro px-4 py-2 text-latte focus:not-sr-only focus:fixed focus:left-4 focus:top-3"
         >
           Salta al contenuto
         </a>

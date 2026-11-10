@@ -126,3 +126,22 @@ bene ogni trattamento, ognuno potrà avere la sua pagina (`/trattamenti/[slug]`)
 Come negli altri siti dello studio, in fondo al footer il badge «Realizzato da
 Alpacode» (`AlpacodeBadge` di andrea-bellettati): il link sta nell'HTML, lo
 script si carica a pagina ferma.
+
+## Il logo provvisorio è un SVG con le lettere in tracciati
+
+Il logo originale non c'è ancora (domande aperte ★) e il ritaglio dal listino è
+troppo piccolo. Per non bloccare il sito, il logo è ricostruito in SVG: il
+giglio a linea è ridisegnato, «Lily» (Damion) e «Trattamenti Benessere» (Great
+Vibes) sono convertiti in tracciati. Così Great Vibes non si scarica mai (serve
+solo qui) e lo stesso file vale per il sito, le icone e le immagini per i
+social. File in `public/brand/` e, per il giglio da disegnare e animare,
+`src/components/brand/Giglio.tsx`. Quando arriva l'originale si sostituiscono
+questi file e basta.
+
+## Font: solo i pesi che servono, solo l'alfabeto latino
+
+Playfair Display variabile (titoli, 400–900) più il solo corsivo 400 (le
+descrizioni del listino), Figtree variabile, Damion: circa 108 KB in tutto,
+tutti in `src/fonts/` con le loro licenze OFL. L'alfabeto latino basta per
+l'italiano (accenti, virgolette, €). Le scintille e i cuori sono SVG, non
+caratteri.

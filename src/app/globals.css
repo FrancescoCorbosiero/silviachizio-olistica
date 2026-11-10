@@ -3,5 +3,610 @@
    componenti vivono nelle parti "app" del sito: richieste, menu, fogli. */
 @import "konsta/react/theme.css";
 
-/* Il Brand System «Lily» (token, superfici, componenti) arriva al passo 2
-   della roadmap: docs/brand.md. */
+/* =====================================================================
+   Brand System «Lily» (docs/brand.md)
+   Colori campionati dal listino, dal logo e dalla divisa di Silvia. Titoli
+   in Playfair Display (il serif di «LISTINO TRATTAMENTI»), testo in
+   Figtree, la parola scritta a mano in Damion. Superfici morbide come
+   petali, ombre tinte di rosa, il vetro rosato solo dove serve
+   all'interfaccia (header, barra in basso, fogli). Struttura sul modello
+   del Brand System di andrea-bellettati (src/app/globals.css).
+   In docs/brand.md i token si chiamano --lily, --cipria…; qui hanno il
+   prefisso di Tailwind: --color-lily, --color-cipria… (classi bg-lily,
+   text-lily-deep, border-petalo…).
+   ===================================================================== */
+@theme {
+  /* ── Palette ─────────────────────────────────────────────── */
+  --color-lily: #e00b57;         /* «TRATTAMENTI», il wordmark: marchio, bottoni */
+  --color-lily-deep: #c40a4c;    /* testo rosa piccolo su fondi rosati, hover */
+  --color-lily-bright: #f24f80;  /* il bordino della divisa: rosa su notte */
+  --color-petalo: #f8aac6;       /* petali e cuori: filetti, sottolineature a mano */
+  --color-cipria: #fce0e9;       /* i cerchi delle icone: pillole, campi scelti */
+  --color-blush: #fbe8ee;        /* la pennellata: nastri, fasce */
+  --color-latte: #fdf6f8;        /* il fondo del listino: fondo pagina */
+  --color-carta: #ffffff;        /* card */
+  --color-inchiostro: #2a1b17;   /* «LISTINO»: titoli scuri e testo */
+  --color-ink-mute: #6e5a5e;     /* testo secondario */
+  --color-notte: #221814;        /* la divisa: sezioni scure, footer */
+  --color-grafite: #6f6664;      /* il giglio a matita: disegni a linea */
+  --color-foglia: #a09a5d;       /* le foglie: solo decoro, mai testo */
+  --color-candela: #f6c28b;      /* la luce delle candele: Lily Magic */
+  --color-cera: #fce2bc;         /* la cera: fondi caldi, aloni */
+
+  /* ── Tipografia ──────────────────────────────────────────── */
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-figtree), "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-script: var(--font-damion), "Damion", cursive;
+  /* Konsta legge questi due: le parti "app" parlano con il font e il rosa
+     del marchio, non con il font di sistema e il blu di iOS. */
+  --font-ios: var(--font-sans);
+  --color-brand-primary: #e00b57;
+
+  /* ── Forme e movimento («respiro»: lento e morbido) ──────── */
+  --radius-petalo: 1.625rem;     /* 26px: card e pannelli */
+  --radius-tile: 1.25rem;        /* 20px */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);      /* ≈ power3.out */
+  --ease-breath: cubic-bezier(0.37, 0, 0.63, 1);    /* ≈ sine.inOut */
+  --ease-pop: cubic-bezier(0.3, 1.25, 0.5, 1);      /* un pop morbido, mai un rimbalzo */
+
+  /* ── Ombre tinte di rosa (mai grigie, mai piene) ─────────── */
+  --shadow-petalo-s: 0 1px 2px rgb(196 10 76 / 0.06), 0 6px 16px -10px rgb(196 10 76 / 0.28);
+  --shadow-petalo: 0 1px 3px rgb(196 10 76 / 0.06), 0 14px 32px -18px rgb(196 10 76 / 0.32);
+  --shadow-petalo-l: 0 2px 6px rgb(196 10 76 / 0.06), 0 26px 48px -24px rgb(196 10 76 / 0.38);
+  --shadow-notte: 0 2px 6px rgb(0 0 0 / 0.2), 0 24px 44px -24px rgb(0 0 0 / 0.6);
+}
+
+/* =====================================================================
+   Base
+   ===================================================================== */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 88px;
+    background: var(--color-latte);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body {
+    /* Il fondo del listino: latte con macchie d'acquerello rosa leggerissime. */
+    background-color: var(--color-latte);
+    background-image:
+      radial-gradient(38rem 26rem at 6% 2rem, rgb(248 170 198 / 0.22), rgb(248 170 198 / 0) 70%),
+      radial-gradient(30rem 24rem at 98% 18%, rgb(252 224 233 / 0.75), rgb(252 224 233 / 0) 70%),
+      radial-gradient(34rem 26rem at 0% 46%, rgb(251 232 238 / 0.9), rgb(251 232 238 / 0) 70%),
+      radial-gradient(30rem 22rem at 100% 72%, rgb(248 170 198 / 0.16), rgb(248 170 198 / 0) 70%);
+    background-repeat: no-repeat;
+    color: var(--color-inchiostro);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  @media (min-width: 768px) {
+    body { font-size: 18px; }
+  }
+  ::selection { background: var(--color-petalo); color: var(--color-inchiostro); }
+
+  /* Titoli: Playfair Display, interlinea stretta, maiuscolo e minuscolo
+     (il maiuscolo solo per i titoli da manifesto, .manifesto). */
+  h1, h2, h3, .display {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  h1, .display { font-weight: 800; }
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 3px solid var(--color-lily-deep);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+  .on-notte :focus-visible { outline-color: var(--color-lily-bright); }
+  /* Le ancore non finiscono sotto l'header fisso. */
+  :target { scroll-margin-top: 96px; }
+}
+
+/* =====================================================================
+   Componenti del brand
+   ===================================================================== */
+@layer components {
+  /* ── Impaginazione ───────────────────────────────────────── */
+  .wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: 20px; }
+  .wrap-narrow { width: 100%; max-width: 820px; margin-inline: auto; padding-inline: 20px; }
+  @media (min-width: 768px) {
+    .wrap, .wrap-narrow { padding-inline: 32px; }
+  }
+  .section { padding-block: clamp(64px, 9vw, 120px); }
+  .section-tight { padding-block: clamp(44px, 6vw, 80px); }
+
+  /* ── Tipografia ──────────────────────────────────────────── */
+  .display-xl, .display-lg, .display-md, .display-sm {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  .display-xl { font-size: clamp(42px, 7.4vw, 88px); line-height: 1.02; font-weight: 800; }
+  .display-lg { font-size: clamp(36px, 5.4vw, 66px); line-height: 1.03; font-weight: 800; }
+  .display-md { font-size: clamp(30px, 4vw, 48px); }
+  .display-sm { font-size: clamp(22px, 2.6vw, 30px); line-height: 1.12; }
+  /* «LISTINO»: solo titoli brevi da manifesto. */
+  .manifesto { font-family: var(--font-serif); text-transform: uppercase; letter-spacing: 0.02em; font-weight: 900; }
+  .lead { font-size: clamp(18px, 1.9vw, 21px); line-height: 1.55; color: var(--color-ink-mute); }
+  /* Il corsivo del listino: «Quattro esperienze di benessere», le descrizioni. */
+  .corsivo { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+  .testo-mute { color: var(--color-ink-mute); }
+  .misura { max-width: 34em; } /* righe di 60–70 caratteri */
+
+  /* La parola scritta a mano: una sola per titolo, in rosa, con la
+     sottolineatura a mano in petalo che si disegna per ultima (--draw). */
+  .script {
+    position: relative;
+    display: inline-block;
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-style: normal;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1;
+    color: var(--color-lily);
+    padding-inline: 0.04em 0.08em;
+  }
+  :is(h1, h2, h3, .display, .display-xl, .display-lg, .display-md, .display-sm) .script { font-size: 1.18em; }
+  .script::after {
+    content: '';
+    position: absolute;
+    left: 2%;
+    right: 2%;
+    bottom: -0.06em;
+    height: 0.16em;
+    background: var(--script-line, var(--color-petalo));
+    -webkit-mask: var(--mano) center / 100% 100% no-repeat;
+    mask: var(--mano) center / 100% 100% no-repeat;
+    transform: scaleX(var(--draw, 1));
+    transform-origin: left center;
+    pointer-events: none;
+  }
+  .script.no-line::after { display: none; }
+
+  /* Etichetta sopra i titoli: piccola, rosa profondo, con la scintilla. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    color: var(--color-lily-deep);
+    font-size: 14px;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    background: currentColor;
+    -webkit-mask: var(--scintilla) center / contain no-repeat;
+    mask: var(--scintilla) center / contain no-repeat;
+  }
+  .on-notte .eyebrow { color: var(--color-candela); }
+
+  /* ── Bottoni: pillole morbide ─────────────────────────────
+     Principale pieno --lily con testo bianco (4,8:1), secondario a
+     contorno rosa, --latte sulle sezioni notte. Al passaggio si sollevano
+     di poco; l'etichetta rotola (il motore la avvolge, .btn-roll). */
+  .btn {
+    --b-bg: var(--color-lily);
+    --b-fg: #fff;
+    --b-bd: var(--color-lily);
+    --b-glow: rgb(224 11 87 / 0.42);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: 1.5px solid var(--b-bd);
+    background-color: var(--b-bg);
+    color: var(--b-fg);
+    box-shadow: 0 12px 24px -14px var(--b-glow), 0 2px 5px -2px rgb(196 10 76 / 0.18);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: 0.005em;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.45s var(--ease-soft), box-shadow 0.45s var(--ease-soft), background-color 0.3s ease,
+      color 0.3s ease, border-color 0.3s ease;
+  }
+  .btn svg { flex-shrink: 0; transition: transform 0.3s var(--ease-soft); }
+  @media (hover: hover) {
+    .btn:hover {
+      --b-bg: var(--color-lily-deep);
+      --b-bd: var(--color-lily-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 30px -16px var(--b-glow), 0 3px 8px -3px rgb(196 10 76 / 0.2);
+    }
+    .btn:hover svg.arrow { transform: translateX(3px); }
+  }
+  .btn:active { transform: translateY(1px); box-shadow: 0 6px 14px -10px var(--b-glow); }
+  .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.55; cursor: default; transform: none; }
+  .btn-sm { min-height: 44px; padding: 9px 18px; font-size: 15px; }
+  .btn-lg { min-height: 56px; padding: 16px 30px; font-size: 17px; }
+  .btn-block { display: flex; width: 100%; }
+  /* Secondario: contorno rosa su chiaro (testo --lily-deep, 5,6:1 su latte). */
+  .btn-outline {
+    --b-bg: rgb(255 255 255 / 0.5);
+    --b-fg: var(--color-lily-deep);
+    --b-bd: var(--color-lily);
+    --b-glow: rgb(224 11 87 / 0);
+  }
+  @media (hover: hover) {
+    .btn-outline:hover { --b-bg: var(--color-cipria); --b-bd: var(--color-lily-deep); --b-glow: rgb(224 11 87 / 0.25); }
+  }
+  /* Sulle sezioni notte: pillola latte con testo inchiostro. */
+  .btn-latte {
+    --b-bg: var(--color-latte);
+    --b-fg: var(--color-inchiostro);
+    --b-bd: var(--color-latte);
+    --b-glow: rgb(0 0 0 / 0.5);
+  }
+  @media (hover: hover) {
+    .btn-latte:hover { --b-bg: var(--color-cipria); --b-bd: var(--color-cipria); }
+  }
+  .btn-outline-latte {
+    --b-bg: rgb(253 246 248 / 0.06);
+    --b-fg: var(--color-latte);
+    --b-bd: rgb(253 246 248 / 0.55);
+    --b-glow: rgb(0 0 0 / 0);
+  }
+  @media (hover: hover) {
+    .btn-outline-latte:hover { --b-bg: rgb(253 246 248 / 0.14); --b-bd: var(--color-latte); }
+  }
+  @media (max-width: 480px) { .btn { white-space: normal; } }
+
+  /* Bottone tondo / icona: vetro rosato, bersaglio di 44px. */
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    border: 1px solid rgb(248 170 198 / 0.55);
+    background-color: rgb(255 255 255 / 0.66);
+    color: var(--color-lily-deep);
+    box-shadow: var(--shadow-petalo-s);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    backdrop-filter: blur(16px) saturate(1.5);
+    transition: transform 0.4s var(--ease-soft), background-color 0.3s ease, color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (hover: hover) { .icon-btn:hover { background-color: var(--color-cipria); transform: translateY(-2px); } }
+  .icon-btn:active { transform: translateY(1px); }
+  .on-notte .icon-btn { border-color: rgb(253 246 248 / 0.25); background-color: rgb(253 246 248 / 0.08); color: var(--color-latte); }
+
+  /* ── Petalo: card e pannelli ─────────────────────────────── */
+  .petalo {
+    position: relative;
+    border-radius: var(--radius-petalo);
+    border: 1px solid rgb(248 170 198 / 0.4);
+    background-color: var(--color-carta);
+    box-shadow: var(--shadow-petalo);
+  }
+  .petalo-latte { background-color: var(--color-latte); }
+  .petalo-blush { background-color: var(--color-blush); border-color: rgb(248 170 198 / 0.5); }
+  .petalo-cipria { background-color: var(--color-cipria); border-color: rgb(248 170 198 / 0.6); }
+  .petalo-lift { transition: transform 0.6s var(--ease-soft), box-shadow 0.6s var(--ease-soft); }
+  @media (hover: hover) {
+    .petalo-lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-petalo-l); }
+  }
+  /* Petalo scuro, per le card dentro le sezioni notte. */
+  .petalo-notte {
+    border-color: rgb(253 246 248 / 0.12);
+    background-color: rgb(253 246 248 / 0.05);
+    box-shadow: var(--shadow-notte);
+    color: var(--color-latte);
+  }
+
+  /* ── Vetro rosato: header, barra in basso, fogli ──────────── */
+  .vetro {
+    border: 1px solid rgb(255 255 255 / 0.7);
+    background-color: rgb(253 246 248 / 0.76);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.85), 0 12px 30px -20px rgb(196 10 76 / 0.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    backdrop-filter: blur(20px) saturate(1.6);
+  }
+
+  /* ── Notte: la divisa di Silvia ───────────────────────────
+     Fondo --notte, testo --latte, accenti --lily-bright e --candela; il
+     bordino rosa di 3px sul bordo, come la casacca. */
+  .notte {
+    position: relative;
+    background-color: var(--color-notte);
+    color: var(--color-latte);
+    border-top: 3px solid var(--color-lily-bright);
+  }
+  .on-notte { --script-line: rgb(242 79 128 / 0.55); color: var(--color-latte); }
+  .on-notte .script { color: var(--color-lily-bright); }
+  .on-notte .lead, .on-notte .testo-mute { color: rgb(253 246 248 / 0.82); }
+  .on-notte .corsivo { color: var(--color-latte); }
+
+  /* ── La pennellata: fascia blush dai bordi irregolari ─────── */
+  .pennellata {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+    padding: 0.28em 1.1em 0.34em;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-inchiostro);
+  }
+  .pennellata::before {
+    content: '';
+    position: absolute;
+    inset: 0 -0.3em;
+    z-index: -1;
+    background: linear-gradient(90deg, rgb(248 170 198 / 0.55), var(--color-blush) 18%, var(--color-cipria) 80%, rgb(248 170 198 / 0.5));
+    -webkit-mask: var(--pennello) center / 100% 100% no-repeat;
+    mask: var(--pennello) center / 100% 100% no-repeat;
+  }
+  .on-notte .pennellata { color: var(--color-latte); }
+  .on-notte .pennellata::before { background: linear-gradient(90deg, rgb(242 79 128 / 0.18), rgb(242 79 128 / 0.32) 50%, rgb(242 79 128 / 0.16)); }
+
+  /* ── Filetti rosa (come intorno al logo) ──────────────────── */
+  .filetti { display: flex; align-items: center; gap: 16px; }
+  .filetti::before, .filetti::after { content: ''; flex: 1; height: 1.5px; border-radius: 2px; background: var(--color-petalo); }
+
+  /* ── Cerchi delle icone (cipria, icona a linea --lily) ────── */
+  .cerchio {
+    --size: 60px;
+    display: grid;
+    place-items: center;
+    width: var(--size);
+    height: var(--size);
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: var(--color-cipria);
+    color: var(--color-lily);
+    box-shadow: inset 0 0 0 1px rgb(248 170 198 / 0.35);
+  }
+  .cerchio svg { width: 56%; height: 56%; }
+  .cerchio-sm { --size: 44px; }
+  .cerchio-lg { --size: 76px; }
+  .on-notte .cerchio { background: rgb(242 79 128 / 0.16); color: var(--color-lily-bright); box-shadow: inset 0 0 0 1px rgb(242 79 128 / 0.3); }
+
+  /* ── La riga del listino: il componente simbolo ───────────
+     Cerchio con l'icona · nome (Playfair 700, --lily) e descrizione
+     (Playfair corsivo, --inchiostro) · filetto verticale · orologio e
+     durata. Filetto sottile tra una riga e l'altra. */
+  .listino { display: flex; flex-direction: column; }
+  .riga-listino {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding-block: 16px;
+    color: inherit;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .riga-listino + .riga-listino { border-top: 1px solid rgb(248 170 198 / 0.55); }
+  .riga-listino .cerchio { --size: 52px; }
+  @media (min-width: 640px) {
+    .riga-listino { gap: 18px; }
+    .riga-listino .cerchio { --size: 64px; }
+  }
+  .riga-nome {
+    display: block;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(20px, 2.1vw, 24px);
+    line-height: 1.15;
+    color: var(--color-lily);
+  }
+  .riga-breve {
+    display: block;
+    margin-top: 3px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.35;
+    color: var(--color-inchiostro);
+  }
+  .riga-durata {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    align-self: stretch;
+    padding-left: 12px;
+    border-left: 1px solid var(--color-petalo);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15.5px;
+    white-space: nowrap;
+    color: var(--color-inchiostro);
+  }
+  .riga-durata svg { width: 19px; height: 19px; color: var(--color-lily); }
+  a.riga-listino .riga-nome { transition: color 0.3s ease; }
+  @media (hover: hover) {
+    a.riga-listino:hover .riga-nome { color: var(--color-lily-deep); }
+    a.riga-listino:hover .cerchio { background: var(--color-petalo); }
+  }
+  .cerchio { transition: background-color 0.4s ease; }
+  /* La fascia in fondo al listino. */
+  .fascia-relax {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 4px 10px;
+    padding: 12px 22px;
+    border-radius: 1.5rem;
+    background: var(--color-blush);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    text-align: center;
+    color: var(--color-inchiostro);
+  }
+  .fascia-relax .punto { color: var(--color-lily); }
+
+  /* ── Pillole e chip ───────────────────────────────────────── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    padding: 6px 13px;
+    border-radius: 999px;
+    background-color: var(--color-cipria);
+    color: var(--color-lily-deep);
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.2;
+  }
+  .pill svg { width: 15px; height: 15px; }
+  .pill-latte { background-color: var(--color-latte); border: 1px solid rgb(248 170 198 / 0.55); }
+  .on-notte .pill { background-color: rgb(242 79 128 / 0.16); color: var(--color-petalo); }
+
+  /* Elenco con i petali al posto dei puntini. */
+  .elenco { display: flex; flex-direction: column; gap: 10px; }
+  .elenco > li { position: relative; padding-left: 28px; line-height: 1.45; }
+  .elenco > li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.22em;
+    width: 16px;
+    height: 16px;
+    background: var(--color-lily);
+    -webkit-mask: var(--petalo-icona) center / contain no-repeat;
+    mask: var(--petalo-icona) center / contain no-repeat;
+  }
+  .on-notte .elenco > li::before { background: var(--color-lily-bright); }
+
+  /* Link testuale con la sottolineatura petalo. */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--color-petalo);
+    color: var(--color-lily-deep);
+    font-weight: 650;
+    transition: border-color 0.3s ease, gap 0.3s var(--ease-soft);
+  }
+  @media (hover: hover) { .text-link:hover { border-color: var(--color-lily); gap: 11px; } }
+  .on-notte .text-link { color: var(--color-petalo); border-color: rgb(242 79 128 / 0.6); }
+
+  /* ── Foto: cerchi (come le storie di Instagram) e archi ───── */
+  .foto-cerchio { border-radius: 999px; overflow: hidden; }
+  .foto-arco { border-radius: 999px 999px var(--radius-petalo) var(--radius-petalo); overflow: hidden; }
+  .foto-cerchio img, .foto-arco img { width: 100%; height: 100%; object-fit: cover; }
+  /* Senza foto (non ancora arrivate da Silvia): il cerchio cipria col giglio. */
+  .foto-vuota { display: grid; place-items: center; background: radial-gradient(circle at 50% 40%, var(--color-carta), var(--color-cipria) 75%); }
+
+  /* ── Il giglio a linea (components/brand/Giglio.tsx) ──────── */
+  .giglio { --giglio-fondo: #fff; --giglio-linea: var(--color-grafite); --giglio-antera: #7d7472; display: block; overflow: visible; }
+  .giglio .giglio-petalo { fill: var(--giglio-fondo); stroke: var(--giglio-linea); stroke-width: 1.4; stroke-linejoin: round; }
+  .giglio .giglio-vena { fill: none; stroke: var(--giglio-linea); stroke-width: 0.8; stroke-linecap: round; opacity: 0.7; }
+  .giglio .giglio-stame { fill: none; stroke: var(--giglio-linea); stroke-width: 1; stroke-linecap: round; }
+  .giglio .giglio-antera { fill: var(--giglio-antera); stroke: var(--giglio-linea); stroke-width: 0.7; }
+  .giglio-rosa { --giglio-fondo: var(--color-latte); --giglio-linea: var(--color-petalo); --giglio-antera: var(--color-petalo); }
+  .giglio-trasparente { --giglio-fondo: transparent; }
+  .on-notte .giglio, .giglio-notte { --giglio-fondo: var(--color-notte); --giglio-linea: var(--color-latte); --giglio-antera: #cfc3c0; }
+
+  /* ── Il divisore col loto ─────────────────────────────────── */
+  .divisore { display: flex; justify-content: center; color: var(--color-petalo); }
+  .divisore svg { width: min(260px, 70%); height: auto; }
+  .on-notte .divisore { color: rgb(242 79 128 / 0.7); }
+
+  /* ── Testo lungo (privacy) ───────────────────────────────── */
+  .prose-lily { font-size: 17.5px; line-height: 1.7; color: var(--color-inchiostro); }
+  .prose-lily > * + * { margin-top: 1em; }
+  .prose-lily h2 { margin-top: 2em; font-size: clamp(24px, 2.6vw, 30px); color: var(--color-inchiostro); scroll-margin-top: 96px; }
+  .prose-lily h3 { margin-top: 1.5em; font-size: 20px; }
+  .prose-lily strong { font-weight: 700; }
+  .prose-lily a { color: var(--color-lily-deep); font-weight: 600; text-decoration: underline; text-decoration-color: var(--color-petalo); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .prose-lily a:hover { text-decoration-color: var(--color-lily); }
+  .prose-lily ul { display: flex; flex-direction: column; gap: 0.45em; padding-left: 0; }
+  .prose-lily ul > li { position: relative; padding-left: 1.4em; }
+  .prose-lily ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0.25em;
+    top: 0.62em;
+    width: 0.42em;
+    height: 0.42em;
+    border-radius: 999px;
+    background: var(--color-petalo);
+  }
+  .prose-lily table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .prose-lily th, .prose-lily td { padding: 10px 12px; border-bottom: 1px solid rgb(248 170 198 / 0.5); text-align: left; vertical-align: top; }
+  .prose-lily th { font-weight: 700; }
+}
+
+/* Motivi disegnati (maschere SVG): la sottolineatura a mano, la scintilla,
+   il petalo degli elenchi, la pennellata. */
+:root {
+  --mano: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8c18-6 30 2 46-1s28-6 44-2 20 3 26 0' fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  --scintilla: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5c.8 6.2 3.3 8.7 9.5 9.5-6.2.8-8.7 3.3-9.5 9.5-.8-6.2-3.3-8.7-9.5-9.5 6.2-.8 8.7-3.3 9.5-9.5Z'/%3E%3C/svg%3E");
+  --petalo-icona: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.5c4.6 4.2 6.2 9.6 0 19-6.2-9.4-4.6-14.8 0-19Z'/%3E%3C/svg%3E");
+  --pennello: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 60' preserveAspectRatio='none'%3E%3Cpath d='M7 33C4 21 15 13 36 11c52-5 118-2 182-4 58-2 118-1 152 2 20 2 27 12 25 22-2 11-15 17-34 18-62 3-124 1-186 3-55 2-110 2-143-1C17 49 9 43 7 33Z'/%3E%3Cpath d='M366 13c14-1 26 0 32 3-9 2-21 2-32 1ZM378 47c9 0 15 1 19 3-7 1-14 1-21 0ZM28 49c-9 1-18 0-25-2 7-2 16-2 25-1ZM20 12c-8-1-14 0-18 2 6 1 12 1 18 0Z'/%3E%3C/svg%3E");
+}
+
+/* =====================================================================
+   Movimento «respiro» (passo 4: il motore in src/lib/motion).
+   Qui gli effetti solo CSS del brand: entrate del primo schermo, il
+   bagliore che respira, la luce della candela. Con "riduci movimento"
+   tutto fermo e visibile.
+   ===================================================================== */
+@keyframes intro-up { from { opacity: 0; translate: 0 22px; filter: blur(6px); } to { opacity: 1; translate: 0 0; filter: blur(0); } }
+@keyframes intro-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes respiro { 0%, 100% { scale: 0.9; opacity: 0.55; } 50% { scale: 1.06; opacity: 0.95; } }
+@keyframes tremolio {
+  0%, 100% { opacity: 0.85; scale: 1; }
+  22% { opacity: 0.95; scale: 1.03; }
+  41% { opacity: 0.78; scale: 0.98; }
+  63% { opacity: 1; scale: 1.04; }
+  80% { opacity: 0.82; scale: 0.99; }
+}
+
+/* Il bagliore che respira: un alone rosa dietro l'hero (4 s dentro, 4 s fuori). */
+.alone { position: absolute; z-index: -1; pointer-events: none; border-radius: 999px; aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgb(248 170 198 / 0.62), rgb(252 224 233 / 0.35) 55%, rgb(252 224 233 / 0)); }
+/* La luce della candela (Lily Magic): tremola appena. */
+.luce-candela { position: absolute; z-index: -1; pointer-events: none; border-radius: 999px; aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgb(246 194 139 / 0.5), rgb(252 226 188 / 0.16) 55%, rgb(252 226 188 / 0)); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro { animation: intro-up 1.1s var(--ease-soft) both; animation-delay: var(--d, 0s); }
+  .intro-fade { animation: intro-fade 1.2s ease both; animation-delay: var(--d, 0s); }
+  .alone { animation: respiro 8s var(--ease-breath) infinite; }
+  .luce-candela { animation: tremolio 3.2s ease-in-out infinite; }
+}
+
+/* =====================================================================
+   Konsta: le parti "app" nei colori del sito (passi 3 e 6)
+   ===================================================================== */
+.k-ios .k-segmented-strong-button-active { font-weight: 650; }
+
+/* Chi chiede meno trasparenze: superfici piene, stessi bordi e ombre. */
+@media (prefers-reduced-transparency: reduce) {
+  .vetro, .icon-btn { background-color: var(--color-latte); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
