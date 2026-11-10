@@ -101,6 +101,21 @@ export function IconaTrattamentoSvg({ icona, ...props }: IconProps & { icona: Ic
 
 /* ── Con la stessa mano ─────────────────────────────────────────────── */
 
+/** Il giglio in piccolo (header, icone): la versione semplice del giglio del logo. */
+export function IconaGiglio(props: IconProps) {
+  return (
+    <Linea {...props}>
+      <path d="M12 2.6c2 2.5 2.3 6.4 0 10-2.3-3.6-2-7.5 0-10Z" />
+      <path d="M11.5 12.7c-3.4.3-6.9-1.5-9.3-4.6 1.5-.5 3-.3 4.4.3 2.3 1 4 2.5 4.9 4.3Z" />
+      <path d="M12.5 12.7c3.4.3 6.9-1.5 9.3-4.6-1.5-.5-3-.3-4.4.3-2.3 1-4 2.5-4.9 4.3Z" />
+      <path d="M11.6 13.4c-2.7 1.4-4.8 3.8-5.5 6.9 3-.7 5.1-3 5.5-6.9Z" />
+      <path d="M12.4 13.4c2.7 1.4 4.8 3.8 5.5 6.9-3-.7-5.1-3-5.5-6.9Z" />
+      <path d="M12 12.8v8.4" />
+    </Linea>
+  );
+}
+
+
 /** L'orologio delle durate. */
 export function IconaOrologio(props: IconProps) {
   return (

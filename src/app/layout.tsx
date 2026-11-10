@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { fontVariables } from './fonts';
+import { AppProvider } from '@/components/app/AppProvider';
 import { OWNER_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         {/* Header, piè di pagina e barra in basso stanno nei layout dei gruppi:
             (sito) per le pagine del sito, (campagne) per il link in bio. */}
-        {children}
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );

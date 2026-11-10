@@ -601,10 +601,40 @@
   .luce-candela { animation: tremolio 3.2s ease-in-out infinite; }
 }
 
+/* Header che si toglie di mezzo leggendo verso il basso (SiteHeader.tsx). */
+.site-header {
+  transition: transform 0.5s var(--ease-soft), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+.site-header.is-hidden { transform: translateY(-100%); box-shadow: none; }
+
+/* Il wordmark del footer (data-wordmark): ogni riga è la maschera delle sue
+   lettere; la coda della «y» di Damion scende molto sotto la riga. */
+.foot-line { display: block; overflow: hidden; padding: 0.06em 0.1em 0.32em; margin: -0.06em -0.1em 0; }
+.foot-char { display: inline-block; }
+
 /* =====================================================================
-   Konsta: le parti "app" nei colori del sito (passi 3 e 6)
+   Konsta: le parti "app" nei colori del sito
    ===================================================================== */
 .k-ios .k-segmented-strong-button-active { font-weight: 650; }
+/* La barra in basso: "Prenota" al centro, in evidenza (pillola rosa). */
+.tab-prenota-icona {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-lily);
+  color: #fff;
+  box-shadow: 0 8px 16px -8px rgb(224 11 87 / 0.65);
+}
+/* Il foglio dal basso (menu, richieste) e il pannello laterale su desktop. */
+.flow-sheet {
+  background: var(--color-latte) !important;
+  border-top-left-radius: 1.75rem !important;
+  border-top-right-radius: 1.75rem !important;
+  box-shadow: 0 -10px 40px rgb(34 24 20 / 0.28) !important;
+}
+.flow-sheet .react-modal-sheet-drag-indicator { background-color: rgb(42 27 23 / 0.2) !important; }
 
 /* Chi chiede meno trasparenze: superfici piene, stessi bordi e ombre. */
 @media (prefers-reduced-transparency: reduce) {
