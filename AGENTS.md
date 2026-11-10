@@ -69,8 +69,10 @@ git clone --depth 1 https://github.com/FrancescoCorbosiero/ireandlunaslife ../ri
   `BOZZA` accanto al testo e tieni l'elenco in `docs/testi-da-validare.md`.
 - **Una fonte per ogni dato**: contatti, link e stato delle prenotazioni in
   `src/lib/site.ts`; i trattamenti (nome, descrizione, durata, prezzo facoltativo,
-  icona) in `src/lib/trattamenti.ts`. Pagine, flussi, email e dati strutturati
-  leggono da lì.
+  icona) in `src/lib/trattamenti.ts`; le immagini in `src/lib/immagini.ts`; gli
+  articoli del blog, un file Markdown ciascuno, in `src/content/blog` (quelli di
+  prova con `esempio: true`; il blog si accende con `BLOG_ONLINE` in `site.ts`).
+  Pagine, flussi, email e dati strutturati leggono da lì.
 - **Stile**: usa token e componenti del Brand System in `src/app/globals.css`
   prima di inventare classi nuove. Niente sticker, rotazioni, ombre "a timbro".
 - **Konsta** solo nelle parti "app" (flussi di richiesta, barra in basso, fogli);
@@ -84,7 +86,9 @@ git clone --depth 1 https://github.com/FrancescoCorbosiero/ireandlunaslife ../ri
   aggiungere JavaScript a tutte le pagine, misura (metodo in `docs/decisioni.md`).
 - **Privacy**: dati minimi nei moduli, niente dati sulla salute, codice fiscale
   solo se e quando serve; niente embed di terze parti (Instagram, Maps) e niente
-  cookie di profilazione.
+  cookie di profilazione. L'unica eccezione è la mappa di Contatti
+  (OpenStreetMap con Leaflet), che si carica solo dopo un clic: prima, nessuna
+  richiesta esterna (`components/contatti/MappaStudio.tsx`).
 - **Segreti**: mai `.env` o chiavi nel repository.
 - **Prima di consegnare**: `npm run check` e `npm run build` puliti, prova a
   390×844 con e senza "riduci movimento".

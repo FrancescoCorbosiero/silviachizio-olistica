@@ -3,10 +3,12 @@ import { ArrowIcon, InstagramIcon, WhatsAppIcon } from '@/components/icons';
 import JsonLd from '@/components/seo/JsonLd';
 import BottoniRichiesta from '@/components/ui/BottoniRichiesta';
 import Chiusura from '@/components/ui/Chiusura';
+import MappaStudio from '@/components/contatti/MappaStudio';
 import Esempio from '@/components/ui/Esempio';
 import Scena from '@/components/ui/Scena';
 import SectionHead from '@/components/ui/SectionHead';
-import { COME_ARRIVARE, EMAIL_PUBBLICA, INDIRIZZO, MAPS, ORARI_STUDIO, TELEFONO, whatsapp } from '@/lib/anteprima';
+import { COME_ARRIVARE, EMAIL_PUBBLICA, INDIRIZZO, MAPS, ORARI_STUDIO, POSIZIONE, TELEFONO, whatsapp } from '@/lib/anteprima';
+import { IMMAGINI } from '@/lib/immagini';
 import { breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { IG_DM_URL, IG_HANDLE, IG_URL, THREADS_URL, ZONA } from '@/lib/site';
 
@@ -27,6 +29,11 @@ type Canale = {
 };
 
 const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
+
+/** Indicazioni stradali fino allo studio (Google Maps, si apre fuori dal sito). */
+const indicazioni = ({ lat, lng }: { lat: number; lng: number }) => `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+/** Lo stesso punto su OpenStreetMap. */
+const suOsm = ({ lat, lng }: { lat: number; lng: number }) => `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=17/${lat}/${lng}`;
 
 /** I canali: quelli veri e, in anteprima, quelli che aspettano il dato (col segno). */
 const canali: Canale[] = [
@@ -102,6 +109,38 @@ export default function ContattiPage() {
           </div>
         </div>
       </section>
+
+      {POSIZIONE && (
+        <section className="mappa-sezione" aria-labelledby="mappa-titolo">
+          <MappaStudio
+            lat={POSIZIONE.valore.lat}
+            lng={POSIZIONE.valore.lng}
+            nome={`Lo studio di Lily a ${ZONA}`}
+            sfondo={IMMAGINI.montebelluna}
+          />
+          <div className="mappa-scheda-posto">
+            <div className="wrap">
+              <div className="mappa-scheda on-notte">
+                <p className="eyebrow">La mappa</p>
+                {/* BOZZA */}
+                <h2 id="mappa-titolo" className="display-md mt-4">
+                  Ci vediamo <span className="script">qui</span>
+                </h2>
+                <p className="mt-4 font-serif text-[21px] font-bold leading-snug">{INDIRIZZO ? INDIRIZZO.valore : ZONA}</p>
+                <div className="mt-6 flex flex-col items-start gap-3">
+                  <a className="btn btn-latte btn-sm" href={indicazioni(POSIZIONE.valore)} target="_blank" rel="noopener">
+                    Indicazioni stradali <ArrowIcon size={14} />
+                  </a>
+                  <a className="text-link" href={suOsm(POSIZIONE.valore)} target="_blank" rel="noopener">
+                    Apri su OpenStreetMap <ArrowIcon size={14} />
+                  </a>
+                </div>
+                {POSIZIONE.esempio && <Esempio className="mt-5" cosa="la posizione esatta dello studio" />}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="section fondo-vino on-notte" aria-labelledby="canali-titolo">
         <div className="wrap grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">

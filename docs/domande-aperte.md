@@ -12,7 +12,7 @@ si aggiorna il dato e si toglie la domanda da qui.
 
 ## L'attività
 
-- [ ] ★ Indirizzo dello studio. "Montebelluna / Treviso" è un posto solo o due? (contatti, footer, dati per Google)
+- [ ] ★ Indirizzo dello studio. "Montebelluna / Treviso" è un posto solo o due? (contatti, footer, dati per Google, la mappa: oggi il segno è d'esempio, in centro)
 - [ ] ★ Giorni e orari in cui ricevi. (contatti, dati per Google)
 - [ ] ★ L'email a cui devono arrivare le richieste. (invio delle richieste)
 - [ ] Vuoi pubblicare un numero di telefono o WhatsApp? (bottoni WhatsApp e chiamata)
@@ -47,6 +47,7 @@ si aggiorna il dato e si toglie la domanda da qui.
 - [ ] Perché "Lily"? (chi sono)
 - [ ] Possiamo usare alcune foto del tuo profilo (arrampicata, viaggi, creatività)? (chi sono)
 - [ ] Vuoi che il sito citi i tuoi follower? (home)
+- [ ] Il blog: ti va di scriverci? Ogni quanto, e su quali temi (oggi: poesia e libri, arrampicata, fotografia, trattamenti, letture)? Gli articoli di oggi sono di prova. (blog)
 
 ## Materiali
 

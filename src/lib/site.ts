@@ -159,15 +159,36 @@ export const LETTURA_HREF = '/letture#richiesta';
 /** Il link da mettere nella bio di Instagram al posto del Google Form. */
 export const BIO_HREF = '/bio?utm_source=instagram&utm_medium=bio';
 
+/* ── Anteprima e blog ───────────────────────────────────────────────── */
+
+const forzaAnteprima = process.env.NEXT_PUBLIC_ANTEPRIMA;
+/**
+ * L'anteprima (src/lib/anteprima.ts): ogni blocco compare, anche senza i
+ * dati di Silvia, con un esempio segnato. Accesa in sviluppo e in `npm run
+ * anteprima`; spenta nella build di produzione. NEXT_PUBLIC_ANTEPRIMA=1 o 0
+ * la forza.
+ */
+export const ANTEPRIMA = forzaAnteprima ? forzaAnteprima === '1' : process.env.NODE_ENV === 'development';
+
+/**
+ * Il blog (src/content/blog): online quando c'è almeno un articolo vero
+ * (senza `esempio: true`). Si accende qui, a mano, insieme al primo
+ * articolo; il build avvisa se gli articoli veri ci sono e il blog è
+ * spento. In anteprima il blog c'è sempre, con gli articoli di prova.
+ */
+export const BLOG_ONLINE = false;
+export const HAS_BLOG = BLOG_ONLINE || ANTEPRIMA;
+
 /* ── Navigazione e dati legali ──────────────────────────────────────── */
 
-/** Voci principali (header desktop, menu, piè di pagina). */
-export const NAV = [
+/** Voci principali (header desktop, menu, piè di pagina). Il blog solo quando c'è. */
+export const NAV: readonly { href: string; label: string }[] = [
   { href: '/trattamenti', label: 'Trattamenti' },
   { href: '/letture', label: 'Letture' },
   { href: '/chi-sono', label: 'Chi sono' },
+  ...(HAS_BLOG ? [{ href: '/blog', label: 'Blog' }] : []),
   { href: '/contatti', label: 'Contatti' },
-] as const;
+];
 
 export const PRIVACY_HREF = '/privacy';
 

@@ -111,6 +111,15 @@ export default function PrivacyPage() {
               contengono il tuo indirizzo IP né il contenuto delle richieste.
             </p>
 
+            <h3>La mappa</h3>
+            <p>
+              Nella pagina Contatti la mappa non si carica da sola. Se premi «Mostra la mappa», il tuo browser scarica le immagini
+              della mappa dai server di OpenStreetMap (OpenStreetMap Foundation, nel Regno Unito), che ricevono il tuo indirizzo IP
+              e i dati tecnici della connessione, come per qualsiasi sito, e li trattano secondo la propria informativa. Io non
+              ricevo nulla. Se non premi il bottone, nessun dato parte verso OpenStreetMap. I link «Indicazioni stradali» e «Apri su
+              OpenStreetMap» portano fuori dal sito, su Google Maps e su OpenStreetMap.
+            </p>
+
             <h2>Cosa è obbligatorio</h2>
             <p>
               Per un trattamento: il trattamento (o &quot;consigliami tu&quot;), almeno una fascia, il nome e il telefono. Per una
@@ -137,7 +146,9 @@ export default function PrivacyPage() {
             <p>
               Amazon appartiene a un gruppo con sede negli Stati Uniti. Le email partono da un centro dati europeo; eventuali
               trasferimenti fuori dall&apos;Unione europea sono coperti dal Data Privacy Framework UE-USA e dalle clausole
-              contrattuali standard approvate dalla Commissione europea.
+              contrattuali standard approvate dalla Commissione europea. La mappa, solo se scegli di caricarla, arriva da
+              OpenStreetMap, nel Regno Unito: per il Regno Unito la Commissione europea ha riconosciuto un livello di protezione
+              adeguato.
             </p>
 
             <h2>Per quanto tempo</h2>
@@ -197,7 +208,11 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>la pagina da cui sei entrato e la campagna</strong> (<code>lily:arrivo</code>): mi arriva solo se invii
-                una richiesta, come descritto sopra.
+                una richiesta, come descritto sopra;
+              </li>
+              <li>
+                <strong>la scelta di vedere la mappa</strong> (<code>lily:mappa</code>): se l&apos;hai già caricata, tornando
+                su Contatti la ritrovi senza premere di nuovo il bottone.
               </li>
             </ul>
             <p>

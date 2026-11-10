@@ -205,7 +205,139 @@ function lino(w, h, seed) {
   return c;
 }
 
-window.genera = (nome, w, h, variante) => {
+/* 6. Montagne: creste una dietro l'altra nella luce del tramonto (l'arrampicata). */
+function montagne(w, h, seed) {
+  const r = rng(seed); const S = Math.max(w, h) / 2000; const c = canvas(w, h), ctx = c.getContext('2d');
+  const cielo = ctx.createLinearGradient(0, 0, 0, h);
+  cielo.addColorStop(0, '#f6d3b8'); cielo.addColorStop(0.45, '#f2b7a8'); cielo.addColorStop(0.75, '#e79aa5'); cielo.addColorStop(1, '#c86d86');
+  ctx.fillStyle = cielo; ctx.fillRect(0, 0, w, h);
+  // il sole basso, morbido
+  const sx = w * 0.68, sy = h * 0.5, sr = Math.min(w, h) * 0.09;
+  const alone = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr * 6);
+  alone.addColorStop(0, 'rgba(255,240,220,0.9)'); alone.addColorStop(0.18, 'rgba(255,226,200,0.5)'); alone.addColorStop(1, 'rgba(255,226,200,0)');
+  ctx.fillStyle = alone; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = 'rgba(255,246,236,0.95)'; ctx.beginPath(); ctx.arc(sx, sy, sr, 0, 6.283); ctx.fill();
+  // creste: rumore a punto medio, dal fondo (chiaro) al primo piano (vino)
+  const cresta = (base, ampiezza, rugosita) => {
+    const n = 257; const pts = new Array(n).fill(0);
+    pts[0] = (r() - 0.5) * ampiezza; pts[n - 1] = (r() - 0.5) * ampiezza;
+    for (let passo = n - 1, a = ampiezza; passo > 1; passo >>= 1, a *= rugosita)
+      for (let i = passo >> 1; i < n; i += passo) pts[i] = (pts[i - (passo >> 1)] + pts[i + (passo >> 1)]) / 2 + (r() - 0.5) * a;
+    return pts.map((v, i) => [(i / (n - 1)) * w, base + v]);
+  };
+  const strati = [
+    ['#d98a98', 0.5, 0.42, 0.58],
+    ['#b8607a', 0.56, 0.36, 0.56],
+    ['#8e3a5a', 0.64, 0.32, 0.55],
+    ['#64223f', 0.74, 0.3, 0.52],
+    ['#3a1424', 0.86, 0.26, 0.5],
+  ];
+  strati.forEach(([col, base, amp, rug], i) => {
+    const pts = cresta(h * base, h * amp, rug);
+    ctx.beginPath(); ctx.moveTo(0, h);
+    pts.forEach(([x, y]) => ctx.lineTo(x, y));
+    ctx.lineTo(w, h); ctx.closePath();
+    ctx.fillStyle = col; ctx.fill();
+    // foschia tra uno strato e l'altro
+    const f = ctx.createLinearGradient(0, h * (base - 0.1), 0, h);
+    f.addColorStop(0, `rgba(246,200,190,${0.32 - i * 0.05})`); f.addColorStop(1, 'rgba(246,200,190,0)');
+    ctx.fillStyle = f; ctx.fillRect(0, 0, w, h);
+  });
+  grana(ctx, w, h, 7, seed + 9);
+  return c;
+}
+
+/* 7. Pagine: un libro di poesie aperto, visto dall'alto, nella luce calda. */
+function pagine(w, h, seed) {
+  const r = rng(seed); const S = Math.max(w, h) / 2000; const c = canvas(w, h), ctx = c.getContext('2d');
+  ctx.fillStyle = '#5a2a33'; ctx.fillRect(0, 0, w, h);
+  // il libro: due pagine leggermente bombate
+  const bx = w * 0.12, by = h * 0.08, bw = w * 0.76, bh = h * 0.92;
+  const carta = ctx.createLinearGradient(bx, 0, bx + bw, 0);
+  carta.addColorStop(0, '#efe0d2'); carta.addColorStop(0.47, '#f6ebe0'); carta.addColorStop(0.5, '#cdb5a6'); carta.addColorStop(0.53, '#f6ebe0'); carta.addColorStop(1, '#ecdccd');
+  ctx.save(); ctx.shadowColor = 'rgba(20,6,10,0.5)'; ctx.shadowBlur = 60 * S; ctx.shadowOffsetY = 20 * S;
+  ctx.fillStyle = carta; ctx.fillRect(bx, by, bw, bh); ctx.restore();
+  // la piega al centro
+  const piega = ctx.createLinearGradient(bx + bw * 0.44, 0, bx + bw * 0.56, 0);
+  piega.addColorStop(0, 'rgba(90,50,50,0)'); piega.addColorStop(0.5, 'rgba(90,50,50,0.28)'); piega.addColorStop(1, 'rgba(90,50,50,0)');
+  ctx.fillStyle = piega; ctx.fillRect(bx, by, bw, bh);
+  // le strofe: righe brevi, a sinistra, a gruppi
+  ctx.fillStyle = 'rgba(60,36,38,0.55)';
+  const pagina = (x0) => {
+    let y = by + bh * 0.12; const lh = 26 * S; const x = x0 + bw * 0.07;
+    // il titolo
+    ctx.fillRect(x, y, bw * (0.12 + r() * 0.08), 9 * S); y += lh * 2.2;
+    while (y < by + bh * 0.9) {
+      const versi = 3 + Math.floor(r() * 3);
+      for (let v = 0; v < versi && y < by + bh * 0.9; v++) {
+        let xx = x; const fine = x + bw * (0.16 + r() * 0.2);
+        while (xx < fine) { const parola = (14 + r() * 46) * S; ctx.fillRect(xx, y, Math.min(parola, fine - xx), 5.5 * S); xx += parola + 9 * S; }
+        y += lh;
+      }
+      y += lh * 0.9;
+    }
+  };
+  ctx.filter = `blur(${1.1 * S}px)`; pagina(bx); pagina(bx + bw * 0.5); ctx.filter = 'none';
+  // un giglio pressato tra le pagine, e la sua ombra
+  ctx.save(); ctx.filter = `blur(${10 * S}px)`; ctx.fillStyle = 'rgba(40,10,20,0.25)'; ctx.strokeStyle = 'rgba(40,10,20,0.25)';
+  giglioSagoma(ctx, bx + bw * 0.8, by + bh * 0.98, bh * 0.5, r, -0.5); ctx.restore();
+  ctx.save(); ctx.fillStyle = 'rgba(214,92,128,0.85)'; ctx.strokeStyle = 'rgba(160,154,93,0.9)';
+  giglioSagoma(ctx, bx + bw * 0.77, by + bh * 0.95, bh * 0.48, r, -0.5); ctx.restore();
+  // la luce calda da sinistra
+  const luce = ctx.createLinearGradient(0, 0, w, h);
+  luce.addColorStop(0, 'rgba(255,214,170,0.28)'); luce.addColorStop(0.6, 'rgba(255,214,170,0)'); luce.addColorStop(1, 'rgba(40,10,20,0.35)');
+  ctx.fillStyle = luce; ctx.fillRect(0, 0, w, h);
+  // la sera: la lampada illumina il centro, il resto scende nel buio
+  const sera = ctx.createRadialGradient(w * 0.62, h * 0.42, Math.min(w, h) * 0.12, w * 0.5, h * 0.5, Math.max(w, h) * 0.75);
+  sera.addColorStop(0, 'rgba(40,12,20,0)'); sera.addColorStop(1, 'rgba(40,12,20,0.62)');
+  ctx.fillStyle = sera; ctx.fillRect(0, 0, w, h);
+  grana(ctx, w, h, 8, seed + 4);
+  return c;
+}
+
+/* 8. Pellicola: tre fotogrammi su una striscia di negativo (la fotografia). */
+async function pellicola(w, h, seed, fotogrammi) {
+  const S = Math.max(w, h) / 2000; const c = canvas(w, h), ctx = c.getContext('2d');
+  ctx.fillStyle = '#1e1513'; ctx.fillRect(0, 0, w, h);
+  const imgs = await Promise.all(fotogrammi.map((src) => new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.src = src; })));
+  const verticale = h > w;
+  const n = imgs.length;
+  // la striscia
+  const sh = verticale ? h * 0.92 : h * 0.62, sw = verticale ? w * 0.62 : w * 1.1;
+  const sx = (w - sw) / 2, sy = (h - sh) / 2;
+  ctx.fillStyle = '#3b2216'; ctx.fillRect(sx, sy, sw, sh);
+  // i fori
+  ctx.fillStyle = '#1e1513';
+  const foro = 18 * S, passo = 46 * S;
+  if (verticale) {
+    for (let y = sy + 20 * S; y < sy + sh - 20 * S; y += passo) { ctx.fillRect(sx + 18 * S, y, foro, foro * 1.4); ctx.fillRect(sx + sw - 18 * S - foro, y, foro, foro * 1.4); }
+  } else {
+    for (let x = sx + 10 * S; x < sx + sw; x += passo) { ctx.fillRect(x, sy + 18 * S, foro * 1.4, foro); ctx.fillRect(x, sy + sh - 18 * S - foro, foro * 1.4, foro); }
+  }
+  // i fotogrammi
+  const m = 70 * S, gap = 26 * S;
+  for (let k = 0; k < n; k++) {
+    let fx, fy, fw, fh;
+    if (verticale) { fw = sw - 2 * m; fh = (sh - 2 * 40 * S - gap * (n - 1)) / n; fx = sx + m; fy = sy + 40 * S + k * (fh + gap); }
+    else { fh = sh - 2 * m; fw = (sw - 2 * 60 * S - gap * (n - 1)) / n; fy = sy + m; fx = sx + 60 * S + k * (fw + gap); }
+    const im = imgs[k]; const ar = fw / fh; let iw = im.width, ih = im.width / ar; if (ih > im.height) { ih = im.height; iw = ih * ar; }
+    ctx.drawImage(im, (im.width - iw) / 2, (im.height - ih) / 2, iw, ih, fx, fy, fw, fh);
+    // i numeri del fotogramma sul bordo
+    ctx.fillStyle = 'rgba(246,194,139,0.75)'; ctx.font = `${20 * S}px sans-serif`;
+    if (verticale) ctx.fillText(String(12 + k), sx + 48 * S, fy + fh - 8 * S); else ctx.fillText(`${12 + k}  ▸`, fx + 4 * S, sy + sh - 44 * S);
+  }
+  // la luce che filtra dal bordo, come nei rullini
+  const fuga = ctx.createLinearGradient(0, 0, w, 0);
+  fuga.addColorStop(0, 'rgba(255,120,60,0.35)'); fuga.addColorStop(0.25, 'rgba(255,120,60,0)'); fuga.addColorStop(0.85, 'rgba(240,60,110,0)'); fuga.addColorStop(1, 'rgba(240,60,110,0.3)');
+  ctx.fillStyle = fuga; ctx.fillRect(0, 0, w, h);
+  grana(ctx, w, h, 10, seed + 6);
+  return c;
+}
+
+window.genera = async (nome, w, h, variante, extra) => {
+  if (nome === 'pellicola') return (await pellicola(w, h, 61, extra)).toDataURL('image/webp', 0.8);
+  if (nome === 'montagne') return montagne(w, h, 71).toDataURL('image/webp', 0.8);
+  if (nome === 'pagine') return pagine(w, h, 81).toDataURL('image/webp', 0.8);
   const f = { ombre: () => ombre(w, h, 11, variante === 'specchio'), seta: () => seta(w, h, 21, variante === 'scuro'), candela: () => candela(w, h, 31), velo: () => velo(w, h, 41), lino: () => lino(w, h, 51) }[nome];
   return f().toDataURL('image/webp', 0.8);
 };

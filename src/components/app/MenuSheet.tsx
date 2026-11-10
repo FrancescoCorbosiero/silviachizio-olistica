@@ -3,13 +3,13 @@
 import { NextLinkTag } from '@/lib/konsta';
 import { Sheet } from 'react-modal-sheet';
 import { BlockTitle, List, ListItem } from 'konsta/react';
-import { House, Mail, MapPin, MessageCircleHeart, Phone, UserRound } from 'lucide-react';
+import { BookOpen, House, Mail, MapPin, MessageCircleHeart, Phone, UserRound } from 'lucide-react';
 import { IconaLoto, IconaScintilla, InstagramIcon, WhatsAppIcon } from '@/components/icons';
 import { useReducedMotion } from '@/lib/hooks';
 import { etichetta, RICHIESTE } from '@/lib/richieste';
 import Esempio from '@/components/ui/Esempio';
 import { EMAIL_PUBBLICA, TELEFONO, whatsapp } from '@/lib/anteprima';
-import { IG_DM_URL, IG_HANDLE, IG_URL } from '@/lib/site';
+import { HAS_BLOG, IG_DM_URL, IG_HANDLE, IG_URL } from '@/lib/site';
 
 const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
 
@@ -20,8 +20,9 @@ const PAGES = [
   { href: '/trattamenti', title: 'Trattamenti', subtitle: 'Il listino: quattro esperienze di benessere', icon: IconaLoto },
   { href: '/letture', title: 'Letture', subtitle: 'Letture intuitive personalizzate, a distanza', icon: IconaScintilla },
   { href: '/chi-sono', title: 'Chi sono', subtitle: 'Silvia, da Montebelluna', icon: UserRound },
+  ...(HAS_BLOG ? [{ href: '/blog', title: 'Blog', subtitle: 'Poesia, roccia, luce e benessere', icon: BookOpen }] : []),
   { href: '/contatti', title: 'Contatti', subtitle: 'Dove sono e come scrivermi', icon: MapPin },
-] as const;
+];
 
 const media = (Icon: React.ComponentType<{ size?: number; strokeWidth?: number; 'aria-hidden'?: boolean }>, tone = 'bg-cipria text-lily-deep') => (
   <span className={`grid h-9 w-9 place-items-center rounded-full ${tone}`}>

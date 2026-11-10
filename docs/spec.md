@@ -15,12 +15,17 @@ Struttura e blocchi sono una **proposta** costruita sul materiale che c'è (vedi
 | `/letture` | Letture intuitive personalizzate, con la richiesta in pagina (`#richiesta`) |
 | `/prenota` | La richiesta di un trattamento in pagina (`#richiesta`) |
 | `/chi-sono` | Silvia |
-| `/contatti` | Dove si trova lo studio, orari, canali |
+| `/contatti` | Dove si trova lo studio, la mappa, orari, canali |
+| `/blog` | Il blog: articolo in evidenza e indice con i temi (solo quando ci sono articoli; in anteprima con quelli di prova) |
+| `/blog/[slug]` | Un articolo (Markdown in `src/content/blog`) |
 | `/privacy` | Informativa privacy e cookie |
 | `/bio` | Pagina per il link in bio di Instagram, senza menu (`noindex`) |
 | `/stile` | Tutti i componenti del Brand System, per rivederli con Silvia (`noindex`, fuori dalla sitemap) |
 
-Niente blog in fase 1 (nessun contenuto da pubblicare: Silvia scrive su Instagram).
+Il blog c'è da novembre 2026 (decisioni.md, "Il blog"): un file Markdown per
+articolo in `src/content/blog`, cinque temi (Poesia e libri, Arrampicata,
+Fotografia, Trattamenti, Letture). Per ora solo articoli di prova, che compaiono
+in anteprima; online va con il primo articolo vero di Silvia.
 
 ## Elementi comuni
 
@@ -72,7 +77,8 @@ Niente blog in fase 1 (nessun contenuto da pubblicare: Silvia scrive su Instagra
 9. **Le letture**: un'anteprima con la chat che si scrive da sola (`data-chat`) e
    il link a `/letture`.
 10. **Instagram**: scheda statica del profilo (foto, @silvia_chizio, "Seguimi").
-   Niente embed.
+   Niente embed. Subito dopo, **Dal blog**: gli ultimi tre articoli (solo
+   quando il blog c'è).
 11. **Domande frequenti** (accordion morbido), solo con risposte vere.
 12. **Chiusura**: le due richieste; il giglio che spunta dal fondo della sezione
     (`data-peek`); su desktop un badge rotondo "Prenota" attirato dal puntatore
@@ -135,9 +141,24 @@ canali (messaggio su Instagram, email, WhatsApp se c'è).
 ### Contatti `/contatti`
 
 Montebelluna dall'alto nella testata. Dove si trova lo studio (indirizzo, link
-"Apri in Maps"), giorni e orari, come arrivare. I canali: messaggio diretto
+"Apri in Maps"), giorni e orari, come arrivare. **La mappa**: una mappa vera
+(OpenStreetMap con Leaflet) a tutta larghezza, con il segno del giglio e la scheda
+dello studio (indirizzo, indicazioni stradali); si carica solo dopo il clic su
+«Mostra la mappa», prima c'è la foto di Montebelluna. Compare con la posizione
+dello studio (`STUDIO.geo`); in anteprima con il centro di Montebelluna. I canali: messaggio diretto
 su Instagram (`https://ig.me/m/silvia_chizio`), email, WhatsApp e telefono se
 Silvia li vuole pubblicare. Le due richieste.
+
+### Blog `/blog` e `/blog/[slug]`
+
+L'indice: la testata in scena, l'articolo in evidenza (l'arco e il titolo
+grande), tutti gli articoli con i temi come filtro, il link a Instagram, la
+chiusura. L'articolo: la copertina in scena con tema, minuti di lettura e data,
+il testo con il capolettera, la firma, "condividi" (il foglio di sistema o il
+link copiato, e WhatsApp come link), gli altri articoli, la chiusura. Le
+copertine sono immagini di `src/lib/immagini.ts`. Gli articoli di prova
+(`esempio: true`) portano il segno «Esempio» e restano fuori da sitemap e dati
+strutturati.
 
 ### Link in bio `/bio`
 

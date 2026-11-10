@@ -70,6 +70,20 @@ qui. Quando un testo è approvato (o riscritto da lei) si toglie il commento
 | Link in bio | «Sono Silvia: trattamenti benessere in studio a Montebelluna (TV) e letture intuitive a distanza.» | |
 | Immagini per i social (`scripts/immagini.cjs`) | i titoli e i sottotitoli di ogni pagina | si rigenerano con lo script |
 
+## Blog e mappa
+
+| Dove | Testo | Nota |
+|---|---|---|
+| Blog, testata | «Pagine di Lily» · «Poesie e libri, arrampicate, fotografie; e quello che succede nello studio e nelle letture. Piccole cose, scritte piano.» | |
+| Blog, indice | «Scegli un tema» · «Ogni giorno racconto qualcosa anche su Instagram» | |
+| Blog, chiusure | «Dalle pagine allo studio» (indice) · «Un momento per te» (articolo) · «Un trattamento a Montebelluna o una lettura a distanza: ti rispondo io, di persona.» | |
+| Blog, articolo | «Ti è piaciuto? Condividilo» · «Continua a leggere — Altre pagine» | |
+| Home, dal blog | «Dal blog» · «Poesia, roccia e luce» | |
+| Menu, sotto Blog | «Poesia, roccia, luce e benessere» | |
+| Gli articoli di prova (`src/content/blog`) | «Quindici minuti solo per te» (Trattamenti) · «Una poesia prima di dormire» (Poesia e libri) · «Respirare in parete» (Arrampicata) · «La luce delle cinque del pomeriggio» (Fotografia) · «Cos'è una lettura intuitiva» (Letture) | tutti di prova: da sostituire con articoli veri di Silvia, o da riscrivere con lei; usano solo fatti che il sito già dice (listino, form delle letture, disclaimer) |
+| Contatti, la mappa | «Ci vediamo qui» · «La mappa arriva da OpenStreetMap e si carica solo se me lo chiedi: prima, il sito non manda niente a nessuno.» · «Tocca per spostare la mappa» | |
+| Privacy, la mappa | il paragrafo «La mappa» e la voce `lily:mappa` nella memoria del browser | da rileggere con il resto dell'informativa |
+
 ## Le richieste
 
 I flussi in `src/components/flows/`, le email in `src/lib/emails.ts`, la pagina `/prenota`.

@@ -16,6 +16,7 @@
 import { FOTO_STESA as STESA, FOTO_TRATTAMENTI, GALLERIA_STUDIO as GALLERIA, type NomeImmagine } from './immagini';
 import { orarioDisplay } from './orari';
 import {
+  ANTEPRIMA,
   EMAIL,
   HAS_EMAIL,
   HAS_INDIRIZZO,
@@ -33,8 +34,7 @@ import {
 } from './site';
 import { formatPrezzo, LETTURA, PRIMA_DI_VENIRE, type TrattamentoSlug } from './trattamenti';
 
-const forza = process.env.NEXT_PUBLIC_ANTEPRIMA;
-export const ANTEPRIMA = forza ? forza === '1' : process.env.NODE_ENV === 'development';
+export { ANTEPRIMA };
 
 /** Un dato da mostrare: quello vero, oppure (solo in anteprima) quello d'esempio. */
 export type Dato<T> = { valore: T; esempio: boolean };
@@ -58,6 +58,8 @@ export const EMAIL_PUBBLICA = dato({ href: `mailto:${EMAIL}`, testo: EMAIL }, HA
 
 export const INDIRIZZO = dato(INDIRIZZO_DISPLAY, HAS_INDIRIZZO, 'Via Esempio 1, 31044 Montebelluna (TV)');
 export const MAPS = dato(STUDIO.mapsUrl, STUDIO.mapsUrl !== '', NESSUNO);
+/** Dove sta lo studio sulla mappa (STUDIO.geo); in anteprima, il centro di Montebelluna. */
+export const POSIZIONE = dato(STUDIO.geo ?? { lat: 0, lng: 0 }, STUDIO.geo !== null, { lat: 45.7757, lng: 12.0436 });
 export const COME_ARRIVARE = dato(
   STUDIO.comeArrivare,
   STUDIO.comeArrivare !== '',

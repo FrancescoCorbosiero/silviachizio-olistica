@@ -297,3 +297,23 @@ un'anteprima, deve mostrare tutto. Cosa cambia:
   `.righe` e `.colonne-filetto` (impaginazione a filetti), `.riga-link`,
   `.citazione`, `.galleria`, `.sentiero` e `.tappa`, `.pannello-notte`,
   `.tag-contorno`, `.sigillo`, `.esempio`.
+
+## Blog e mappa (novembre 2026)
+
+- **Le card del blog** (`.card-articolo`): la copertina in verticale, il tema in
+  maiuscoletto con il suo **punto di colore** (`TONO_TEMA`: petalo per poesia e
+  libri, foglia per l'arrampicata, candela per la fotografia, lily per i
+  trattamenti, lily-bright per le letture), il titolo in Playfair, l'estratto,
+  data e minuti. L'articolo in evidenza ha l'arco. I temi del filtro sono
+  rettangoli con lo stesso punto (`.chip-tema`); quello scelto è vino pieno.
+- **L'articolo** (`.prose-articolo`): il capolettera lily, i titoli in Playfair,
+  le citazioni in corsivo con il filetto lily, la firma «Silvia» in Damion, la
+  barra di lettura lily in cima allo schermo.
+- **Nuove atmosfere** per le copertine: `montagne` (creste al tramonto),
+  `pagine` (un libro di poesie aperto, di sera, con un giglio pressato),
+  `pellicola` (tre fotogrammi su un negativo). Sulle immagini chiare si usa il
+  velo `scuro`.
+- **La mappa** (`.mappa`): tessere di OpenStreetMap in grigio caldo appena
+  rosa (filtro CSS), il segno a goccia lily col giglio a linea, i controlli
+  come piccoli rettangoli latte, la scheda dello studio su fondo vino (sopra
+  la mappa a sinistra su desktop, sotto sul telefono).

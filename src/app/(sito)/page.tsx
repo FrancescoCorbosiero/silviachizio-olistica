@@ -1,5 +1,6 @@
 import ChiSonoBreve from '@/components/home/ChiSonoBreve';
 import ComeFunziona from '@/components/home/ComeFunziona';
+import DalBlog from '@/components/home/DalBlog';
 import DuePorte from '@/components/home/DuePorte';
 import HomeHero from '@/components/home/HomeHero';
 import InstagramHome from '@/components/home/InstagramHome';
@@ -63,6 +64,7 @@ export default function HomePage() {
       <Recensioni />
       <LettureChat />
       <InstagramHome />
+      <DalBlog />
       <section className="section" aria-labelledby="faq-titolo">
         <div className="wrap grid items-start gap-9 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-28">

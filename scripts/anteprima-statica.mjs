@@ -64,10 +64,13 @@ rmSync(DEST, { recursive: true, force: true });
 renameSync(OUT, DEST);
 
 // Netlify: /bio → bio.html anche se accanto c'è la cartella bio/ (dati RSC).
-const pagine = readdirSync(DEST)
-  .filter((f) => f.endsWith('.html'))
-  .map((f) => f.slice(0, -5))
-  .filter((n) => !['index', '404', '_not-found'].includes(n));
+// Anche le pagine annidate, come gli articoli: /blog/x → blog/x.html.
+const html = (dir, base = '') =>
+  readdirSync(join(DEST, dir), { withFileTypes: true }).flatMap((d) => {
+    if (d.isDirectory()) return d.name === '_next' ? [] : html(join(dir, d.name), `${base}${d.name}/`);
+    return d.name.endsWith('.html') ? [`${base}${d.name.slice(0, -5)}`] : [];
+  });
+const pagine = html('').filter((n) => !['index', '404', '_not-found'].includes(n));
 writeFileSync(join(DEST, '_redirects'), pagine.map((n) => `/${n}  /${n}.html  200`).join('\n') + '\n');
 
 console.log(`\nPronta: anteprima-netlify/ — trascinala su https://app.netlify.com/drop${url ? ` (indirizzo: ${url})` : ''}`);

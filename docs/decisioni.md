@@ -90,7 +90,40 @@ l'email solo per le letture e per l'avviso di riapertura.
 Niente feed di Instagram incorporato né mappa di Google: pesano, portano cookie
 di terze parti e chiederebbero un banner. Al loro posto una scheda statica del
 profilo e il link "Apri in Maps". Senza cookie di profilazione o di statistica il
-sito non ha bisogno del banner, come andrea-bellettati.
+sito non ha bisogno del banner, come andrea-bellettati. (La mappa vera è
+arrivata dopo, con un clic: sotto, "La mappa si carica con un clic".)
+
+## La mappa si carica con un clic
+
+Contatti ha una mappa vera: OpenStreetMap con Leaflet, il segno del giglio sulla
+posizione dello studio, le tessere nei toni del muro (un filtro CSS) e la scheda
+con l'indirizzo e le indicazioni. Una mappa caricata da sola manderebbe a un
+server esterno l'indirizzo IP di chi apre la pagina; per questo si carica solo
+dopo il clic su «Mostra la mappa» (prima c'è la foto di Montebelluna, e nessuna
+richiesta esterna: verificato). Leaflet e il suo CSS arrivano con un import
+dinamico, solo allora; la scelta resta nella memoria della scheda
+(`lily:mappa`), niente cookie. OpenStreetMap e non Google Maps: niente cookie,
+niente chiave, attribuzione chiara (rispettare la loro tile usage policy: per
+un sito piccolo va bene; con molto traffico, tessere proprie in PMTiles o un
+fornitore). Sul telefono la mappa non ruba lo scroll: si sposta dopo un tocco.
+L'informativa ne parla in "La mappa". Da questa macchina le tessere non si
+vedono (la rete le blocca): il resto (Leaflet, segno, controlli, nessuna
+richiesta prima del clic) è verificato nel browser.
+
+## Il blog
+
+La specifica non lo prevedeva (Silvia scrive su Instagram); è arrivato su
+richiesta, con cinque temi: Poesia e libri, Arrampicata, Fotografia (le sue
+passioni) e Trattamenti, Letture (il sito). È il sistema di andrea-bellettati,
+adattato: un file Markdown per articolo in `src/content/blog`, letto al build da
+`src/lib/blog.ts` (gray-matter, unified/remark/rehype: niente JavaScript in più
+nel browser), schema controllato con zod. Gli articoli di prova hanno `esempio:
+true`: compaiono solo in anteprima, col segno, e mai in sitemap e dati
+strutturati. Il blog va online con il primo articolo vero e `BLOG_ONLINE` in
+`src/lib/site.ts` (il build avvisa se ci sono articoli veri e il blog è spento):
+solo allora compaiono la voce nel menu, la pagina e "Dal blog" in home. Le
+copertine sono atmosfere disegnate da noi (montagne, pagine, pellicola) o le
+immagini che già ci sono.
 
 ## WhatsApp e telefono solo se ci sono
 

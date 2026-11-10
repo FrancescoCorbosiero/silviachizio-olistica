@@ -575,6 +575,8 @@
   @media (min-width: 768px) {
     .velo-sinistra { background: linear-gradient(90deg, rgb(34 24 20 / 0.8) 0%, rgb(34 24 20 / 0.5) 45%, rgb(34 24 20 / 0) 80%); }
   }
+  /* Per le immagini chiare (le pagine, la carta): scuro anche in alto. */
+  .velo-scuro { background: linear-gradient(0deg, rgb(34 24 20 / 0.92) 0%, rgb(34 24 20 / 0.72) 45%, rgb(34 24 20 / 0.5) 100%); }
   .velo-chiaro { background: linear-gradient(90deg, rgb(242 228 221 / 0.92), rgb(242 228 221 / 0.6) 55%, rgb(242 228 221 / 0.1)); }
 
   /* I tre fatti dell'hero: testo spaziato tra filetti, niente pillole. */
@@ -1124,4 +1126,162 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
   }
   /* Etichette a contorno sulle scene (i temi delle letture). */
   .tag-contorno { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border: 1px solid rgb(253 246 248 / 0.45); border-radius: var(--radius-tile); font-size: 16px; font-weight: 600; }
+}
+
+/* =====================================================================
+   La mappa dello studio (components/contatti/MappaStudio.tsx): Leaflet e
+   OpenStreetMap, caricati solo dopo il clic. Prima, la foto e il bottone.
+   ===================================================================== */
+@layer components {
+  .mappa-sezione { position: relative; background: var(--color-vino); }
+  .mappa { position: relative; height: clamp(420px, 74svh, 760px); overflow: hidden; isolation: isolate; background: var(--color-sabbia-deep); }
+  .mappa-tela { position: absolute; inset: 0; z-index: 0; isolation: isolate; }
+  .mappa-attesa { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; padding: 24px; }
+  .mappa-attesa picture, .mappa-attesa img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .mappa-attesa::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(34 24 20 / 0.35), rgb(34 24 20 / 0.7)); }
+  .mappa-attesa-testo { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; font-size: 16.5px; line-height: 1.5; }
+  @media (min-width: 1024px) {
+    .mappa-attesa { justify-items: end; padding-right: max(32px, calc((100vw - 1180px) / 2 + 80px)); }
+  }
+  .mappa-sblocca {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    z-index: 2;
+    translate: -50% 0;
+    padding: 10px 16px;
+    border-radius: var(--radius-btn);
+    background: rgb(34 24 20 / 0.78);
+    color: var(--color-latte);
+    font-size: 14px;
+    font-weight: 600;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  /* Le tessere di OpenStreetMap nei toni del muro: grigio caldo, appena rosa. */
+  .mappa .leaflet-container { width: 100%; height: 100%; background: var(--color-sabbia-deep); font-family: var(--font-sans); }
+  .mappa .leaflet-tile-pane { filter: grayscale(1) sepia(0.22) hue-rotate(-28deg) saturate(1.35) contrast(0.94) brightness(1.03); }
+  .mappa .leaflet-bar { border: 0; border-radius: var(--radius-tile); overflow: hidden; box-shadow: var(--shadow-petalo); }
+  .mappa .leaflet-bar a { width: 38px; height: 38px; line-height: 38px; color: var(--color-inchiostro); background: var(--color-latte); }
+  .mappa .leaflet-control-attribution { font-size: 11px; background: rgb(253 246 248 / 0.85); }
+  .mappa-segno { background: none; border: 0; }
+  .mappa-segno-goccia {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 3px solid #fff;
+    border-radius: 50% 50% 50% 0;
+    background: var(--color-lily);
+    color: #fff;
+    rotate: -45deg;
+    box-shadow: 0 12px 22px -10px rgb(74 16 39 / 0.7);
+  }
+  .mappa-segno-goccia svg { width: 24px; height: 24px; rotate: 45deg; }
+
+  /* La scheda dello studio: sotto la mappa sul telefono, sopra a sinistra su desktop. */
+  .mappa-scheda { padding: 36px 0 44px; color: var(--color-latte); }
+  @media (min-width: 1024px) {
+    .mappa-scheda-posto { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; pointer-events: none; }
+    .mappa-scheda-posto > .wrap { width: 100%; }
+    .mappa-scheda {
+      max-width: 400px;
+      padding: 36px;
+      border-radius: var(--radius-petalo);
+      background: var(--color-vino);
+      box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.55);
+      pointer-events: auto;
+    }
+  }
+}
+
+/* =====================================================================
+   Il blog (src/app/(sito)/blog, components/blog): card, temi, testo
+   dell'articolo, barra di lettura.
+   ===================================================================== */
+@layer components {
+  .card-articolo { display: flex; flex-direction: column; gap: 20px; color: inherit; }
+  .card-articolo-foto { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-tile); background: var(--color-notte); }
+  .card-articolo-foto img { width: 100%; height: 100%; object-fit: cover; transition: scale 1.2s var(--ease-soft); }
+  .card-articolo-testo { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .card-articolo-tema {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 650;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
+  .card-articolo-tema::before { content: ''; flex-shrink: 0; width: 9px; height: 9px; border-radius: 999px; background: var(--tono, var(--color-lily)); }
+  .card-articolo-titolo { font-family: var(--font-serif); font-size: clamp(23px, 2.2vw, 28px); font-weight: 700; line-height: 1.15; text-wrap: balance; transition: color 0.3s ease; }
+  .card-articolo-estratto { color: var(--color-ink-mute); font-size: 16.5px; line-height: 1.55; }
+  .card-articolo-meta { font-size: 14px; color: var(--color-ink-mute); }
+  @media (hover: hover) {
+    .card-articolo:hover .card-articolo-foto img { scale: 1.05; }
+    .card-articolo:hover .card-articolo-titolo { color: var(--color-lily-deep); }
+    .on-notte .card-articolo:hover .card-articolo-titolo { color: var(--color-petalo); }
+  }
+  .on-notte .card-articolo-tema, .on-notte .card-articolo-meta { color: rgb(253 246 248 / 0.78); }
+  .on-notte .card-articolo-estratto { color: rgb(253 246 248 / 0.85); }
+  /* L'articolo in evidenza: l'arco a sinistra, il testo a destra. */
+  @media (min-width: 768px) {
+    .card-articolo-grande { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+    .card-articolo-grande .card-articolo-foto { border-radius: 999px 999px var(--radius-tile) var(--radius-tile); }
+    .card-articolo-grande .card-articolo-titolo { font-size: clamp(32px, 3.8vw, 52px); line-height: 1.05; }
+    .card-articolo-grande .card-articolo-estratto { font-size: clamp(18px, 1.6vw, 20px); max-width: 32em; }
+  }
+
+  /* I temi del filtro: rettangoli col punto di colore. */
+  .chip-tema {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 8px 16px;
+    border: 1px solid rgb(74 16 39 / 0.2);
+    border-radius: var(--radius-btn);
+    background: transparent;
+    color: var(--color-inchiostro);
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  .chip-tema::before { content: ''; width: 9px; height: 9px; border-radius: 999px; background: var(--tono, transparent); }
+  .chip-tutti::before { display: none; }
+  @media (hover: hover) { .chip-tema:hover { border-color: var(--color-vino); } }
+  .chip-tema[aria-pressed='true'] { border-color: var(--color-vino); background: var(--color-vino); color: var(--color-latte); }
+
+  /* Il testo dell'articolo: il capolettera, i titoli, le citazioni. */
+  .prose-articolo { font-size: clamp(18px, 1.5vw, 19.5px); line-height: 1.75; }
+  .prose-articolo > p:first-of-type::first-letter {
+    float: left;
+    margin: 0.08em 0.12em 0 0;
+    font-family: var(--font-serif);
+    font-size: 4.1em;
+    font-weight: 700;
+    line-height: 0.8;
+    color: var(--color-lily-deep);
+  }
+  .prose-articolo h2 { margin-top: 1.9em; font-size: clamp(26px, 2.8vw, 34px); }
+  .prose-articolo blockquote {
+    margin-block: 1.8em;
+    padding-left: 1.1em;
+    border-left: 2px solid var(--color-lily);
+    font-family: var(--font-serif);
+    font-size: 1.25em;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--color-inchiostro);
+  }
+  .prose-articolo ol { display: flex; flex-direction: column; gap: 0.5em; padding-left: 1.4em; list-style: decimal; }
+  .prose-articolo ol > li::marker { color: var(--color-lily-deep); font-family: var(--font-serif); font-weight: 700; }
+
+  /* La barra di lettura, in cima a tutto. */
+  .barra-lettura { position: fixed; inset-inline: 0; top: 0; z-index: 60; height: 3px; pointer-events: none; }
+  .barra-lettura > span { display: block; height: 100%; background: var(--color-lily); transform: scaleX(0); transform-origin: left; }
 }

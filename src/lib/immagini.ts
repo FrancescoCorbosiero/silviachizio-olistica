@@ -68,6 +68,12 @@ export const IMMAGINI = {
   velo: atmosfera('velo'),
   /** Tela di lino color sabbia rosata: fondo chiaro ma caldo. */
   lino: atmosfera('lino'),
+  /** Creste di montagna al tramonto, una dietro l'altra (il blog: l'arrampicata). */
+  montagne: atmosfera('montagne', '50% 60%'),
+  /** Un libro di poesie aperto, con un giglio pressato (il blog: poesia e libri). */
+  pagine: atmosfera('pagine'),
+  /** Tre fotogrammi su una striscia di negativo (il blog: la fotografia). */
+  pellicola: atmosfera('pellicola'),
   /** Montebelluna dall'alto, col Duomo: foto per l'anteprima (piccola, 617×324: serve più grande). */
   montebelluna: foto('montebelluna', "Montebelluna dall'alto, con il Duomo", 'anteprima', '50% 35%'),
   /** Carte e cristalli su marmo: foto per l'anteprima delle letture. */

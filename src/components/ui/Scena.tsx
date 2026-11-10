@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { IMMAGINI, type NomeImmagine } from '@/lib/immagini';
 
-type Velo = 'notte' | 'vino' | 'sinistra' | 'basso' | 'chiaro' | 'nessuno';
+type Velo = 'notte' | 'vino' | 'sinistra' | 'basso' | 'scuro' | 'chiaro' | 'nessuno';
 
 /** Un video di sfondo in due tagli (src/lib/immagini.ts, VIDEO_HERO). */
 export type VideoSfondo = { mp4: string; webm: string; mp4V: string; webmV: string };
