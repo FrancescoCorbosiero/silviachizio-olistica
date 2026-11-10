@@ -85,3 +85,9 @@ I flussi in `src/components/flows/`, le email in `src/lib/emails.ts`, la pagina 
 | Fondo delle conferme | «Ricevi questa email perché hai chiesto un trattamento dal sito di Lily Trattamenti Benessere. È un messaggio di servizio, non una newsletter: non ti scriverò per altro.» (e le varianti per lettura e avviso) | |
 | Email a Silvia | «Contiene dati personali: usali solo per rispondere a questa richiesta.» · per l'avviso: «Il consenso vale solo per questo avviso: quando riapri, scrivi a questo indirizzo e non usarlo per altro.» | quanto tenerle lo dirà l'informativa |
 
+
+## Privacy
+
+| Dove | Testo | Nota |
+|---|---|---|
+| `/privacy`, tutta la pagina | l'informativa, scritta su come funziona il sito | da rileggere con Silvia; tempi di conservazione (24 mesi per le richieste, 12 mesi per l'avviso) e dati fiscali da confermare con il suo commercialista. Senza email pubblica, i diritti si esercitano con un messaggio su Instagram |

@@ -171,7 +171,7 @@ export const LEGAL: { titolare: string; email: string; partitaIva: string; indir
   partitaIva: (process.env.NEXT_PUBLIC_PARTITA_IVA ?? '').trim(),
   indirizzo: INDIRIZZO_DISPLAY,
   // Data dell'informativa: si aggiorna quando cambia /privacy.
-  aggiornata: '',
+  aggiornata: '10 novembre 2026',
 };
 
 /* ── Utilità ────────────────────────────────────────────────────────── */

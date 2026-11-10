@@ -27,14 +27,13 @@ export default function MobileTabbar() {
   });
 
   return (
-    <div className="lg:hidden">
+    <nav className="lg:hidden" aria-label="Navigazione">
       {/* Sotto la capsula, una velatura latte leggera al posto del bianco di iOS. */}
       <Tabbar
         labels
         icons
         className="fixed bottom-0 left-0 z-40"
         colors={{ bgIos: 'bg-gradient-to-t from-latte/80 to-transparent' }}
-        aria-label="Navigazione"
       >
         <ToolbarPane>
           <TabbarLink
@@ -80,6 +79,6 @@ export default function MobileTabbar() {
           />
         </ToolbarPane>
       </Tabbar>
-    </div>
+    </nav>
   );
 }
