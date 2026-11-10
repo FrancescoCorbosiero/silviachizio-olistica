@@ -7,6 +7,7 @@
      node scripts/misura.cjs http://localhost:3300 / /trattamenti
      node scripts/misura.cjs http://localhost:3300 / --senza=data-marquee,data-spin
      node scripts/misura.cjs http://localhost:3300 / --fermo      (riduci movimento)
+     node scripts/misura.cjs http://localhost:3300 / --cpu=7      (macchina veloce)
 
    TBT: somma della parte oltre i 50 ms dei task lunghi, dal primo disegno
    (FCP) a 5 secondi dopo il caricamento (comprende l'avvio del motore
@@ -27,6 +28,14 @@ const senza = (args.find((a) => a.startsWith('--senza=')) ?? '').replace('--senz
 const giri = Number((args.find((a) => a.startsWith('--giri=')) ?? '--giri=3').split('=')[1]) || 3;
 /** --fermo: "riduci movimento", il motore non si scarica nemmeno. */
 const fermo = args.includes('--fermo');
+/**
+ * --cpu=N: quanto rallentare la CPU (di base 4, come Lighthouse). Il 4× di
+ * Lighthouse è tarato su un desktop con indice di benchmark 1500–2000: su una
+ * macchina più veloce serve di più per simulare lo stesso telefono medio
+ * (indice ≈ 450). Lo script stampa l'indice della macchina e il moltiplicatore
+ * consigliato.
+ */
+const cpu = Number((args.find((a) => a.startsWith('--cpu=')) ?? '--cpu=4').split('=')[1]) || 4;
 
 const median = (xs) => {
   const s = [...xs].sort((a, b) => a - b);
@@ -54,7 +63,7 @@ async function una(browser, url) {
     downloadThroughput: (1.6 * 1024 * 1024) / 8,
     uploadThroughput: (750 * 1024) / 8,
   });
-  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
   await page.addInitScript((senza) => {
     const p = (window.__perf = { long: [], lcp: 0, cls: 0, fcp: 0 });
     new PerformanceObserver((l) => l.getEntries().forEach((e) => p.long.push([e.startTime, e.duration]))).observe({ type: 'longtask', buffered: true });
@@ -78,9 +87,46 @@ async function una(browser, url) {
   return r;
 }
 
+/** L'indice di benchmark di Lighthouse (computeBenchmarkIndex), nella pagina. */
+async function benchmarkIndex(browser) {
+  const page = await browser.newPage();
+  const idx = await page.evaluate(() => {
+    function gc() {
+      const start = Date.now();
+      let it = 0;
+      while (Date.now() - start < 500) {
+        let s = '';
+        for (let j = 0; j < 10000; j++) s += 'a';
+        if (s.length !== 10000) break; // il lavoro è il benchmark: la stringa non serve
+        it++;
+      }
+      return Math.round(it / 10 / ((Date.now() - start) / 1000));
+    }
+    function nogc() {
+      const a = [];
+      const b = [];
+      for (let i = 0; i < 100000; i++) a[i] = b[i] = i;
+      const start = Date.now();
+      let it = 0;
+      while (it % 10 !== 0 || Date.now() - start < 500) {
+        const src = it % 2 === 0 ? a : b;
+        const tgt = it % 2 === 0 ? b : a;
+        for (let j = 0; j < src.length; j++) tgt[j] = src[j];
+        it++;
+      }
+      return Math.round(it / 10 / ((Date.now() - start) / 1000));
+    }
+    return (gc() + nogc()) / 2;
+  });
+  await page.close();
+  return idx;
+}
+
 (async () => {
   const browser = await chromium.launch();
-  console.log(`Misura: ${base} · ${giri} giri · telefono medio, CPU ×4, 4G lento${senza.length ? ` · senza ${senza.join(', ')}` : ''}${fermo ? ' · riduci movimento' : ''}`);
+  const idx = await benchmarkIndex(browser);
+  console.log(`Indice di benchmark della macchina: ${Math.round(idx)} (telefono medio ≈ 450: CPU consigliata ×${Math.max(1, Math.round(idx / 450))})`);
+  console.log(`Misura: ${base} · ${giri} giri · telefono medio, CPU ×${cpu}, 4G lento${senza.length ? ` · senza ${senza.join(', ')}` : ''}${fermo ? ' · riduci movimento' : ''}`);
   console.log('pagina'.padEnd(16), 'TBT (ms)'.padStart(9), 'LCP (s)'.padStart(8), 'CLS'.padStart(6), 'FCP (s)'.padStart(8));
   for (const p of paths.length ? paths : ['/']) {
     const runs = [];
