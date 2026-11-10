@@ -12,7 +12,10 @@
    TBT: somma della parte oltre i 50 ms dei task lunghi, dal primo disegno
    (FCP) a 5 secondi dopo il caricamento (comprende l'avvio del motore
    delle animazioni, che arriva dopo l'idratazione). LCP e CLS come li
-   riporta il browser. --senza=… toglie quegli attributi prima che parta
+   riporta il browser. JS: il tempo di esecuzione di JavaScript sul thread
+   principale in tutto il caricamento (Performance.getMetrics di Chrome,
+   ScriptDuration), che conta anche il lavoro spezzato in task brevi: è la
+   misura che separa il costo di un effetto quando il TBT è 0. --senza=… toglie quegli attributi prima che parta
    il motore: così si misura il costo di un effetto (prima/dopo) senza
    toccare il codice. I numeri valgono come confronto dentro la stessa
    sessione di misura.
@@ -64,6 +67,7 @@ async function una(browser, url) {
     uploadThroughput: (750 * 1024) / 8,
   });
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
+  await cdp.send('Performance.enable');
   await page.addInitScript((senza) => {
     const p = (window.__perf = { long: [], lcp: 0, cls: 0, fcp: 0 });
     new PerformanceObserver((l) => l.getEntries().forEach((e) => p.long.push([e.startTime, e.duration]))).observe({ type: 'longtask', buffered: true });
@@ -83,8 +87,11 @@ async function una(browser, url) {
     const tbt = p.long.filter(([s]) => s >= p.fcp).reduce((t, [, d]) => t + Math.max(0, d - 50), 0);
     return { tbt, lcp: p.lcp, cls: p.cls, fcp: p.fcp };
   });
+  // Il lavoro JavaScript sul thread principale (anche nei task brevi), da Chrome.
+  const { metrics } = await cdp.send('Performance.getMetrics');
+  const m = Object.fromEntries(metrics.map((x) => [x.name, x.value]));
   await ctx.close();
-  return r;
+  return { ...r, js: (m.ScriptDuration ?? 0) * 1000 };
 }
 
 /** L'indice di benchmark di Lighthouse (computeBenchmarkIndex), nella pagina. */
@@ -127,7 +134,7 @@ async function benchmarkIndex(browser) {
   const idx = await benchmarkIndex(browser);
   console.log(`Indice di benchmark della macchina: ${Math.round(idx)} (telefono medio ≈ 450: CPU consigliata ×${Math.max(1, Math.round(idx / 450))})`);
   console.log(`Misura: ${base} · ${giri} giri · telefono medio, CPU ×${cpu}, 4G lento${senza.length ? ` · senza ${senza.join(', ')}` : ''}${fermo ? ' · riduci movimento' : ''}`);
-  console.log('pagina'.padEnd(16), 'TBT (ms)'.padStart(9), 'LCP (s)'.padStart(8), 'CLS'.padStart(6), 'FCP (s)'.padStart(8));
+  console.log('pagina'.padEnd(16), 'TBT (ms)'.padStart(9), 'LCP (s)'.padStart(8), 'CLS'.padStart(6), 'FCP (s)'.padStart(8), 'JS (ms)'.padStart(8));
   for (const p of paths.length ? paths : ['/']) {
     const runs = [];
     for (let i = 0; i < giri; i++) runs.push(await una(browser, base + p));
@@ -135,7 +142,8 @@ async function benchmarkIndex(browser) {
     const lcp = median(runs.map((r) => r.lcp)) / 1000;
     const cls = median(runs.map((r) => r.cls));
     const fcp = median(runs.map((r) => r.fcp)) / 1000;
-    console.log(p.padEnd(16), String(Math.round(tbt)).padStart(9), lcp.toFixed(2).padStart(8), cls.toFixed(3).padStart(6), fcp.toFixed(2).padStart(8));
+    const js = median(runs.map((r) => r.js));
+    console.log(p.padEnd(16), String(Math.round(tbt)).padStart(9), lcp.toFixed(2).padStart(8), cls.toFixed(3).padStart(6), fcp.toFixed(2).padStart(8), String(Math.round(js)).padStart(8));
   }
   await browser.close();
 })();
