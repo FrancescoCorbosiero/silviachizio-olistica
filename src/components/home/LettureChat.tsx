@@ -7,19 +7,21 @@ import { LETTURA } from '@/lib/trattamenti';
 
 /* BOZZE (docs/testi-da-validare.md): la chat racconta la richiesta di una
    lettura con le parole del form di Silvia. */
-const CHAT = [
+export type Messaggio = { da: 'te' | 'silvia'; testo: string };
+
+const CHAT: Messaggio[] = [
   { da: 'te', testo: 'Ciao Silvia, vorrei una lettura.' },
   { da: 'silvia', testo: 'Ciao! Scegli il tema, io preparo la stesa.' },
   { da: 'te', testo: 'Amore / Relazioni' },
   { da: 'silvia', testo: 'Ti mando la foto della stesa e la mia interpretazione, scritta o in video, via email.' },
-] as const;
+];
 
 /**
  * Le letture in anteprima: la chat che si scrive da sola (data-chat, da
  * ireandlunaslife) e il link a /letture, con il disclaimer di Silvia.
  * `conLink={false}` sulla pagina /letture stessa.
  */
-export function Chat({ className = '' }: { className?: string }) {
+export function Chat({ className = '', messaggi = CHAT }: { className?: string; messaggi?: Messaggio[] }) {
   return (
     <div className={`petalo petalo-blush overflow-hidden p-0 ${className}`} data-chat>
       <div className="flex items-center gap-3 border-b border-petalo/60 bg-carta/70 px-5 py-3.5">
@@ -30,7 +32,7 @@ export function Chat({ className = '' }: { className?: string }) {
         <span className="testo-mute ml-auto text-[13px]">Messaggi</span>
       </div>
       <div className="flex flex-col gap-2.5 px-4 py-5 sm:px-5">
-        {CHAT.map((m, i) => (
+        {messaggi.map((m, i) => (
           <p
             key={i}
             className={`chat-bub max-w-[85%] px-4 py-2.5 text-[16px] leading-snug shadow-[var(--shadow-petalo-s)] ${
