@@ -601,6 +601,11 @@
   .luce-candela { animation: tremolio 3.2s ease-in-out infinite; }
 }
 
+/* Petali, cuori e scintille (fx.ts, celebrate): sopra a tutto. */
+.fx-layer { position: fixed; inset: 0; z-index: 9999; pointer-events: none; overflow: hidden; }
+.fx-bit { position: absolute; display: block; will-change: transform, opacity; }
+.fx-bit svg { display: block; width: 100%; height: 100%; }
+
 /* Header che si toglie di mezzo leggendo verso il basso (SiteHeader.tsx). */
 .site-header {
   transition: transform 0.5s var(--ease-soft), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
