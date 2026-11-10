@@ -1,0 +1,7 @@
+@import "tailwindcss";
+/* Konsta UI (tema iOS): liste, segmenti, chip, interruttori, barre. I suoi
+   componenti vivono nelle parti "app" del sito: richieste, menu, fogli. */
+@import "konsta/react/theme.css";
+
+/* Il Brand System «Lily» (token, superfici, componenti) arriva al passo 2
+   della roadmap: docs/brand.md. */
