@@ -1,6 +1,7 @@
 /* =====================================================================
    Genera le immagini statiche del sito dal logo provvisorio e dal giglio:
-   icone (favicon, Apple, manifest) e immagini Open Graph (1200×630). Si rilancia quando arriva il logo originale di
+   icone (favicon, Apple, manifest), immagini Open Graph (1200×630) e il
+   logo PNG per le email. Si rilancia quando arriva il logo originale di
    Silvia o quando cambia un titolo.
 
      node scripts/immagini.cjs
@@ -120,13 +121,18 @@ async function main() {
   await shot(svgPage(iconaSvg({ forma: 'cerchio', margine: 0.17, tratto: 2.2 }), 16, 16), path.join(icons, 'favicon-16.png'), 16, 16, { transparent: true });
   fs.writeFileSync(path.join(ROOT, 'src', 'app', 'icon.svg'), iconaSvg({ forma: 'cerchio', margine: 0.17, tratto: 1.8 }) + '\n');
 
+  // Il logo per le email (molti programmi di posta non mostrano gli SVG):
+  // 224×232, il doppio della misura con cui lo mostra src/lib/emails.ts.
+  const logoSvg = fs.readFileSync(path.join(PUBLIC, 'brand', 'logo.svg'), 'utf8');
+  await shot(svgPage(logoSvg, 224, 232), path.join(PUBLIC, 'brand', 'logo-email.png'), 224, 232, { transparent: true });
+
   // Open Graph
   const og = path.join(PUBLIC, 'og');
   fs.mkdirSync(og, { recursive: true });
   for (const o of OG) await shot(ogHtml(o), path.join(og, `${o.file}.jpg`), 1200, 630, { type: 'jpeg' });
 
   await browser.close();
-  console.log('Immagini generate: public/icons, src/app/icon.svg e apple-icon.png, public/og');
+  console.log('Immagini generate: public/icons, src/app/icon.svg e apple-icon.png, public/brand/logo-email.png, public/og');
 }
 
 main().catch((e) => {

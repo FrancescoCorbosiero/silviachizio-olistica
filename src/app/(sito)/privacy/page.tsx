@@ -86,9 +86,9 @@ export default function PrivacyPage() {
 
           <h3>Da dove arriva la richiesta</h3>
           <p>
-            Insieme alla richiesta mi arrivano la pagina da cui l&apos;hai inviata e, se sei arrivato da un link di una campagna
-            (per esempio il link nella mia bio di Instagram), i suoi parametri, se hai cliccato un annuncio di Google o di Meta e
-            il sito da cui sei arrivato. Non contiene il tuo indirizzo IP e non serve a profilarti: mi dice solo da dove mi
+            Insieme alla richiesta mi arrivano la pagina da cui l&apos;hai inviata e, se la visita è partita da un link di una
+            campagna (per esempio il link nella mia bio di Instagram), i suoi parametri, se hai cliccato un annuncio di Google o
+            di Meta e il sito di provenienza. Non contiene il tuo indirizzo IP e non serve a profilarti: mi dice solo da dove mi
             trovano le persone. Si basa sul mio legittimo interesse (art. 6, par. 1, lett. f del GDPR).
           </p>
 

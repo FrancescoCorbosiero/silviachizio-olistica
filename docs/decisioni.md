@@ -176,3 +176,34 @@ Molti programmi di posta non mostrano gli SVG: le email usano
 misura, per gli schermi densi). Quando arriva il logo originale si rifà anche
 questo file.
 
+
+## Senza foto, il giglio
+
+Le foto di Silvia e dello studio non ci sono ancora (domande aperte ★). Dove la
+spec mette una foto (l'hero, Chi sono, la scheda Instagram) c'è un cerchio
+cipria con il giglio del logo: niente foto stock, niente segnaposto grigi. Il
+giglio dell'hero si disegna da solo, quello di Chi sono risponde al tocco con
+un cuore. Quando arrivano le foto vere prendono il posto del giglio negli
+stessi cerchi (`data-clip` le apre dal cerchio); gli effetti che hanno senso
+solo con le foto (la lente sulla stesa, la foto che segue il puntatore
+nell'indice dei trattamenti, l'hero che si allarga, la galleria dello studio)
+sono nel motore ma restano spenti finché le foto mancano.
+
+## Le immagini per i social si generano prima, non a ogni visita
+
+Ogni pagina ha la sua immagine Open Graph 1200×630 in `public/og`, fatta con
+gli stessi font e lo stesso logo del sito da `scripts/immagini.cjs`
+(Playwright). Non si generano al volo con `next/og`: il generatore di Next non
+legge i woff2 e disegna un sottoinsieme del CSS, mentre così l'immagine è
+uguale al sito e non costa niente al server. Lo script si rilancia quando
+cambia un titolo o arriva il logo originale; fa anche le icone (favicon, Apple,
+manifest) dal giglio in piccolo.
+
+## Le richieste in parallelo, con gli stessi contratti
+
+I flussi di richiesta (passo 6) sono stati costruiti in un worktree separato
+mentre nascevano motore e pagine, con contratti fissati prima: i link
+`/prenota#richiesta` e `/letture#richiesta` aprono il foglio,
+`/prenota?trattamento=<slug>#richiesta` arriva con il trattamento scelto,
+`PrenotaInline` e `LetturaInline` portano con sé `id="richiesta"`. Le pagine
+non conoscono i flussi: usano solo i link e i due componenti.

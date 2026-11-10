@@ -15,8 +15,11 @@ Benessere**, l'attività di Silvia Chizio a Montebelluna (TV): quattro trattamen
 in studio e letture intuitive a distanza. Oggi Silvia lavora solo da Instagram
 (@silvia_chizio) e raccoglie le richieste con un Google Form: il sito lo sostituisce.
 
-**Stato del repository**: fase 1 in corso, passo per passo come in
-`docs/roadmap.md`. Fatto: passo 1 (scaffolding).
+**Stato del repository**: fase 1 fatta fino al passo 9 di `docs/roadmap.md`
+(il sito completo, con dati veri dove ci sono e bozze dichiarate). Manca il
+passo 10 (online): aspetta dominio, email di Silvia e credenziali SES. I testi
+in bozza sono in `docs/testi-da-validare.md`, i dati che mancano in
+`docs/domande-aperte.md`.
 
 ## Leggi prima
 
@@ -94,6 +97,12 @@ npm run build        # build di produzione (.next/standalone)
 npm run start        # avvia la build
 npm run check        # tipi (next typegen + tsc) + ESLint
 ```
+
+Per provare le richieste senza email vere:
+`SES_DRY_RUN=true SES_TO_TRATTAMENTI=prova@esempio.it SES_TO_LETTURE=prova@esempio.it npm run dev`
+(le email finiscono nei log). Le misure di leggerezza: `scripts/misura.cjs`
+sulla build; icone e immagini per i social: `scripts/immagini.cjs` (entrambi
+con Playwright, che non è una dipendenza del progetto).
 
 Il blocco in cima a questo file lo scrive `next dev` (e lo riscrive se manca):
 si tiene e si committa. `CLAUDE.md` contiene solo `@AGENTS.md`.
