@@ -1,3 +1,4 @@
+import LetturaInline from '@/components/flows/LetturaInline';
 import { IconaScintilla } from '@/components/icons';
 import { Chat, type Messaggio } from '@/components/home/LettureChat';
 import JsonLd from '@/components/seo/JsonLd';
@@ -117,8 +118,9 @@ export default function LetturePage() {
       <section className="section" aria-labelledby="richiesta-titolo">
         <div className="wrap-narrow">
           <SectionHead id="richiesta-titolo" eyebrow="La richiesta" title="Richiedi la tua" script="lettura" />
-          <div id="richiesta" className="mt-8 scroll-mt-24">
-            {/* RICHIESTA-LETTURA */}
+          {/* La richiesta in pagina: contiene già id="richiesta" (e l'avviso, se le letture sono sospese). */}
+          <div className="mt-8">
+            <LetturaInline />
           </div>
         </div>
       </section>

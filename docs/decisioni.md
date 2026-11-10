@@ -145,3 +145,34 @@ descrizioni del listino), Figtree variabile, Damion: circa 108 KB in tutto,
 tutti in `src/fonts/` con le loro licenze OFL. L'alfabeto latino basta per
 l'italiano (accenti, virgolette, €). Le scintille e i cuori sono SVG, non
 caratteri.
+
+## Senza SES la richiesta non si perde: testo pronto e Instagram
+
+Se l'invio non parte (SES non configurato, caselle vuote, rete), il flusso non
+butta via niente: mostra il testo della richiesta già scritto, con "Copia il
+testo" e "Apri Instagram" (il messaggio diretto, `ig.me`, non accetta testo
+precompilato: si copia e si incolla), e l'email precompilata solo quando Silvia
+avrà un indirizzo pubblico. Le caselle `SES_TO_TRATTAMENTI` e `SES_TO_LETTURE`
+non hanno un valore di base: il dominio e l'email di Silvia sono ancora domande
+aperte, e un indirizzo inventato perderebbe le richieste in silenzio.
+
+## Le richieste chiedono solo quello che serve
+
+"Prenota un trattamento" offre tutti e sette i giorni (gli orari di Silvia non
+si sanno) e chiede il telefono perché Silvia ricontatta da lì; l'email è
+facoltativa, a meno che si scelga di essere ricontattati via email. La lettura
+non chiede il codice fiscale; la domanda in due righe è facoltativa e il form
+di oggi non la chiede (da confermare). Il formato della risposta (scritta o
+video) compare solo se `LETTURA.formatoAScelta` in `src/lib/trattamenti.ts`
+diventa `true`: oggi non si sa chi lo sceglie. "Avvisami quando riapro" ha un
+consenso per un solo scopo, una casella da spuntare apposta: non è una
+newsletter e non diventa una lista finché non c'è il gestionale con il doppio
+opt-in.
+
+## Il logo nelle email è un PNG
+
+Molti programmi di posta non mostrano gli SVG: le email usano
+`public/brand/logo-email.png`, ricavato dal logo provvisorio (al doppio della
+misura, per gli schermi densi). Quando arriva il logo originale si rifà anche
+questo file.
+

@@ -830,3 +830,45 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
 @media (prefers-reduced-transparency: reduce) {
   .vetro, .icon-btn { background-color: var(--color-latte); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
+
+/* =====================================================================
+   Le richieste (flussi): le card del listino come scelta, il giglio che
+   salta sulla barra dei passi (src/components/flows/).
+   ===================================================================== */
+.scelte { display: grid; gap: 10px; }
+.scelte .riga-listino + .riga-listino { border-top: 0; }
+.scelta {
+  position: relative;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 22px;
+  border: 1.5px solid rgb(248 170 198 / 0.6);
+  background: rgb(255 255 255 / 0.9);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+}
+.scelta:active { transform: scale(0.985); }
+@media (hover: hover) { .scelta:hover { border-color: var(--color-lily); } }
+.scelta[aria-checked="true"] { border-color: var(--color-lily); background: var(--color-carta); box-shadow: 0 12px 26px -18px rgb(224 11 87 / 0.7); }
+.scelta[aria-checked="true"] .cerchio { background: var(--color-lily); color: #fff; }
+.scelta .riga-nome { font-size: 19px; }
+.scelta .riga-breve { font-size: 15px; }
+.scelta-check {
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--color-lily);
+  color: #fff;
+  box-shadow: 0 4px 10px -4px rgb(224 11 87 / 0.7);
+}
+
+/* Il giglio della barra dei passi: un piccolo salto a ogni passo. */
+@keyframes giglio-hop { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -12px; rotate: -10deg; } }
+@media (prefers-reduced-motion: no-preference) { .giglio-hop { animation: giglio-hop 0.75s var(--ease-soft); } }

@@ -129,4 +129,9 @@ export const LETTURA = {
     'La lettura ha valore orientativo e riflessivo: non sostituisce pareri medici, legali o professionali e va interpretata come strumento di introspezione e consiglio.',
   /** Euro; null finché Silvia non lo dà. */
   prezzo: null as number | null,
+  /**
+   * Risposta scritta o video: la sceglie chi chiede o Silvia? (domande
+   * aperte). Con false la richiesta non chiede il formato.
+   */
+  formatoAScelta: false as boolean,
 } as const;
