@@ -1,5 +1,8 @@
 import type { MetadataRoute } from 'next';
 
+/** Generato al build: serve anche all'anteprima statica (output: export). */
+export const dynamic = 'force-static';
+
 /**
  * Manifest da web app (da andrea-bellettati, manifest.ts): il sito si può
  * aggiungere alla schermata Home e si apre a tutto schermo. È il primo

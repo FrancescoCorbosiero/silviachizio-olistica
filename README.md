@@ -146,6 +146,22 @@ Variabili in [`.env.example`](.env.example).
   LCP e CLS su un telefono medio simulato (metodo e risultati in
   [`docs/decisioni.md`](docs/decisioni.md), "Leggerezza").
 
+## Anteprima statica (Netlify Drop)
+
+Per mostrare il sito senza server, per esempio trascinandolo su
+[app.netlify.com/drop](https://app.netlify.com/drop):
+
+```bash
+bash scripts/anteprima-statica.sh
+```
+
+Crea `anteprima-netlify/` (e lo zip): è quella la cartella da trascinare, non
+`public/` (che contiene solo immagini e icone, senza `index.html`). È solo
+un'anteprima: senza server non c'è `/api/richiesta`, quindi le richieste non
+partono e mostrano il ripiego (testo da copiare e Instagram). Con
+`NEXT_PUBLIC_SITE_URL=https://<nome>.netlify.app` davanti al comando, canonical
+e immagini per i social puntano all'indirizzo dell'anteprima.
+
 ## Deploy
 
 Come andrea-bellettati: un container dietro Caddy, che prende i certificati da

@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/site';
 
+/** Generato al build: serve anche all'anteprima statica (output: export). */
+export const dynamic = 'force-static';
+
 /**
  * Le pagine del sito per i motori (da andrea-bellettati, sitemap.ts).
  * Fuori: /bio (link in bio, noindex) e /stile (Brand System, noindex).
