@@ -601,6 +601,150 @@
   .luce-candela { animation: tremolio 3.2s ease-in-out infinite; }
 }
 
+/* I tratti a mano del primo schermo si disegnano da soli in CSS, prima
+   del motore (classe .draw; i tracciati hanno pathLength="1"); quelli
+   sotto la piega li disegna il motore (data-draw). Anche la
+   sottolineatura della parola a mano, nei titoli con .intro. */
+@keyframes draw-on { to { stroke-dashoffset: 0; } }
+@keyframes fill-on { from { fill-opacity: 0; } to { fill-opacity: 1; } }
+@keyframes script-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .draw :is(path, circle, ellipse) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw-on 2.6s cubic-bezier(0.6, 0, 0.3, 1) both;
+    animation-delay: var(--d, 0.3s);
+  }
+  .draw .giglio-petalo {
+    animation: draw-on 2.6s cubic-bezier(0.6, 0, 0.3, 1) both, fill-on 1.2s ease both;
+    animation-delay: var(--d, 0.3s), calc(var(--d, 0.3s) + 2.1s);
+  }
+  .intro .script::after { animation: script-draw 1.1s cubic-bezier(0.6, 0, 0.3, 1) both; animation-delay: calc(var(--d, 0s) + 1s); }
+}
+
+/* =====================================================================
+   Il motore delle animazioni (src/lib/motion): stati e decori.
+   Sotto la piega niente è nascosto dal CSS: lo stato di partenza lo mette
+   lo script (html.has-motion), e senza script la pagina è statica e
+   completa. Con "riduci movimento" lo script non parte.
+   ===================================================================== */
+
+/* Lenis (scroll morbido) — da lenis.css ufficiale. */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Maschere delle righe dei titoli: Playfair corre a interlinea stretta. */
+.split-line-mask { padding: 0.1em 0 0.16em; margin: -0.1em 0 -0.16em; }
+.split-char { display: inline-block; }
+
+/* Testo dei bottoni che rotola al passaggio (il motore avvolge l'etichetta). */
+.btn-roll { position: relative; display: inline-grid; overflow: hidden; line-height: 1.15; }
+.btn-roll > span, .btn-roll::after { grid-area: 1 / 1; transition: translate 0.55s cubic-bezier(0.7, 0, 0.2, 1); }
+.btn-roll::after { content: attr(data-label); translate: 0 110%; }
+@media (hover: hover) {
+  .btn:hover .btn-roll > span { translate: 0 -110%; }
+  .btn:hover .btn-roll::after { translate: 0 0; }
+}
+
+/* Il ritratto da accarezzare (data-love): un battito, cuori al tocco. */
+[data-love] { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+/* Le tappe (data-rail): si accendono quando il petalo le raggiunge. */
+.rail { --p: 1; }
+.rail-step { transition: opacity 0.6s ease; }
+.rail-dot { transition: background-color 0.5s ease, color 0.5s ease, scale 0.7s var(--ease-soft); }
+.has-motion .rail-step:not(.is-reached) { opacity: 0.45; }
+.has-motion .rail-step:not(.is-reached) .rail-dot { background: var(--color-blush); color: var(--color-lily-deep); scale: 0.9; }
+
+/* Sezioni ferme mentre scorri (data-stories su desktop): CSS sticky, non
+   i pin di ScrollTrigger. La sezione si allunga della corsa (--pin-run, la
+   mette il motore) e il suo palco resta attaccato allo schermo. Le sezioni
+   usano overflow: clip (hidden fermerebbe lo sticky). */
+.is-pinned { display: block; padding-block: 0; }
+.is-pinned > [data-pin-stage] { position: sticky; top: 0; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+.is-pinned::after { content: ''; display: block; height: var(--pin-run, 0px); }
+
+/* Le stories nel telefono (data-stories): con lo script le slide vivono
+   dentro lo schermo, una sopra l'altra. Senza script: una lista di card.
+   Su telefono resta fermo solo il telefono, al centro dello schermo. */
+.is-story .story-slides { position: relative; display: block; height: min(52svh, 460px); clip-path: inset(0 round 26px); }
+.is-story .story-slide { position: absolute; inset: 0; transform-origin: 50% 60%; }
+.is-story-phone [data-story-phone] { position: sticky; top: var(--phone-top, 12px); }
+.is-story-phone [data-story-dock]::after { content: ''; display: block; height: var(--pin-run, 0px); }
+@media (min-width: 1024px) {
+  .is-story .story-slides { height: min(58svh, 520px); }
+}
+
+/* Il nastro (data-marquee): senza script scorre piano in CSS. */
+.marquee { overflow: hidden; }
+.marquee-track { display: flex; width: max-content; will-change: transform; }
+.marquee-group { display: flex; align-items: center; flex-shrink: 0; }
+@keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track { animation: marquee 70s linear infinite; }
+  [data-marquee="right"] .marquee-track { animation-direction: reverse; }
+}
+
+/* L'anello di testo intorno alla foto (data-spin). */
+.anello { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; color: var(--color-lily-deep); }
+.anello text { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; letter-spacing: 0.05em; fill: currentColor; }
+
+/* La chat (data-chat): i fumetti arrivano uno alla volta. */
+.chat-bub { transition: opacity 0.6s ease, transform 0.75s var(--ease-soft); transition-delay: calc(var(--i, 0) * 650ms + 200ms); }
+.has-chat [data-chat]:not(.is-in) .chat-bub { opacity: 0; transform: translateY(12px) scale(0.96); }
+
+/* Petali e gigli che ondeggiano (data-float): durata e ritardo dal motore. */
+@keyframes galleggia {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  50% { translate: 0 -12px; rotate: var(--float-r, 4deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .is-floating { animation: galleggia var(--float-d, 6s) ease-in-out var(--float-delay, 0s) infinite; }
+}
+
+/* Petali dietro al puntatore (data-petal-trail), un cuore al clic. */
+[data-petal-trail] { position: relative; }
+.petalo-scia { position: absolute; left: 0; top: 0; z-index: 1; width: 16px; height: 16px; color: var(--color-petalo); pointer-events: none; will-change: transform, opacity; }
+.petalo-scia.is-cuore { width: 24px; height: 22px; color: var(--color-lily); }
+.petalo-scia svg { display: block; width: 100%; height: 100%; }
+
+/* La lente sulla foto della stesa (data-lens). */
+.lens {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: clamp(150px, 15vw, 210px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid var(--color-carta);
+  background-color: var(--color-blush);
+  background-repeat: no-repeat;
+  box-shadow: var(--shadow-petalo-l), 0 0 0 1px rgb(248 170 198 / 0.6);
+  pointer-events: none;
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  .has-motion [data-lens] { cursor: zoom-in; }
+}
+
+/* L'indice dei trattamenti (data-path-row): la foto che segue il puntatore. */
+[data-path-row] { position: relative; }
+[data-path-thumb] { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; display: none; }
+@media (hover: hover) and (pointer: fine) {
+  [data-path-thumb] { display: block; }
+}
+
+/* Con "riduci movimento" tutto fermo. */
+@media (prefers-reduced-motion: reduce) {
+  .site-header, .site-header.is-hidden { transition: none; transform: none; }
+  .petalo-scia, .fx-layer, .lens { display: none; }
+  .chat-bub { transition: none; }
+}
+
 /* Petali, cuori e scintille (fx.ts, celebrate): sopra a tutto. */
 .fx-layer { position: fixed; inset: 0; z-index: 9999; pointer-events: none; overflow: hidden; }
 .fx-bit { position: absolute; display: block; will-change: transform, opacity; }
