@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
-    "check": "npm run typecheck && npm run lint"
+    "check": "npm run typecheck && npm run lint",
+    "anteprima": "bash scripts/anteprima-statica.sh"
   },
   "dependencies": {
     "@aws-sdk/client-sesv2": "^3.1161.0",

@@ -3,8 +3,8 @@
 # Anteprima statica del sito, per un hosting senza server (Netlify Drop:
 # app.netlify.com/drop). Il deploy vero resta Docker + Caddy (README).
 #
-#   bash scripts/anteprima-statica.sh                  → anteprima-netlify/ e .zip
-#   NEXT_PUBLIC_SITE_URL=https://xyz.netlify.app bash scripts/anteprima-statica.sh
+#   npm run anteprima                                  → anteprima-netlify/ e .zip
+#   NEXT_PUBLIC_SITE_URL=https://xyz.netlify.app npm run anteprima
 #
 # Costruisce senza src/app/api (un sito statico non ha server): le richieste non partono e mostrano il ripiego (testo da
 # copiare e Instagram). Su Netlify si trascina la cartella anteprima-netlify

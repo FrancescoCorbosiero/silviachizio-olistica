@@ -96,6 +96,7 @@ npm run dev          # sviluppo su http://localhost:3000
 npm run build        # build di produzione (.next/standalone)
 npm run start        # avvia la build
 npm run check        # tipi (next typegen + tsc) + ESLint
+npm run anteprima    # sito statico in anteprima-netlify/ (Netlify Drop, senza invio richieste)
 ```
 
 Per provare le richieste senza email vere:
