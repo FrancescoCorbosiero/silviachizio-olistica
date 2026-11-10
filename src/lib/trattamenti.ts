@@ -28,12 +28,49 @@ export type Trattamento = {
   icona: IconaTrattamento;
   /** Euro; null finché Silvia non lo dà. */
   prezzo: number | null;
+  /** BOZZA — cosa aspettarsi, da validare con Silvia (docs/testi-da-validare.md). */
+  aspettarsi: string;
+  /** BOZZA — per chi è, da validare con Silvia. */
+  perChi: string;
 };
 
 export const TRATTAMENTI: readonly Trattamento[] = [
-  { slug: 'lily-holistic', nome: 'Lily Holistic', breve: 'Massaggio olistico relax su lettino', durata: 60, icona: 'loto', prezzo: null },
-  { slug: 'lily-holistic-ritual', nome: 'Lily Holistic Ritual', breve: 'Rituale olistico su futon', durata: 75, icona: 'futon', prezzo: null },
-  { slug: 'lily-sportive', nome: 'Lily Sportive', breve: 'Massaggio decontratturante e muscolare', durata: 60, icona: 'schiena', prezzo: null },
+  {
+    slug: 'lily-holistic',
+    nome: 'Lily Holistic',
+    breve: 'Massaggio olistico relax su lettino',
+    durata: 60,
+    icona: 'loto',
+    prezzo: null,
+    // BOZZA
+    aspettarsi: 'Un massaggio lento e avvolgente sul lettino, con movimenti morbidi e un ritmo che ti lascia il tempo di rallentare.',
+    // BOZZA
+    perChi: "Per chi ha voglia di staccare e concedersi un'ora di calma.",
+  },
+  {
+    slug: 'lily-holistic-ritual',
+    nome: 'Lily Holistic Ritual',
+    breve: 'Rituale olistico su futon',
+    durata: 75,
+    icona: 'futon',
+    prezzo: null,
+    // BOZZA
+    aspettarsi: 'Un rituale più lungo, sul futon: settantacinque minuti per lasciarti andare, senza fretta.',
+    // BOZZA
+    perChi: 'Per chi desidera un momento più ampio e raccolto, tutto per sé.',
+  },
+  {
+    slug: 'lily-sportive',
+    nome: 'Lily Sportive',
+    breve: 'Massaggio decontratturante e muscolare',
+    durata: 60,
+    icona: 'schiena',
+    prezzo: null,
+    // BOZZA
+    aspettarsi: 'Un massaggio più deciso, dedicato ai muscoli che lavorano tanto: un tocco più profondo, sempre attento a come stai.',
+    // BOZZA
+    perChi: 'Per chi fa sport, cammina in montagna o passa molte ore nella stessa posizione.',
+  },
   {
     slug: 'lily-magic',
     nome: 'Lily Magic',
@@ -41,8 +78,23 @@ export const TRATTAMENTI: readonly Trattamento[] = [
     durata: 60,
     icona: 'candela',
     prezzo: null,
+    // BOZZA
+    aspettarsi: "Il rituale più magico: la luce della candela, le pietre, il biotensor e un momento di meditazione, in un'atmosfera raccolta.",
+    // BOZZA
+    perChi: 'Per chi ama i rituali e ha voglia di lasciarsi sorprendere.',
   },
 ];
+
+/**
+ * "Prima di venire": cosa portare e cosa sapere, solo con le indicazioni di
+ * Silvia (domande aperte). Finché è vuoto la sezione non compare.
+ */
+export const PRIMA_DI_VENIRE: string[] = [];
+
+/** "Prenota questo": la richiesta con il trattamento già scelto. */
+export function prenotaQuesto(slug: TrattamentoSlug): string {
+  return `/prenota?trattamento=${slug}#richiesta`;
+}
 
 /** Il trattamento con questo slug, se esiste. */
 export function trovaTrattamento(slug: string | null | undefined): Trattamento | undefined {

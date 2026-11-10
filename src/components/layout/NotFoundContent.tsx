@@ -35,7 +35,8 @@ export default function NotFoundContent() {
           </div>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/brand/giglio.svg" alt="" width={240} height={180} className="intro-fade mx-auto h-auto w-[min(380px,78%)] opacity-90" />
+        {/* loading="lazy": React non lo precarica in ogni pagina (la 404 viaggia nei dati di tutte). */}
+        <img src="/brand/giglio.svg" alt="" width={240} height={180} loading="lazy" decoding="async" className="intro-fade mx-auto h-auto w-[min(380px,78%)] opacity-90" />
       </div>
     </section>
   );

@@ -465,6 +465,10 @@
     color: var(--color-inchiostro);
   }
   .fascia-relax .punto { color: var(--color-lily); }
+  @media (max-width: 639px) {
+    .fascia-relax { flex-direction: column; gap: 0; }
+    .fascia-relax .punto { display: none; }
+  }
 
   /* ── Pillole e chip ───────────────────────────────────────── */
   .pill {
@@ -688,9 +692,46 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
   [data-marquee="right"] .marquee-track { animation-direction: reverse; }
 }
 
+/* Il nastro dei trattamenti sulla pennellata blush (Nastro.tsx). */
+.nastro { position: relative; isolation: isolate; overflow-x: clip; }
+.nastro::before {
+  content: '';
+  position: absolute;
+  inset: 0 0.5%;
+  z-index: -1;
+  background: linear-gradient(90deg, var(--color-blush), var(--color-cipria) 50%, var(--color-blush));
+  -webkit-mask: var(--pennello) center / 100% 100% no-repeat;
+  mask: var(--pennello) center / 100% 100% no-repeat;
+}
+
 /* L'anello di testo intorno alla foto (data-spin). */
 .anello { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; color: var(--color-lily-deep); }
-.anello text { font-family: var(--font-serif); font-style: italic; font-size: 13.5px; letter-spacing: 0.05em; fill: currentColor; }
+.anello text { font-family: var(--font-serif); font-style: italic; font-size: 11.5px; letter-spacing: 0.05em; fill: currentColor; }
+
+/* Il badge rotondo "Prenota" della chiusura (data-magnetic, data-spin). */
+.badge-prenota {
+  position: relative;
+  place-items: center;
+  width: 176px;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--color-lily);
+  color: #fff;
+  box-shadow: 0 24px 44px -20px rgb(242 79 128 / 0.65);
+}
+.badge-prenota .anello { color: #fff; }
+.badge-prenota .anello text { font-family: var(--font-sans); font-style: normal; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+.badge-core {
+  display: grid;
+  place-items: center;
+  width: 44%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--color-latte);
+  color: var(--color-lily);
+  transition: transform 0.6s var(--ease-soft);
+}
+.badge-prenota:hover .badge-core { transform: scale(1.08) rotate(-10deg); }
 
 /* La chat (data-chat): i fumetti arrivano uno alla volta. */
 .chat-bub { transition: opacity 0.6s ease, transform 0.75s var(--ease-soft); transition-delay: calc(var(--i, 0) * 650ms + 200ms); }

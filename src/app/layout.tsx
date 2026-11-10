@@ -3,6 +3,8 @@ import './globals.css';
 import { fontVariables } from './fonts';
 import { AppProvider } from '@/components/app/AppProvider';
 import SmoothScroll from '@/components/motion/SmoothScroll';
+import JsonLd from '@/components/seo/JsonLd';
+import { siteGraph } from '@/lib/seo';
 import { OWNER_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -43,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             (sito) per le pagine del sito, (campagne) per il link in bio. */}
         <AppProvider>{children}</AppProvider>
         <SmoothScroll />
+        <JsonLd data={siteGraph()} />
       </body>
     </html>
   );
