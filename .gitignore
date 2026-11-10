@@ -22,5 +22,5 @@ npm-debug.log*
 
 # anteprima statica (scripts/anteprima-statica.sh)
 /anteprima-netlify/
-/anteprima-netlify.zip
+
 /.api-in-pausa/

@@ -156,12 +156,13 @@ Per mostrare il sito senza server, per esempio trascinandolo su
 npm run anteprima
 ```
 
-Crea `anteprima-netlify/` (e lo zip): è quella la cartella da trascinare, non
+Crea `anteprima-netlify/`: è quella la cartella da trascinare, non
 `public/` (che contiene solo immagini e icone, senza `index.html`). È solo
 un'anteprima: senza server non c'è `/api/richiesta`, quindi le richieste non
 partono e mostrano il ripiego (testo da copiare e Instagram). Con
-`NEXT_PUBLIC_SITE_URL=https://<nome>.netlify.app npm run anteprima`, canonical
-e immagini per i social puntano all'indirizzo dell'anteprima.
+`npm run anteprima -- https://<nome>.netlify.app` canonical, sitemap e immagini
+per i social puntano all'indirizzo dell'anteprima. Funziona anche su Windows
+(lo script è in Node).
 
 ## Deploy
 

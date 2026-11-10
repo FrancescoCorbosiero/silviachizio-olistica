@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 
 /**
  * ANTEPRIMA_STATICA=1: solo per un'anteprima su un hosting statico (es.
- * Netlify Drop), con scripts/anteprima-statica.sh. Esporta HTML e file in
+ * Netlify Drop), con npm run anteprima (scripts/anteprima-statica.mjs). Esporta HTML e file in
  * out/, senza server: niente /api/richiesta (le richieste ripiegano sul testo
  * da copiare e su Instagram) e niente intestazioni di sicurezza.
  */
