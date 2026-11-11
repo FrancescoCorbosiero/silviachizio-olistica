@@ -56,7 +56,7 @@ si aggiorna il dato e si toglie la domanda da qui.
 - [ ] ★ Foto dello studio e di te al lavoro, nella divisa. Se non ci sono, un piccolo servizio fotografico. (home, trattamenti, chi sono)
 - [ ] Recensioni vere da poter citare (per esempio da Google), con il permesso. (home)
 - [ ] Una foto per ognuno dei quattro trattamenti, e qualche foto dello studio per la galleria. (trattamenti)
-- [ ] Le due foto dell'anteprima (Montebelluna dall'alto, le carte su marmo): da dove vengono, si possono usare? Quella di Montebelluna serve più grande: oggi è 617×324. (home, contatti, letture, prenota)
+- [ ] Le foto dell'anteprima (Montebelluna dall'alto, le carte su marmo, il massaggio sulla schiena): da dove vengono, si possono usare? Quella di Montebelluna serve più grande (oggi 617×324); quella del massaggio non ritrae Silvia né lo studio, va sostituita con una foto vera. (home, contatti, letture, prenota)
 - [ ] Un video breve dello studio (luce, mani, candele) al posto di quello d'atmosfera nella home? (home)
 
 ## Canali

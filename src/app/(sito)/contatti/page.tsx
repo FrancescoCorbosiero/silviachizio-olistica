@@ -91,7 +91,7 @@ export default function ContattiPage() {
             {ORARI_STUDIO && (
               <div className="flex flex-col items-start gap-4">
                 <h2 className="eyebrow">Giorni e orari</h2>
-                <ul className="space-y-1 font-serif text-[clamp(20px,2vw,24px)] italic">
+                <ul className="space-y-1 font-corsivo text-[clamp(22px,2.2vw,27px)] font-semibold italic">
                   {ORARI_STUDIO.valore.map((o) => (
                     <li key={o}>{o}</li>
                   ))}

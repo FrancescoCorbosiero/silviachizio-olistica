@@ -6,12 +6,13 @@ import { ZONA } from '@/lib/site';
 const PORTE: { href: string; eyebrow: string; titolo: string; testo: string; vai: string; immagine: NomeImmagine }[] = [
   {
     href: '/trattamenti',
-    eyebrow: 'In studio',
-    titolo: `A ${ZONA.replace(' (TV)', '')}`,
+    eyebrow: `In studio a ${ZONA.replace(' (TV)', '')}`,
+    // BOZZA
+    titolo: 'Massaggi e rituali',
     // BOZZA
     testo: 'Quattro trattamenti, da 60 a 75 minuti, e dopo ognuno un momento relax di circa quindici minuti.',
     vai: 'Il listino',
-    immagine: 'montebelluna',
+    immagine: 'massaggio',
   },
   {
     href: '/letture',

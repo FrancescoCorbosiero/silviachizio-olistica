@@ -132,7 +132,7 @@ export default function ChiSonoPage() {
                 <span className="text-petalo" data-pop>
                   <Icona size={34} strokeWidth={1.4} aria-hidden />
                 </span>
-                <span className="font-serif text-[19px] italic">{nome}</span>
+                <span className="font-corsivo text-[22px] font-semibold italic">{nome}</span>
               </li>
             ))}
           </ul>

@@ -204,7 +204,8 @@ export default function StilePage() {
               Testo normale in Figtree, 17 px su telefono e 18 px su schermi più grandi. Silvia parla in prima persona e dà
               del tu. <a className="text-link" href="#tipografia">Link nel testo <ArrowIcon /></a>
             </p>
-            <p className="font-script text-5xl text-lily">Damion · la parola a mano</p>
+            <p className="corsivo text-3xl text-lily-deep">Cormorant Garamond corsivo · etichette, descrizioni, la parola in evidenza</p>
+            <p className="font-script text-5xl text-lily">Damion · il logo e la firma</p>
           </div>
         </div>
       </Blocco>

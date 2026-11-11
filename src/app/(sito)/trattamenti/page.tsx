@@ -194,7 +194,7 @@ export default function TrattamentiPage() {
                         </span>
                         <span className="corsivo block text-[16px] leading-snug">{t.breve}</span>
                       </span>
-                      <span className="hidden shrink-0 items-center gap-1.5 font-serif text-[16px] italic sm:flex">
+                      <span className="hidden shrink-0 items-center gap-1.5 font-corsivo text-[18.5px] font-semibold italic sm:flex">
                         <IconaOrologio size={17} className="text-lily" /> {t.durata} min
                       </span>
                       <ArrowIcon size={18} className="riga-freccia text-lily" />

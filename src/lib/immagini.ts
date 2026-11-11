@@ -76,6 +76,8 @@ export const IMMAGINI = {
   pellicola: atmosfera('pellicola'),
   /** Montebelluna dall'alto, col Duomo: foto per l'anteprima (piccola, 617×324: serve più grande). */
   montebelluna: foto('montebelluna', "Montebelluna dall'alto, con il Duomo", 'anteprima', '50% 35%'),
+  /** Mani che massaggiano una schiena, candele: foto per l'anteprima dello studio (non è Silvia). */
+  massaggio: foto('massaggio', 'Un massaggio sulla schiena, accanto a candele e asciugamani', 'anteprima', '56% 50%'),
   /** Carte e cristalli su marmo: foto per l'anteprima delle letture. */
   carte: foto('lettura-carte', 'Carte e cristalli su un piano di marmo', 'anteprima'),
   /** Il primo fotogramma del video della hero (public/video/): il suo poster. */

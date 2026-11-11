@@ -262,6 +262,17 @@ Montebelluna è piccola (617×324): `scripts/foto.cjs` la ingrandisce con una
 grana fine e una qualità più bassa (pesa 59 kB sul telefono, LCP di Contatti
 1,96 s), ma serve una versione più grande.
 
+## Il corsivo è Cormorant Garamond
+
+Il Playfair corsivo, alle misure del listino (15–16 px), si leggeva poco. Al suo
+posto Cormorant Garamond Italic, scelto confrontandolo con EB Garamond sui testi
+veri del listino: più elegante, e al peso 600 leggibile anche piccolo. Due file
+(500 e 600, solo alfabeto latino, licenza OFL in `src/fonts/licenze/`), self-hosted
+come gli altri; il file del Playfair corsivo è stato tolto, così non si
+precarica per niente. Le etichette sopra i titoli passano dal maiuscoletto
+spaziato al corsivo. Le immagini per i social (`scripts/immagini.cjs`) sono state
+rifatte con il nuovo corsivo e il titolo nuovo della home.
+
 ## Senza foto, il giglio
 
 *(Superata in parte dalla decisione sopra: nell'hero e in Chi sono, al posto

@@ -69,7 +69,7 @@ Confronti con il materiale di Silvia: `immagini/confronto-serif.png` e
 | Ruolo | Font | Perché |
 |---|---|---|
 | Titoli e nomi dei trattamenti | **Playfair Display** 700–900 | il serif ad alto contrasto di «LISTINO TRATTAMENTI» |
-| Sottotitoli e descrizioni brevi | **Playfair Display Italic** 400 | come «Quattro esperienze di benessere» e le descrizioni del listino |
+| Sottotitoli, descrizioni, etichette, la parola in evidenza | **Cormorant Garamond Italic** 500–600 (dal novembre 2026; prima Playfair Display Italic) | più elegante e più leggibile alle misure piccole, come «Massaggio olistico relax su lettino» |
 | Testo | **Figtree** 400–700 | leggibile sul telefono; è anche il font di Konsta (`--font-ios`) |
 | La parola a mano | **Damion** (in alternativa Yellowtail) | i più vicini al wordmark «Lily» |
 
@@ -317,3 +317,20 @@ un'anteprima, deve mostrare tutto. Cosa cambia:
   rosa (filtro CSS), il segno a goccia lily col giglio a linea, i controlli
   come piccoli rettangoli latte, la scheda dello studio su fondo vino (sopra
   la mappa a sinistra su desktop, sotto sul telefono).
+
+## Terza revisione: il corsivo e le etichette (novembre 2026)
+
+- **Il corsivo** è **Cormorant Garamond Italic** (`--font-corsivo`, 600 per il
+  testo piccolo, 500 per quello grande), al posto del Playfair corsivo, che alle
+  misure del listino si leggeva poco. Vale per le descrizioni del listino, la
+  durata, la fascia del relax, la parola in evidenza nei titoli (`.script`), le
+  citazioni, i numeri, il nastro. Le misure piccole sono salite di 2–3 px:
+  Cormorant ha l'occhio più piccolo. Il Playfair resta per i titoli in tondo.
+- **Le etichette sopra i titoli** (`.eyebrow`) non sono più in maiuscoletto
+  spaziato con il filetto (sapeva di modello): sono una riga in corsivo, rosa
+  profondo su chiaro e petalo su scuro, come le didascalie del listino. Lo
+  stesso per i fatti dell'hero, i temi del blog, le pillole della durata e le
+  firme delle recensioni.
+- **La porta «In studio»** in home ha la foto di un massaggio (foto per
+  l'anteprima, non è Silvia) e il titolo «Massaggi e rituali»; Montebelluna
+  resta nella testata di Contatti.

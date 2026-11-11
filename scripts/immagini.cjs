@@ -20,7 +20,6 @@ const PUBLIC = path.join(ROOT, 'public');
 const FONTS = path.join(ROOT, 'src', 'fonts');
 
 const LILY = '#e00b57';
-const LATTE = '#fdf6f8';
 
 /** Il giglio in piccolo (IconaGiglio di src/components/icons.tsx). */
 const GIGLIO_ICONA = `
@@ -45,14 +44,15 @@ const font = (file, family, weight, style = 'normal') =>
 
 const FONT_CSS = [
   font('playfair-display-latin-wght-normal.woff2', 'Playfair Display', '400 900'),
-  font('playfair-display-latin-400-italic.woff2', 'Playfair Display', '400', 'italic'),
+  font('cormorant-garamond-latin-500-italic.woff2', 'Cormorant Garamond', '500', 'italic'),
+  font('cormorant-garamond-latin-600-italic.woff2', 'Cormorant Garamond', '600', 'italic'),
   font('figtree-latin-wght-normal.woff2', 'Figtree', '300 900'),
   font('damion-latin-400-normal.woff2', 'Damion', '400'),
 ].join('\n');
 
 /** Le immagini Open Graph: una per pagina (testi come i titoli delle pagine). */
 const OG = [
-  { file: 'home', titolo: 'Un’ora per <i>te</i>', sotto: 'Massaggi e rituali olistici a Montebelluna (TV) · Letture intuitive a distanza' },
+  { file: 'home', titolo: 'Uno spazio per <i>rallentare</i>', sotto: 'Massaggi e rituali olistici a Montebelluna (TV) · Letture intuitive a distanza' },
   { file: 'trattamenti', manifesto: true, titolo: 'Listino<br><b>Trattamenti</b>', sotto: 'Quattro esperienze di benessere' },
   { file: 'letture', titolo: 'Letture <i>intuitive</i>', sotto: 'Una lettura simbolica e intuitiva personalizzata, via email' },
   { file: 'prenota', titolo: 'Prenota un <i>trattamento</i>', sotto: 'Ti scrivo io per fissare giorno e ora' },
@@ -68,22 +68,19 @@ function ogHtml(o) {
 ${FONT_CSS}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px}
-body{position:relative;overflow:hidden;font-family:Figtree,sans-serif;color:#2a1b17;background:${LATTE};
-  background-image:radial-gradient(520px 380px at 8% 6%, rgba(248,170,198,.42), rgba(248,170,198,0) 70%),
-  radial-gradient(560px 420px at 96% 92%, rgba(252,224,233,.95), rgba(252,224,233,0) 70%),
-  radial-gradient(420px 300px at 70% 10%, rgba(246,194,139,.22), rgba(246,194,139,0) 70%)}
+body{position:relative;overflow:hidden;font-family:Figtree,sans-serif;color:#2a1b17;background:#f2e4dd}
 .bordino{position:absolute;left:0;right:0;bottom:0;height:10px;background:#221814;border-top:3px solid #f24f80}
 .testo{position:absolute;left:84px;top:0;bottom:10px;width:640px;display:flex;flex-direction:column;justify-content:center;gap:22px}
-.eyebrow{font-size:24px;font-weight:650;color:#c40a4c;letter-spacing:.01em}
+.eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:32px;color:#c40a4c}
 h1{font-family:'Playfair Display',serif;font-weight:800;font-size:76px;line-height:1.04;letter-spacing:-.012em}
-h1 i{font-family:Damion,cursive;font-style:normal;font-weight:400;color:${LILY};font-size:1.18em}
+h1 i{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;color:#c40a4c;font-size:1.1em}
 h1.manifesto{text-transform:uppercase;font-weight:900;font-size:86px;line-height:.98}
 h1.manifesto b{color:${LILY};font-weight:900}
 .script{font-family:Damion,cursive;color:${LILY};font-size:58px;line-height:1}
-.sotto{text-wrap:balance;font-family:'Playfair Display',serif;font-style:italic;font-size:30px;line-height:1.3;color:#2a1b17;max-width:600px}
+.sotto{text-wrap:balance;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:36px;line-height:1.25;color:#2a1b17;max-width:600px}
 .logo{position:absolute;right:70px;top:50%;transform:translateY(-52%);width:360px}
 .logo svg{width:100%;height:auto;display:block}
-.alone{position:absolute;right:20px;top:50%;width:460px;height:460px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(closest-side, rgba(248,170,198,.55), rgba(252,224,233,.3) 55%, rgba(252,224,233,0))}
+.alone{display:none}
 </style></head><body>
 <div class="alone"></div>
 <div class="testo">

@@ -40,6 +40,10 @@
   --font-serif: var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
   --font-sans: var(--font-figtree), "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-script: var(--font-damion), "Damion", cursive;
+  /* Il corsivo del sito (Cormorant Garamond): descrizioni, etichette, la
+     parola in evidenza, citazioni. Più elegante e leggibile del Playfair
+     corsivo alle misure piccole. */
+  --font-corsivo: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   /* Konsta legge questi due: le parti "app" parlano con il font e il rosa
      del marchio, non con il font di sistema e il blu di iOS. */
   --font-ios: var(--font-sans);
@@ -142,7 +146,7 @@
   .manifesto { font-family: var(--font-serif); text-transform: uppercase; letter-spacing: 0.02em; font-weight: 900; }
   .lead { font-size: clamp(18px, 1.9vw, 21px); line-height: 1.55; color: var(--color-ink-mute); }
   /* Il corsivo del listino: «Quattro esperienze di benessere», le descrizioni. */
-  .corsivo { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+  .corsivo { font-family: var(--font-corsivo); font-style: italic; font-weight: 600; }
   .testo-mute { color: var(--color-ink-mute); }
   .misura { max-width: 34em; } /* righe di 60–70 caratteri */
 
@@ -154,11 +158,13 @@
   .script {
     position: relative;
     display: inline;
-    font-family: var(--font-serif);
-    font-weight: 400;
+    font-family: var(--font-corsivo);
+    font-weight: 500;
     font-style: italic;
+    font-size: 1.1em;
+    line-height: 0.9;
     text-transform: none;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     color: var(--color-lily-deep);
   }
   .script::after {
@@ -178,28 +184,22 @@
   .script::after { display: none; }
 
   /* Etichetta sopra i titoli: piccola, rosa profondo, con la scintilla. */
-  /* Etichetta sopra i titoli: maiuscoletto spaziato, con un filetto. */
+  /* Etichetta sopra i titoli: una riga in corsivo, come le didascalie del
+     listino. Niente maiuscoletto spaziato, niente filetto: sapevano di
+     modello (novembre 2026). */
   .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
+    display: inline-block;
     width: fit-content;
     color: var(--color-lily-deep);
-    font-family: var(--font-sans);
-    font-size: 12.5px;
-    font-weight: 650;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    line-height: 1.3;
+    font-family: var(--font-corsivo);
+    font-size: clamp(19px, 1.7vw, 22px);
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: none;
   }
-  .eyebrow::before {
-    content: '';
-    width: 32px;
-    height: 1px;
-    flex-shrink: 0;
-    background: currentColor;
-  }
-  .on-notte .eyebrow { color: var(--color-candela); }
+  .on-notte .eyebrow { color: var(--color-petalo); }
 
   /* ── Bottoni: pillole morbide ─────────────────────────────
      Principale pieno --lily con testo bianco (4,8:1), secondario a
@@ -350,9 +350,9 @@
     display: inline-block;
     isolation: isolate;
     padding: 0.28em 1.1em 0.34em;
-    font-family: var(--font-serif);
+    font-family: var(--font-corsivo);
     font-style: italic;
-    font-weight: 400;
+    font-weight: 600;
     color: var(--color-inchiostro);
   }
   .pennellata::before {
@@ -421,10 +421,11 @@
   .riga-breve {
     display: block;
     margin-top: 3px;
-    font-family: var(--font-serif);
+    font-family: var(--font-corsivo);
     font-style: italic;
-    font-size: 16px;
-    line-height: 1.35;
+    font-weight: 600;
+    font-size: 18.5px;
+    line-height: 1.3;
     color: var(--color-inchiostro);
   }
   .riga-durata {
@@ -434,9 +435,10 @@
     align-self: stretch;
     padding-left: 12px;
     border-left: 1px solid var(--color-petalo);
-    font-family: var(--font-serif);
+    font-family: var(--font-corsivo);
     font-style: italic;
-    font-size: 15.5px;
+    font-weight: 600;
+    font-size: 18px;
     white-space: nowrap;
     color: var(--color-inchiostro);
   }
@@ -457,9 +459,10 @@
     padding: 12px 22px;
     border-radius: var(--radius-tile);
     background: rgb(196 10 76 / 0.07);
-    font-family: var(--font-serif);
+    font-family: var(--font-corsivo);
     font-style: italic;
-    font-size: 16px;
+    font-weight: 600;
+    font-size: 18.5px;
     text-align: center;
     color: var(--color-inchiostro);
   }
@@ -481,10 +484,10 @@
     border-radius: var(--radius-btn);
     border: 1px solid rgb(196 10 76 / 0.3);
     color: var(--color-lily-deep);
-    font-size: 12.5px;
-    font-weight: 650;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-family: var(--font-corsivo);
+    font-size: 17.5px;
+    font-style: italic;
+    font-weight: 600;
     line-height: 1.2;
   }
   .pill svg { width: 15px; height: 15px; }
@@ -580,7 +583,7 @@
   .velo-chiaro { background: linear-gradient(90deg, rgb(242 228 221 / 0.92), rgb(242 228 221 / 0.6) 55%, rgb(242 228 221 / 0.1)); }
 
   /* I tre fatti dell'hero: testo spaziato tra filetti, niente pillole. */
-  .fatti { display: flex; flex-wrap: wrap; gap: 8px 0; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(253 246 248 / 0.85); }
+  .fatti { display: flex; flex-wrap: wrap; gap: 8px 0; font-family: var(--font-corsivo); font-size: 19px; font-style: italic; font-weight: 600; color: rgb(253 246 248 / 0.88); }
   .fatti > li { display: flex; align-items: center; }
   .fatti > li + li::before { content: ''; width: 1px; height: 14px; margin-inline: 16px; background: currentColor; opacity: 0.5; }
   @media (max-width: 639px) {
@@ -908,7 +911,7 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
 .scelta[aria-checked="true"] { border-color: var(--color-lily); background: var(--color-carta); box-shadow: 0 12px 26px -18px rgb(224 11 87 / 0.7); }
 .scelta[aria-checked="true"] .cerchio { background: var(--color-lily); color: #fff; }
 .scelta .riga-nome { font-size: 19px; }
-.scelta .riga-breve { font-size: 15px; }
+.scelta .riga-breve { font-size: 17.5px; }
 .scelta-check {
   position: absolute;
   top: -7px;
@@ -984,7 +987,7 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
 
   /* ── L'anello di testo (data-spin): hero e badge della chiusura ── */
   .anello { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; color: var(--color-lily-deep); }
-  .anello text { font-family: var(--font-serif); font-style: italic; font-size: 11.5px; letter-spacing: 0.05em; fill: currentColor; }
+  .anello text { font-family: var(--font-corsivo); font-style: italic; font-size: 11.5px; letter-spacing: 0.05em; fill: currentColor; }
 
   /* Il sigillo dell'hero: l'anello che gira intorno al giglio a linea. */
   .sigillo { position: relative; display: grid; place-items: center; width: clamp(108px, 12vw, 172px); aspect-ratio: 1; color: rgb(253 246 248 / 0.9); }
@@ -1025,11 +1028,11 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
 
   /* ── Il nastro dei nomi (Nastro.tsx), su fascia lily ─────────── */
   .nastro { overflow-x: clip; background: var(--color-lily-deep); color: #fff; padding-block: 18px; }
-  .nastro-voce { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; font-family: var(--font-serif); font-style: italic; font-size: clamp(24px, 3.2vw, 40px); line-height: 1.1; white-space: nowrap; }
+  .nastro-voce { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; font-family: var(--font-corsivo); font-style: italic; font-size: clamp(24px, 3.2vw, 40px); line-height: 1.1; white-space: nowrap; }
   .nastro-voce img { width: clamp(22px, 2.4vw, 30px); height: auto; opacity: 0.9; }
 
   /* ── Numeri e righe editoriali ───────────────────────────────── */
-  .numero { font-family: var(--font-serif); font-weight: 400; font-style: italic; font-size: clamp(44px, 5vw, 72px); line-height: 0.9; color: var(--color-lily-deep); }
+  .numero { font-family: var(--font-corsivo); font-weight: 500; font-style: italic; font-size: clamp(44px, 5vw, 72px); line-height: 0.9; color: var(--color-lily-deep); }
   .on-notte .numero { color: var(--color-petalo); }
   .righe > * + * { border-top: 1px solid rgb(74 16 39 / 0.14); }
   .on-notte .righe > * + * { border-top-color: rgb(253 246 248 / 0.18); }
@@ -1051,7 +1054,7 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
   }
 
   /* La citazione: le recensioni, il disclaimer, «perché Lily». */
-  .citazione { position: relative; font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(21px, 2.2vw, 27px); line-height: 1.4; }
+  .citazione { position: relative; font-family: var(--font-corsivo); font-style: italic; font-weight: 400; font-size: clamp(21px, 2.2vw, 27px); line-height: 1.4; }
   .citazione::before { content: '“'; display: block; height: 0.55em; margin-bottom: 0.15em; font-size: 3.2em; line-height: 1; color: var(--color-lily); font-style: normal; }
   .on-notte .citazione::before { color: var(--color-petalo); }
 
@@ -1110,7 +1113,7 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
 
   /* ── Le recensioni ───────────────────────────────────────────── */
   .recensione { display: flex; flex-direction: column; gap: 18px; }
-  .recensione-chi { font-size: 13px; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-ink-mute); }
+  .recensione-chi { font-family: var(--font-corsivo); font-size: 18px; font-style: italic; font-weight: 600; color: var(--color-ink-mute); }
   .on-notte .recensione-chi { color: rgb(253 246 248 / 0.75); }
 
   /* ── Pannello su immagine (Lily Magic, temi): vetro scuro ────── */
@@ -1208,12 +1211,11 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    font-family: var(--font-sans);
-    font-size: 12.5px;
-    font-weight: 650;
-    letter-spacing: 0.16em;
-    line-height: 1.4;
-    text-transform: uppercase;
+    font-family: var(--font-corsivo);
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.3;
     color: var(--color-ink-mute);
   }
   .card-articolo-tema::before { content: ''; flex-shrink: 0; width: 9px; height: 9px; border-radius: 999px; background: var(--tono, var(--color-lily)); }
@@ -1272,8 +1274,8 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
     margin-block: 1.8em;
     padding-left: 1.1em;
     border-left: 2px solid var(--color-lily);
-    font-family: var(--font-serif);
-    font-size: 1.25em;
+    font-family: var(--font-corsivo);
+    font-size: 1.3em;
     font-style: italic;
     line-height: 1.5;
     color: var(--color-inchiostro);
