@@ -334,3 +334,12 @@ un'anteprima, deve mostrare tutto. Cosa cambia:
 - **La porta «In studio»** in home ha la foto di un massaggio (foto per
   l'anteprima, non è Silvia) e il titolo «Massaggi e rituali»; Montebelluna
   resta nella testata di Contatti.
+
+## Quarta revisione: di nuovo rotondo (novembre 2026)
+
+Dopo il confronto tra spigoli netti, via di mezzo e forme morbide, si torna al
+**rotondo pieno**: bottoni, pillole, etichette dei temi e bottoni-icona a
+pillola (`--radius-btn: 999px`), foto e fasce a 18 px (`--radius-tile`),
+pannelli a 26 px (`--radius-petalo`). L'arco delle foto resta la forma simbolo.
+Del passaggio al netto restano le cose che contavano davvero: le scene a tutto
+schermo, i fondi pieni, il corsivo, niente card galleggianti sul bianco.

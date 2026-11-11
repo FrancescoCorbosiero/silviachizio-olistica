@@ -210,7 +210,7 @@ export default function StilePage() {
         </div>
       </Blocco>
 
-      <Blocco id="bottoni" titolo="Bottoni" nota="Rettangoli con gli angoli appena smussati: pieno rosa (principale), contorno rosa (secondario), latte e contorno latte sulle scene e sulle sezioni scure.">
+      <Blocco id="bottoni" titolo="Bottoni" nota="Pillole morbide: piena rosa (principale), contorno rosa (secondario), latte e contorno latte sulle scene e sulle sezioni scure.">
         <div className="flex flex-wrap items-center gap-4">
           <a className="btn" href="#bottoni">
             Prenota un trattamento

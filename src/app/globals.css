@@ -50,11 +50,12 @@
   --color-brand-primary: #e00b57;
 
   /* ── Forme e movimento («respiro»: lento e morbido) ──────── */
-  /* Forme architettoniche: angoli appena smussati. L'unica curva vera è
-     l'arco delle foto (.foto-arco), come una porta o una finestra. */
-  --radius-petalo: 0.375rem;     /* 6px: pannelli */
-  --radius-tile: 0.25rem;        /* 4px */
-  --radius-btn: 2px;
+  /* Forme morbide, come i petali (novembre 2026: dopo una prova con gli
+     angoli netti, si è tornati al rotondo). Bottoni, pillole ed etichette a
+     pillola; pannelli e foto con raggi ampi; l'arco delle foto resta. */
+  --radius-petalo: 1.625rem;     /* 26px: pannelli */
+  --radius-tile: 1.125rem;       /* 18px: foto, fasce, tessere */
+  --radius-btn: 999px;           /* bottoni e pillole */
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);      /* ≈ power3.out */
   --ease-breath: cubic-bezier(0.37, 0, 0.63, 1);    /* ≈ sine.inOut */
   --ease-pop: cubic-bezier(0.3, 1.25, 0.5, 1);      /* un pop morbido, mai un rimbalzo */
@@ -284,7 +285,7 @@
     width: 44px;
     height: 44px;
     flex-shrink: 0;
-    border-radius: var(--radius-tile);
+    border-radius: 999px;
     border: 1px solid rgb(196 10 76 / 0.22);
     background-color: rgb(253 246 248 / 0.6);
     color: var(--color-lily-deep);
@@ -1128,7 +1129,7 @@ html.lenis { scroll-behavior: auto; } /* lo smooth nativo litiga con Lenis */
     .pannello-notte { background: var(--color-notte); -webkit-backdrop-filter: none; backdrop-filter: none; }
   }
   /* Etichette a contorno sulle scene (i temi delle letture). */
-  .tag-contorno { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border: 1px solid rgb(253 246 248 / 0.45); border-radius: var(--radius-tile); font-size: 16px; font-weight: 600; }
+  .tag-contorno { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border: 1px solid rgb(253 246 248 / 0.45); border-radius: var(--radius-btn); font-size: 16px; font-weight: 600; }
 }
 
 /* =====================================================================

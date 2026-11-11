@@ -59,7 +59,7 @@ export default function SiteHeader() {
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? 'page' : undefined}
-              className={`rounded-[var(--radius-tile)] px-4 py-2.5 text-[15.5px] font-[650] transition-colors duration-300 ${
+              className={`rounded-full px-4 py-2.5 text-[15.5px] font-[650] transition-colors duration-300 ${
                 isActive(item.href) ? 'bg-cipria text-lily-deep' : 'text-inchiostro hover:bg-white/80'
               }`}
             >

@@ -287,6 +287,13 @@ prima che React tolga i nodi. Verificato con Playwright su produzione e
 sviluppo: home → trattamenti → letture → blog → articolo → articolo → indietro
 fino alla home, senza errori e con chat, parallax e video ogni volta.
 
+## Rotondo, non netto
+
+Gli angoli netti della prima revisione stonavano con il resto del brand (il
+giglio, gli archi, il corsivo, i sigilli, le card del modulo). Confrontate tre
+versioni (netto, via di mezzo, pillola), lo studio ha scelto il rotondo pieno:
+tre token in `globals.css` (`--radius-btn`, `--radius-tile`, `--radius-petalo`).
+
 ## Senza foto, il giglio
 
 *(Superata in parte dalla decisione sopra: nell'hero e in Chi sono, al posto
