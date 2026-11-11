@@ -273,6 +273,20 @@ precarica per niente. Le etichette sopra i titoli passano dal maiuscoletto
 spaziato al corsivo. Le immagini per i social (`scripts/immagini.cjs`) sono state
 rifatte con il nuovo corsivo e il titolo nuovo della home.
 
+## Il motore riparte a ogni pagina, anche nello stesso gruppo
+
+Le animazioni a volte sembravano "rimaste quelle di prima" dopo un cambio
+pagina, finché non si ricaricava: fumetti della chat invisibili, niente
+parallax, il video della home fermo tornandoci. Non era l'anteprima: succedeva
+anche nella build di produzione. Il motore nasce e muore in `app/template.tsx`,
+ma il template sta sopra i gruppi `(sito)` e `(campagne)` e Next lo rimonta solo
+quando cambia il gruppo; tra due pagine dello stesso gruppo il motore non
+ripartiva. Ora `MotionPage` dà alla pagina la chiave del suo percorso
+(`usePathname`): cambiando percorso si smonta e si rimonta, con la pulizia
+prima che React tolga i nodi. Verificato con Playwright su produzione e
+sviluppo: home → trattamenti → letture → blog → articolo → articolo → indietro
+fino alla home, senza errori e con chat, parallax e video ogni volta.
+
 ## Senza foto, il giglio
 
 *(Superata in parte dalla decisione sopra: nell'hero e in Chi sono, al posto
