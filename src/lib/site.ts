@@ -19,7 +19,6 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3
 
 /** Il marchio, come nel logo: «Lily · Trattamenti Benessere». */
 export const SITE_NAME = 'Lily Trattamenti Benessere';
-export const SITE_SHORT_NAME = 'Lily';
 export const OWNER_NAME = 'Silvia Chizio';
 
 /** Dove: dalla bio di Instagram («Montebelluna / Treviso»). */
@@ -105,24 +104,18 @@ export type Giorno = 'lun' | 'mar' | 'mer' | 'gio' | 'ven' | 'sab' | 'dom';
 export const ORARI: { giorni: Giorno[]; dalle: string; alle: string }[] = [];
 export const HAS_ORARI = ORARI.length > 0;
 
-/* ── Silvia, con le sue parole (pagina Chi sono) ────────────────────── */
+/* ── Silvia, con le sue parole ──────────────────────────────────────── */
 
 /**
- * La storia di Silvia, perché "Lily", formazione e corsi: solo con le sue
- * parole (domande aperte). Finché sono vuoti, i blocchi non compaiono.
+ * La storia di Silvia con le sue parole (domande aperte): un paragrafo per
+ * voce. Finché è vuota, nella sezione «Chi sono» c'è la bozza dello studio.
  */
-export const SILVIA: {
-  storia: string[];
-  percheLily: string;
-  formazione: string[];
-  /** Le tappe del suo percorso (il sentiero di Chi sono): quando, cosa, due righe. */
-  percorso: { quando: string; titolo: string; testo: string }[];
-} = {
+export const SILVIA: { storia: string[] } = {
   storia: [],
-  percheLily: '',
-  formazione: [],
-  percorso: [],
 };
+
+/** Le passioni della bio di Instagram: le emoji, dette in parole (docs/brief.md). */
+export const PASSIONI = ['Natura', 'Meditazione', 'Fiori', 'Gatti', 'Arrampicata', 'Surf', 'Ballo', 'Viaggi', 'Fotografia', 'Scrittura'] as const;
 
 /**
  * Recensioni vere da citare (domande aperte: per esempio da Google), solo
@@ -130,20 +123,37 @@ export const SILVIA: {
  */
 export const RECENSIONI: { testo: string; nome: string; fonte: string }[] = [];
 
-/** Le storie in evidenza del suo profilo Instagram (titoli esatti). */
-export const STORIE_IN_EVIDENZA = ['Creatività', 'Lily', 'Wonderful places', 'Tenerife', 'Me', 'Alicante'] as const;
-
 /* ── Le richieste ───────────────────────────────────────────────────── */
+
+/**
+ * Da dove passano le richieste (novembre 2026: Silvia vuole il suo modulo
+ * Google). Con 'modulo' ogni «Prenota» e «Richiedi una lettura» apre il
+ * modulo in un'altra scheda e il sito non raccoglie dati. Con 'sito'
+ * tornano le richieste fatte dal sito: i flussi a passi
+ * (src/components/flows), l'invio con SES (/api/richiesta), la pagina
+ * /prenota. Sono nel codice, spenti e pronti (docs/decisioni.md, «Le
+ * richieste passano dal modulo Google»). Si cambia qui e si rifà il build.
+ */
+export const RICHIESTE_DAL: 'modulo' | 'sito' = 'modulo';
+
+/**
+ * Il modulo Google di Silvia: è il «Link per appuntamento» della sua bio
+ * (oggi il modulo delle letture). Se arriva un modulo a parte per i
+ * trattamenti, si scrive in MODULI.trattamenti (domande aperte).
+ */
+const MODULO_BIO = 'https://docs.google.com/forms/d/e/1FAIpQLSfh0kLvsLHUO6UtfPCc1AvALu6X2UvHi7mZd06oeKhP_CMr6w/viewform';
+export const MODULI: Record<'trattamenti' | 'letture', string> = {
+  trattamenti: MODULO_BIO,
+  letture: MODULO_BIO,
+};
 
 export type StatoPrenotazioni = 'aperte' | 'sospese';
 
 /**
- * Le prenotazioni si possono sospendere (ferie, periodi pieni): con
- * 'sospese' i bottoni di quella richiesta diventano "Avvisami quando
- * riapro" e la sua pagina mostra il modulo dell'avviso; il resto del sito
- * non cambia. Si cambia qui e si rifà il build.
- * Oggi la bio dice «sospeso al momento»: cosa sia sospeso, e fino a quando,
- * è una domanda aperta.
+ * Le prenotazioni si possono sospendere (ferie, periodi pieni). Con le
+ * richieste dal sito, i bottoni di quella richiesta diventano "Avvisami
+ * quando riapro"; con il modulo portano al messaggio su Instagram, con una
+ * riga che spiega. Il resto del sito non cambia.
  */
 export const PRENOTAZIONI: Record<'trattamenti' | 'letture', StatoPrenotazioni> = {
   trattamenti: 'aperte',
@@ -152,14 +162,17 @@ export const PRENOTAZIONI: Record<'trattamenti' | 'letture', StatoPrenotazioni> 
 /** Facoltativa, parole di Silvia: es. "Riapro a gennaio". */
 export const NOTA_SOSPENSIONE: string = '';
 
-/** Dove portano le due richieste: su telefono si aprono come foglio da ogni pagina. */
+/**
+ * Con le richieste dal sito, dove si aprono: un foglio su telefono e un
+ * pannello su desktop da qualsiasi pagina; senza JavaScript, la pagina.
+ */
 export const PRENOTA_HREF = '/prenota#richiesta';
-export const LETTURA_HREF = '/letture#richiesta';
+export const LETTURA_HREF = '/prenota/lettura#richiesta';
 
-/** Il link da mettere nella bio di Instagram al posto del Google Form. */
-export const BIO_HREF = '/bio?utm_source=instagram&utm_medium=bio';
+/** Il link da mettere nella bio di Instagram: la landing, con la provenienza. */
+export const BIO_HREF = '/?utm_source=instagram&utm_medium=bio';
 
-/* ── Anteprima e blog ───────────────────────────────────────────────── */
+/* ── Anteprima ──────────────────────────────────────────────────────── */
 
 const forzaAnteprima = process.env.NEXT_PUBLIC_ANTEPRIMA;
 /**
@@ -170,24 +183,14 @@ const forzaAnteprima = process.env.NEXT_PUBLIC_ANTEPRIMA;
  */
 export const ANTEPRIMA = forzaAnteprima ? forzaAnteprima === '1' : process.env.NODE_ENV === 'development';
 
-/**
- * Il blog (src/content/blog): online quando c'è almeno un articolo vero
- * (senza `esempio: true`). Si accende qui, a mano, insieme al primo
- * articolo; il build avvisa se gli articoli veri ci sono e il blog è
- * spento. In anteprima il blog c'è sempre, con gli articoli di prova.
- */
-export const BLOG_ONLINE = false;
-export const HAS_BLOG = BLOG_ONLINE || ANTEPRIMA;
-
 /* ── Navigazione e dati legali ──────────────────────────────────────── */
 
-/** Voci principali (header desktop, menu, piè di pagina). Il blog solo quando c'è. */
+/** Le sezioni della landing (header, menu, piè di pagina): ancore della home. */
 export const NAV: readonly { href: string; label: string }[] = [
-  { href: '/trattamenti', label: 'Trattamenti' },
-  { href: '/letture', label: 'Letture' },
-  { href: '/chi-sono', label: 'Chi sono' },
-  ...(HAS_BLOG ? [{ href: '/blog', label: 'Blog' }] : []),
-  { href: '/contatti', label: 'Contatti' },
+  { href: '/#trattamenti', label: 'Trattamenti' },
+  { href: '/#letture', label: 'Letture' },
+  { href: '/#chi-sono', label: 'Chi sono' },
+  { href: '/#contatti', label: 'Contatti' },
 ];
 
 export const PRIVACY_HREF = '/privacy';
@@ -205,7 +208,7 @@ export const LEGAL: { titolare: string; email: string; partitaIva: string; indir
   partitaIva: (process.env.NEXT_PUBLIC_PARTITA_IVA ?? '').trim(),
   indirizzo: INDIRIZZO_DISPLAY,
   // Data dell'informativa: si aggiorna quando cambia /privacy.
-  aggiornata: '10 novembre 2026',
+  aggiornata: '18 novembre 2026',
 };
 
 /* ── Utilità ────────────────────────────────────────────────────────── */

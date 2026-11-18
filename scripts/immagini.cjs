@@ -43,53 +43,41 @@ const font = (file, family, weight, style = 'normal') =>
   `@font-face{font-family:'${family}';src:url('data:font/woff2;base64,${fs.readFileSync(path.join(FONTS, file)).toString('base64')}') format('woff2');font-weight:${weight};font-style:${style};}`;
 
 const FONT_CSS = [
-  font('playfair-display-latin-wght-normal.woff2', 'Playfair Display', '400 900'),
-  font('cormorant-garamond-latin-500-italic.woff2', 'Cormorant Garamond', '500', 'italic'),
-  font('cormorant-garamond-latin-600-italic.woff2', 'Cormorant Garamond', '600', 'italic'),
+  font('cormorant-garamond-latin-wght-normal.woff2', 'Cormorant Garamond', '300 700'),
+  font('cormorant-garamond-latin-wght-italic.woff2', 'Cormorant Garamond', '300 700', 'italic'),
   font('figtree-latin-wght-normal.woff2', 'Figtree', '300 900'),
-  font('damion-latin-400-normal.woff2', 'Damion', '400'),
 ].join('\n');
 
-/** Le immagini Open Graph: una per pagina (testi come i titoli delle pagine). */
+/** Le immagini Open Graph: una per pagina, con i titoli delle pagine. */
 const OG = [
-  { file: 'home', titolo: 'Uno spazio per <i>rallentare</i>', sotto: 'Massaggi e rituali olistici a Montebelluna (TV) · Letture intuitive a distanza' },
-  { file: 'trattamenti', manifesto: true, titolo: 'Listino<br><b>Trattamenti</b>', sotto: 'Quattro esperienze di benessere' },
-  { file: 'letture', titolo: 'Letture <i>intuitive</i>', sotto: 'Una lettura simbolica e intuitiva personalizzata, via email' },
+  { file: 'home', titolo: 'Massaggi e rituali <i>olistici</i>', sotto: 'Quattro esperienze di benessere a Montebelluna · Letture intuitive a distanza' },
   { file: 'prenota', titolo: 'Prenota un <i>trattamento</i>', sotto: 'Ti scrivo io per fissare giorno e ora' },
-  { file: 'chi-sono', titolo: 'Silvia Chizio', script: 'Vivo e sorrido', sotto: 'Lily Trattamenti Benessere · Montebelluna (TV)' },
-  { file: 'contatti', titolo: 'Dove <i>trovarmi</i>', sotto: 'Lo studio a Montebelluna (TV) e i miei canali' },
-  { file: 'privacy', titolo: 'Privacy e cookie', sotto: 'I tuoi dati, detti semplici' },
-  { file: 'bio', titolo: 'Prenota o richiedi una <i>lettura</i>', sotto: 'Lily Trattamenti Benessere · Montebelluna (TV)' },
+  { file: 'privacy', titolo: 'Privacy <i>e cookie</i>', sotto: 'Come tratto i tuoi dati, detto semplice' },
 ];
 
+/** La finestra della hero: l'arco con la luce e le ombre dei gigli (il poster del video). */
+const FINESTRA = `data:image/webp;base64,${fs.readFileSync(path.join(PUBLIC, 'video', 'hero-v.webp')).toString('base64')}`;
+
 function ogHtml(o) {
-  const logo = fs.readFileSync(path.join(PUBLIC, 'brand', 'logo.svg'), 'utf8');
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 ${FONT_CSS}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px}
 body{position:relative;overflow:hidden;font-family:Figtree,sans-serif;color:#2a1b17;background:#f2e4dd}
-.bordino{position:absolute;left:0;right:0;bottom:0;height:10px;background:#221814;border-top:3px solid #f24f80}
-.testo{position:absolute;left:84px;top:0;bottom:10px;width:640px;display:flex;flex-direction:column;justify-content:center;gap:22px}
-.eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:32px;color:#c40a4c}
-h1{font-family:'Playfair Display',serif;font-weight:800;font-size:76px;line-height:1.04;letter-spacing:-.012em}
-h1 i{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;color:#c40a4c;font-size:1.1em}
-h1.manifesto{text-transform:uppercase;font-weight:900;font-size:86px;line-height:.98}
-h1.manifesto b{color:${LILY};font-weight:900}
-.script{font-family:Damion,cursive;color:${LILY};font-size:58px;line-height:1}
-.sotto{text-wrap:balance;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:36px;line-height:1.25;color:#2a1b17;max-width:600px}
-.logo{position:absolute;right:70px;top:50%;transform:translateY(-52%);width:360px}
-.logo svg{width:100%;height:auto;display:block}
-.alone{display:none}
+.bordino{position:absolute;left:0;right:0;bottom:0;height:12px;background:#221814;border-top:3px solid #f24f80}
+.testo{position:absolute;left:80px;top:0;bottom:12px;width:660px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+.firma{font-size:19px;font-weight:560;color:#6e5a5e}
+h1{font-family:'Cormorant Garamond',serif;font-weight:420;font-size:104px;line-height:.9;letter-spacing:-.028em}
+h1 i{font-style:italic}
+.sotto{text-wrap:balance;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:34px;line-height:1.2;color:#4f3b37;max-width:600px}
+.arco{position:absolute;right:110px;bottom:12px;width:330px;height:500px;border-radius:999px 999px 0 0;overflow:hidden;background:#4a1027 url('${FINESTRA}') 50% 30%/cover no-repeat}
 </style></head><body>
-<div class="alone"></div>
 <div class="testo">
-  <p class="eyebrow">Lily Trattamenti Benessere</p>
-  <h1 class="${o.manifesto ? 'manifesto' : ''}">${o.titolo}</h1>
-  ${o.script ? `<p class="script">${o.script}</p>` : ''}
+  <p class="firma">Lily Trattamenti Benessere · Silvia Chizio</p>
+  <h1>${o.titolo}</h1>
   <p class="sotto">${o.sotto}</p>
 </div>
-<div class="logo">${logo}</div>
+<div class="arco"></div>
 <div class="bordino"></div>
 </body></html>`;
 }

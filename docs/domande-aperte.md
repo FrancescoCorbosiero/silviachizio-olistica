@@ -12,9 +12,10 @@ si aggiorna il dato e si toglie la domanda da qui.
 
 ## L'attività
 
-- [ ] ★ Indirizzo dello studio. "Montebelluna / Treviso" è un posto solo o due? (contatti, footer, dati per Google, la mappa: oggi il segno è d'esempio, in centro)
-- [ ] ★ Giorni e orari in cui ricevi. (contatti, dati per Google)
-- [ ] ★ L'email a cui devono arrivare le richieste. (invio delle richieste)
+- [ ] ★ Indirizzo dello studio. "Montebelluna / Treviso" è un posto solo o due? (come prenotare e dove, piè di pagina, dati per Google)
+- [ ] ★ Giorni e orari in cui ricevi, o "su appuntamento"? (come prenotare e dove, dati per Google)
+- [ ] ★ Il modulo Google della bio oggi è quello delle letture: per i trattamenti ne fai uno a parte (il link va in `MODULI.trattamenti`, `src/lib/site.ts`) o usiamo lo stesso? (tutti i bottoni «Prenota»)
+- [ ] L'email a cui devono arrivare le richieste, se un giorno torniamo alle richieste dal sito. (invio delle richieste)
 - [ ] Vuoi pubblicare un numero di telefono o WhatsApp? (bottoni WhatsApp e chiamata)
 - [ ] Hai una partita IVA da mostrare? Chi è il titolare per l'informativa privacy? (footer, privacy)
 - [ ] ★ Il dominio: ne hai già uno o lo scegliamo? (tutto il sito, email)
@@ -23,7 +24,6 @@ si aggiorna il dato e si toglie la domanda da qui.
 
 - [ ] I prezzi, se vuoi mostrarli. (trattamenti, richiesta)
 - [ ] Per ognuno dei quattro: cosa succede durante, per chi è indicato, cosa portare. (trattamenti)
-- [ ] Oggi come ti arrivano le richieste di trattamento: messaggi su Instagram, telefono, il form? (richiesta)
 - [ ] La bio dice «Link per appuntamento (sospeso al momento)»: cosa è sospeso, i trattamenti o le letture, e fino a quando? (stato delle prenotazioni)
 - [ ] Tra un appuntamento e l'altro ti serve un margine oltre ai 15 minuti di relax? (gestionale)
 - [ ] Regole per disdette e ritardi? (richiesta, conferma)
@@ -41,23 +41,20 @@ si aggiorna il dato e si toglie la domanda da qui.
 
 ## Silvia
 
-- [ ] Due righe su di te, con parole tue. (chi sono, home)
-- [ ] Formazione e corsi, da quanto fai trattamenti. (chi sono)
-- [ ] Le tappe del tuo percorso: quando hai iniziato, i corsi, l'arrivo delle letture, Lily. (chi sono, il sentiero)
-- [ ] Perché "Lily"? (chi sono)
-- [ ] Possiamo usare alcune foto del tuo profilo (arrampicata, viaggi, creatività)? (chi sono)
-- [ ] Vuoi che il sito citi i tuoi follower? (home)
-- [ ] Il blog: ti va di scriverci? Ogni quanto, e su quali temi (oggi: poesia e libri, arrampicata, fotografia, trattamenti, letture)? Gli articoli di oggi sono di prova. (blog)
+- [ ] Due righe su di te, con parole tue. (Silvia)
+- [ ] Formazione e corsi, da quanto fai trattamenti. (Silvia: oggi non c'è un blocco, si aggiunge quando arrivano)
+- [ ] Perché "Lily"? (Silvia)
+- [ ] Possiamo usare una tua foto, o alcune del tuo profilo (arrampicata, viaggi, creatività)? (Silvia: l'arco)
+- [ ] Vuoi che il sito citi i tuoi follower? (Silvia)
 
 ## Materiali
 
 - [ ] ★ Il logo originale, vettoriale o PNG grande, e il giglio da solo. (tutto il sito)
-- [ ] L'illustrazione del listino in alta risoluzione: chi l'ha fatta, si può usare sul sito? (404, link in bio)
-- [ ] ★ Foto dello studio e di te al lavoro, nella divisa. Se non ci sono, un piccolo servizio fotografico. (home, trattamenti, chi sono)
-- [ ] Recensioni vere da poter citare (per esempio da Google), con il permesso. (home)
-- [ ] Una foto per ognuno dei quattro trattamenti, e qualche foto dello studio per la galleria. (trattamenti)
-- [ ] Le foto dell'anteprima (Montebelluna dall'alto, le carte su marmo, il massaggio sulla schiena): da dove vengono, si possono usare? Quella di Montebelluna serve più grande (oggi 617×324); quella del massaggio non ritrae Silvia né lo studio, va sostituita con una foto vera. (home, contatti, letture, prenota)
-- [ ] Un video breve dello studio (luce, mani, candele) al posto di quello d'atmosfera nella home? (home)
+- [ ] ★ Foto dello studio e di te al lavoro, nella divisa. Se non ci sono, un piccolo servizio fotografico. (Silvia, il listino)
+- [ ] Recensioni vere da poter citare (per esempio da Google), con il permesso. (recensioni)
+- [ ] Una foto per ognuno dei quattro trattamenti. (il listino: l'anteprima che segue il puntatore)
+- [ ] Le foto dell'anteprima (le carte su marmo, il massaggio sulla schiena): oggi compaiono solo in anteprima; per usarle online, da dove vengono e si possono usare? Quella del massaggio non ritrae Silvia né lo studio. (letture, il listino)
+- [ ] Un video breve dello studio (luce, mani, candele) al posto di quello d'atmosfera nella finestra della hero? (hero)
 
 ## Canali
 

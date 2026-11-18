@@ -3,88 +3,95 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { InstagramIcon, WhatsAppIcon } from '@/components/icons';
-import { etichetta, RICHIESTE } from '@/lib/richieste';
-import { whatsapp } from '@/lib/anteprima';
+import { useApp } from '@/components/app/AppProvider';
+import { InstagramIcon } from '@/components/icons';
+import { BottoneRichiesta } from '@/components/ui/Bottone';
 import { IG_HANDLE, IG_URL, NAV } from '@/lib/site';
-
-/** WhatsApp, se Silvia lo dà (in anteprima un esempio, che non porta da nessuna parte). */
-const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
 import Logo from './Logo';
 
+/** Le sezioni della landing che l'header segue (gli id delle ancore di NAV). */
+const SEZIONI = NAV.map((n) => n.href.split('#')[1]).filter((id): id is string => Boolean(id));
+
 /**
- * Header di vetro rosato (da andrea-bellettati, SiteHeader.tsx). Desktop:
- * marchio, voci, Instagram e "Prenota". Telefono: marchio e Instagram; il
- * resto vive nella barra in basso (MobileTabbar), come in un'app. Leggendo
- * verso il basso si toglie di mezzo; risalendo torna.
+ * La testata: una pillola di vetro latte sospesa sulla pagina. Desktop:
+ * marchio, le sezioni della landing (si accende quella che stai leggendo),
+ * Instagram e «Prenota». Telefono: marchio e menu; «Prenota» sta nella
+ * barra in basso. Scendendo si ritira, al primo cenno di risalita torna.
  */
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const { openMenu, menuOpen } = useApp();
+  const [via, setVia] = useState(false);
+  const [qui, setQui] = useState<string | null>(null);
 
   useEffect(() => {
     let lastY = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
-      setScrolled(y > 8);
-      if (y > 260 && y > lastY + 4) setHidden(true);
-      else if (y < lastY - 4 || y <= 260) setHidden(false);
+      if (Math.abs(y - lastY) < 6) return;
+      setVia(y > 320 && y > lastY);
       lastY = y;
     };
-    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  // La sezione che attraversa il centro dello schermo.
+  useEffect(() => {
+    if (pathname !== '/') return;
+    const els = SEZIONI.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setQui(e.target.id);
+      },
+      { rootMargin: '-45% 0px -54% 0px' },
+    );
+    els.forEach((el) => io.observe(el));
+    const onTop = () => window.scrollY < window.innerHeight * 0.5 && setQui(null);
+    window.addEventListener('scroll', onTop, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener('scroll', onTop);
+    };
+  }, [pathname]);
 
   return (
-    <header
-      // Il focus da tastiera lo riporta sempre in vista.
-      onFocusCapture={() => setHidden(false)}
-      className={`site-header sticky top-0 z-50 border-b ${hidden ? 'is-hidden' : ''} ${
-        scrolled
-          ? 'border-white/70 bg-latte/80 shadow-[0_12px_30px_-24px_rgb(196_10_76/0.55)]'
-          : 'border-transparent bg-latte/55'
-      }`}
-      style={{ WebkitBackdropFilter: 'blur(20px) saturate(1.6)', backdropFilter: 'blur(20px) saturate(1.6)' }}
-    >
-      <div className="wrap flex h-[64px] items-center justify-between gap-4 lg:h-[76px]">
+    // Il focus da tastiera la riporta sempre in vista.
+    <header className={`testata ${via && !menuOpen ? 'is-via' : ''}`} onFocusCapture={() => setVia(false)}>
+      <div className="testata-pillola">
         <Logo />
 
-        <nav aria-label="Principale" className="hidden items-center gap-1 lg:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              className={`rounded-full px-4 py-2.5 text-[15.5px] font-[650] transition-colors duration-300 ${
-                isActive(item.href) ? 'bg-cipria text-lily-deep' : 'text-inchiostro hover:bg-white/80'
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav aria-label="Principale" className="hidden items-center lg:flex">
+          {NAV.map((item) => {
+            const attiva = pathname === '/' && qui === item.href.split('#')[1];
+            return (
+              <Link key={item.href} href={item.href} className={`nav-voce ${attiva ? 'is-qui' : ''}`} aria-current={attiva ? 'location' : undefined}>
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2">
-          <a className="icon-btn" href={IG_URL} target="_blank" rel="noopener" aria-label={`Instagram di Silvia, ${IG_HANDLE}`}>
+        <div className="flex items-center gap-1">
+          <a className="tasto-tondo hidden lg:grid" href={IG_URL} target="_blank" rel="noopener" aria-label={`Instagram di Silvia, ${IG_HANDLE}`}>
             <InstagramIcon size={19} />
           </a>
-          {WA && (
-            <a
-              className="icon-btn"
-              href={WA.valore}
-              {...(WA.esempio ? { title: 'Esempio: WhatsApp, quando Silvia dà il numero' } : { target: '_blank', rel: 'noopener' })}
-              aria-label="Scrivi a Silvia su WhatsApp"
-            >
-              <WhatsAppIcon size={18} />
-            </a>
-          )}
-          <Link className="btn btn-sm hidden lg:inline-flex" href={RICHIESTE.trattamenti.href}>
-            {etichetta('trattamenti', { breve: true })}
-          </Link>
+          <BottoneRichiesta tipo="trattamenti" breve piccolo className="hidden lg:inline-flex" />
+          <button
+            type="button"
+            onClick={openMenu}
+            data-menu-button
+            aria-label="Apri il menu"
+            aria-haspopup="dialog"
+            aria-expanded={menuOpen}
+            className="tasto-tondo lg:hidden"
+          >
+            <span className="grid w-5 gap-[6px]" aria-hidden>
+              <span className="block h-[1.5px] w-5 rounded bg-current" />
+              <span className="block h-[1.5px] w-3 rounded bg-lily" />
+            </span>
+          </button>
         </div>
       </div>
     </header>

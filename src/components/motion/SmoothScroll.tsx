@@ -24,7 +24,8 @@ export default function SmoothScroll() {
     const onClick = (e: MouseEvent) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const a = e.target instanceof Element ? e.target.closest<HTMLAnchorElement>('a[href*="#"]') : null;
-      if (!a || a.target === '_blank') return;
+      // Il menu gestisce da sé le sue ancore (prima si chiude, poi si scorre).
+      if (!a || a.target === '_blank' || a.closest('[data-menu]')) return;
       const url = new URL(a.href, location.href);
       if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
       const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));

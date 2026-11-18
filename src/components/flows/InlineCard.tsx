@@ -3,7 +3,7 @@ import type { FlowParts } from './fields';
 /**
  * La scheda di una richiesta in pagina: un petalo latte con testata, corpo
  * e barra delle azioni. L'id "richiesta" è l'ancora dei link
- * (/prenota#richiesta, /letture#richiesta).
+ * (/prenota#richiesta, /prenota/lettura#richiesta).
  */
 export default function InlineCard({ header, body, footer }: FlowParts) {
   return (

@@ -11,6 +11,7 @@ import {
 } from '@/lib/emails';
 import { isMailConfigured, recipientsFor, sendMail, type Casella } from '@/lib/mail';
 import { clientIp, rateLimit } from '@/lib/rateLimit';
+import { DAL_MODULO } from '@/lib/richieste';
 import { LETTURA } from '@/lib/trattamenti';
 
 /* Manda email vere: gira sul server Node, mai in cache. */
@@ -37,11 +38,15 @@ function emailsOf(p: RequestPayload) {
   return { toSilvia: avvisamiToSilvia(p), confirmation: avvisamiConfirmation(p), to: p.email };
 }
 
+/** Con le richieste dal modulo Google (RICHIESTE_DAL in site.ts) l'API è spenta. */
+const spenta = () => NextResponse.json({ ok: false, error: 'not-found' }, { status: 404 });
+
 /**
  * Diagnostica: GET /api/richiesta dice se l'invio email è configurato e
  * quali caselle ci sono (nessun segreto, nessun indirizzo).
  */
 export function GET() {
+  if (DAL_MODULO) return spenta();
   return NextResponse.json({
     mailConfigured: isMailConfigured(),
     caselle: { trattamenti: recipientsFor(['trattamenti']).length > 0, letture: recipientsFor(['letture']).length > 0 },
@@ -49,6 +54,7 @@ export function GET() {
 }
 
 export async function POST(req: Request) {
+  if (DAL_MODULO) return spenta();
   const ip = clientIp(req);
   const limit = rateLimit(`richiesta:${ip}`);
   if (!limit.ok) {

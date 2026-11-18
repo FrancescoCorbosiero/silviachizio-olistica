@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { DAL_MODULO, RICHIESTE } from '@/lib/richieste';
 
 /** Generato al build: serve anche all'anteprima statica (output: export). */
 export const dynamic = 'force-static';
@@ -18,18 +19,25 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/',
     scope: '/',
     display: 'standalone',
-    background_color: '#fdf6f8',
-    theme_color: '#fdf6f8',
+    background_color: '#f2e4dd',
+    theme_color: '#f2e4dd',
     categories: ['lifestyle', 'health'],
     icons: [
       { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
       { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
       { src: '/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
-    shortcuts: [
-      { name: 'Prenota un trattamento', short_name: 'Prenota', url: '/prenota#richiesta' },
-      { name: 'Richiedi una lettura', short_name: 'Lettura', url: '/letture#richiesta' },
-      { name: 'Il listino', url: '/trattamenti' },
-    ],
+    // Le scorciatoie devono restare nel sito: il modulo Google ne è fuori.
+    shortcuts: DAL_MODULO
+      ? [
+          { name: 'Il listino', url: '/#trattamenti' },
+          { name: 'Le letture', url: '/#letture' },
+          { name: 'Come prenotare', short_name: 'Prenota', url: '/#contatti' },
+        ]
+      : [
+          { name: 'Prenota un trattamento', short_name: 'Prenota', url: RICHIESTE.trattamenti.href },
+          { name: 'Richiedi una lettura', short_name: 'Lettura', url: RICHIESTE.letture.href },
+          { name: 'Il listino', url: '/#trattamenti' },
+        ],
   };
 }

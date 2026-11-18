@@ -1,183 +1,78 @@
 # Specifica del sito
 
-Cosa contiene ogni pagina, come funzionano le richieste e le regole dei testi.
+Cosa contiene la landing, come funzionano le richieste e le regole dei testi.
 Struttura e blocchi sono una **proposta** costruita sul materiale che c'è (vedi
 [`brief.md`](brief.md)); i dati che mancano stanno in
-[`domande-aperte.md`](domande-aperte.md). Gli effetti citati tra parentesi
-(`data-…`) sono descritti in [`brand.md`](brand.md), "Movimento".
+[`domande-aperte.md`](domande-aperte.md). Gli effetti sono descritti in
+[`brand.md`](brand.md), "Movimento".
 
 ## Mappa del sito
 
+Da novembre 2026 il sito è una **landing a pagina unica** (perché:
+[`decisioni.md`](decisioni.md), «La landing a pagina unica»).
+
 | Percorso | Cosa contiene |
 |---|---|
-| `/` | Home: chi è Lily, i quattro trattamenti, come funziona, Silvia, le letture, Instagram, domande, chiusura |
-| `/trattamenti` | Il listino in pagina: una sezione per trattamento (`#lily-holistic`, `#lily-holistic-ritual`, `#lily-sportive`, `#lily-magic`) |
-| `/letture` | Letture intuitive personalizzate, con la richiesta in pagina (`#richiesta`) |
-| `/prenota` | La richiesta di un trattamento in pagina (`#richiesta`) |
-| `/chi-sono` | Silvia |
-| `/contatti` | Dove si trova lo studio, la mappa, orari, canali |
-| `/blog` | Il blog: articolo in evidenza e indice con i temi (solo quando ci sono articoli; in anteprima con quelli di prova) |
-| `/blog/[slug]` | Un articolo (Markdown in `src/content/blog`) |
-| `/privacy` | Informativa privacy e cookie |
-| `/bio` | Pagina per il link in bio di Instagram, senza menu (`noindex`) |
-| `/stile` | Tutti i componenti del Brand System, per rivederli con Silvia (`noindex`, fuori dalla sitemap) |
+| `/` | La landing: hero, listino (`#trattamenti`, un'ancora per trattamento: `#lily-holistic`, `#lily-holistic-ritual`, `#lily-sportive`, `#lily-magic`), momento relax, Silvia (`#chi-sono`), recensioni (solo vere), letture (`#letture`), come prenotare e dove (`#contatti`), domande, invito |
+| `/privacy` | Informativa privacy e cookie, scritta sul modo delle richieste (modulo o sito) |
+| `/prenota`, `/prenota/lettura` | Solo con le richieste dal sito (`RICHIESTE_DAL = 'sito'`): le richieste in pagina, per chi arriva senza JavaScript o con un link diretto |
 
-Il blog c'è da novembre 2026 (decisioni.md, "Il blog"): un file Markdown per
-articolo in `src/content/blog`, cinque temi (Poesia e libri, Arrampicata,
-Fotografia, Trattamenti, Letture). Per ora solo articoli di prova, che compaiono
-in anteprima; online va con il primo articolo vero di Silvia.
+Il link da mettere nella bio di Instagram è la landing con la provenienza:
+`/?utm_source=instagram&utm_medium=bio` (`BIO_HREF`).
 
 ## Elementi comuni
 
-- **Header** (desktop): logo, Trattamenti · Letture · Chi sono · Contatti, bottone
-  "Prenota". Superficie in vetro rosato; si toglie di mezzo leggendo verso il
-  basso e torna risalendo.
-- **Barra in basso** (telefono, Konsta Tabbar): Home · Trattamenti · **Prenota**
-  (al centro, in evidenza) · Letture · Menu. Il menu è un foglio dal basso con le
-  altre voci e i canali di contatto.
-- **Footer** su fondo notte con il bordino rosa in alto (come la divisa): il
-  wordmark "Lily" che sale lettera per lettera (`data-wordmark`), le voci del
-  sito, i canali, indirizzo e orari se ci sono, partita IVA se c'è, link
-  all'informativa, credito Alpacode (`AlpacodeBadge`, come in andrea-bellettati).
-- **Le due richieste** sono sempre a un tocco: "Prenota un trattamento" porta a
-  `/prenota#richiesta`, "Richiedi una lettura" a `/letture#richiesta`. Su
-  telefono il link apre il flusso come foglio dal basso da qualsiasi pagina, su
-  desktop come pannello; nella sua pagina il flusso è in pagina (stesso schema di
-  `/consulenza-gratuita#questionario` in andrea-bellettati).
-- Ogni pagina finisce con una chiusura che porta a una delle due richieste.
+- **Testata**: una pillola di vetro latte sospesa. Desktop: marchio, le sezioni
+  (si accende quella che stai leggendo), Instagram, «Prenota». Telefono: marchio e
+  menu (un dialogo a tutto schermo con le sezioni e le due richieste). Scendendo
+  si ritira, risalendo torna.
+- **Barra in basso** (telefono): il messaggio su Instagram e «Prenota un
+  trattamento», sempre a portata di pollice.
+- **Piè di pagina** su notte con il bordino rosa della divisa: il logo, le
+  sezioni, i canali, lo studio (indirizzo e orari solo se ci sono), il wordmark
+  «Lily» che sale lettera per lettera, i dati legali, il credito Alpacode.
+- **Le due richieste** sono sempre a un tocco: «Prenota un trattamento» e
+  «Richiedi una lettura». Con il modulo (oggi) aprono il modulo Google di Silvia
+  in un'altra scheda; con le richieste dal sito aprono il flusso come foglio dal
+  basso su telefono e come pannello su desktop.
 
-## Pagine
+## La landing, sezione per sezione
 
-### Home `/`
+1. **Hero: la finestra ad arco.** Sul muro sabbia la firma («Silvia Chizio ·
+   Montebelluna (TV)»), il titolo descrittivo («Massaggi e rituali olistici») e le
+   parole del listino («Quattro esperienze di benessere · Letture a distanza»);
+   sotto, una finestra ad arco con la luce e le ombre dei gigli (il video).
+   Scorrendo la finestra si apre a tutto schermo, il titolo passa dall'inchiostro
+   alla luce, in fondo Silvia si presenta in una riga. Senza JavaScript o con
+   "riduci movimento": la finestra è già aperta.
+2. **Il listino** (il foglio che sale sopra la finestra): «Quattro esperienze di
+   benessere», le quattro righe (numero, nome, descrizione del listino, minuti) e
+   la riga del relax. Ogni riga si apre con cosa aspettarsi, per chi è, il prezzo
+   se c'è e «Prenota questo». Su desktop, con le foto dei trattamenti, l'anteprima
+   ad arco segue il puntatore.
+3. **Il momento relax**: il «15» in grande, pieno di luce, e la frase sui
+   quindici minuti che si accende parola per parola.
+4. **Silvia**: «Vivo e sorrido», le sue parole (o la bozza), le passioni della
+   bio, Instagram; nell'arco la sua foto (finché manca, la luce dello studio).
+5. **Recensioni**: solo vere, con il permesso (`RECENSIONI` in `site.ts`).
+6. **Le letture**: la frase del modulo, «Riceverai» con i tre punti, i temi, il
+   prezzo se c'è, «Richiedi una lettura», il disclaimer integrale; nell'arco la
+   foto di una stesa vera (finché manca, le candele).
+7. **Come prenotare e dove**: tre passi (mi mandi la richiesta, ti scrivo io, ti
+   aspetto in studio), le due richieste e Instagram; lo studio, gli orari e i
+   canali, solo con i dati veri.
+8. **Domande frequenti**: solo con risposte vere (`src/lib/domande.ts`).
+9. **Invito**: il giglio che si disegna, «Ti aspetto», le due richieste.
 
-1. **Hero.** Uno schermo intero con il video di sfondo (luce e ombre di gigli
-   sul muro; il primo fotogramma è il poster, `src/lib/immagini.ts`) in
-   parallax. Titolo con una parola in corsivo, due righe in cui Silvia si
-   presenta, le due richieste come bottoni, tre fatti brevi e veri.
-   Nell'angolo il sigillo: il giglio che si disegna nell'anello di testo che
-   gira (`data-spin`). Niente petali o cuori nell'hero. (Revisioni di
-   novembre 2026, vedi `decisioni.md`.)
-2. **Nastro** con i nomi dei trattamenti e delle letture su una fascia lily
-   piena (`data-marquee`).
-3. **Le due porte**: due pannelli alti con l'immagine, "In studio" →
-   `/trattamenti`; "A distanza" → `/letture`.
-4. **Il listino**: le quattro righe come nell'immagine di Silvia (icona nel
-   cerchio cipria che entra con un pop, nome, descrizione, durata con l'orologio),
-   poi la fascia «Momento relax post-trattamento incluso • circa 15 minuti». Ogni
-   riga porta alla sua sezione di `/trattamenti`.
-5. **Il momento relax**: una frase sui quindici minuti dopo il trattamento che si
-   accende parola per parola con lo scroll (`data-scrub`).
-6. **Come funziona**, raccontato come stories di Instagram nel telefono
-   (`data-stories`): richiedi → Silvia ti scrive per fissare giorno e ora → il
-   trattamento → il tuo momento relax.
-7. **Chi sono**: foto nell'arco (cuori al tocco, `data-love`), «Vivo e
-   sorrido», due righe, link a `/chi-sono`.
-8. **Recensioni**: solo vere, con il permesso (`RECENSIONI` in `site.ts`); in
-   anteprima con tre segnaposto dichiarati.
-9. **Le letture**: un'anteprima con la chat che si scrive da sola (`data-chat`) e
-   il link a `/letture`.
-10. **Instagram**: scheda statica del profilo (foto, @silvia_chizio, "Seguimi").
-   Niente embed. Subito dopo, **Dal blog**: gli ultimi tre articoli (solo
-   quando il blog c'è).
-11. **Domande frequenti** (accordion morbido), solo con risposte vere.
-12. **Chiusura**: le due richieste; il giglio che spunta dal fondo della sezione
-    (`data-peek`); su desktop un badge rotondo "Prenota" attirato dal puntatore
-    (`data-magnetic`).
+In anteprima ogni blocco che aspetta un dato compare con un esempio segnato
+«Esempio» (prezzi, indirizzo, orari, canali, recensioni, le foto).
 
-### Trattamenti `/trattamenti`
+### Privacy `/privacy` e 404
 
-In anteprima ogni blocco qui sotto compare anche senza i dati di Silvia (foto,
-prezzi, prima di venire, galleria dello studio), con il segno «Esempio».
-
-1. **Hero**: «Listino trattamenti» e, sulla pennellata, «Quattro esperienze di
-   benessere». Sotto, l'indice dei quattro; su desktop la foto del trattamento
-   segue il puntatore sopra la riga (`data-path-row`).
-2. **Una sezione per trattamento**, con la sua ancora: icona, nome, descrizione
-   del listino, durata più i 15 minuti di relax, cosa aspettarsi e per chi è
-   (bozze da validare), prezzo solo se c'è, "Prenota questo" (apre la richiesta
-   con il trattamento già scelto). **Lily Magic** sta su fondo notte con la luce
-   della candela: è il rituale più "magico" e merita un'atmosfera sua.
-3. **Il momento relax**, come in home ma più disteso.
-4. **Prima di venire**: cosa portare e cosa sapere, solo con le indicazioni di
-   Silvia.
-5. Domande frequenti e chiusura.
-
-### Letture `/letture`
-
-1. **Hero**: titolo, la frase del form («una lettura simbolica e intuitiva
-   personalizzata»), "Richiedi una lettura".
-2. **Cosa ricevi**: i tre punti del form, così come sono: foto della stesa,
-   interpretazione personalizzata scritta o video, risposta via email entro 24–48 ore.
-3. **Come funziona** come una chat in messaggi diretti (`data-chat`): scegli il
-   tema → Silvia prepara la stesa → ricevi foto e interpretazione.
-4. **I temi**: Generale, Carriera / Lavoro, Amore / Relazioni, Crescita personale,
-   Altro.
-5. **La stesa**: una foto vera di una stesa con la lente che ingrandisce le carte
-   al passaggio (`data-lens`), se Silvia la fornisce.
-6. **Il disclaimer**, integrale e ben visibile (testo più sotto).
-7. **La richiesta in pagina** (`#richiesta`).
-8. Domande frequenti (strumenti usati, prezzo e pagamento, tempi) solo con
-   risposte vere, e chiusura.
-
-### Prenota `/prenota`
-
-Titolo, la richiesta in pagina, "cosa succede dopo" in tre passi, gli altri
-canali (messaggio su Instagram, email, WhatsApp se c'è).
-
-### Chi sono `/chi-sono`
-
-1. **Hero da biglietto da visita**: ritratto, nome, «Vivo e sorrido», Montebelluna,
-   link a Instagram.
-2. **La mia storia** con le foto che si aprono a ventaglio (`data-fan`): viaggi,
-   arrampicata, creatività (le sue storie in evidenza), con il suo permesso.
-3. **Le cose che amo**: le emoji della bio diventano icone a linea (natura,
-   meditazione, fiori, gatti, arrampicata, surf, ballo, viaggi, fotografia,
-   scrittura).
-4. **Il mio percorso**: le tappe su un sentiero tratteggiato che le foglie
-   percorrono scorrendo (`data-trail`), solo con le tappe di Silvia.
-5. **Perché "Lily"** e **formazione**: solo con le parole e i dati di Silvia.
-6. Chiusura con la scheda Instagram.
-
-### Contatti `/contatti`
-
-Montebelluna dall'alto nella testata. Dove si trova lo studio (indirizzo, link
-"Apri in Maps"), giorni e orari, come arrivare. **La mappa**: una mappa vera
-(OpenStreetMap con Leaflet) a tutta larghezza, con il segno del giglio e la scheda
-dello studio (indirizzo, indicazioni stradali); si carica solo dopo il clic su
-«Mostra la mappa», prima c'è la foto di Montebelluna. Compare con la posizione
-dello studio (`STUDIO.geo`); in anteprima con il centro di Montebelluna. I canali: messaggio diretto
-su Instagram (`https://ig.me/m/silvia_chizio`), email, WhatsApp e telefono se
-Silvia li vuole pubblicare. Le due richieste.
-
-### Blog `/blog` e `/blog/[slug]`
-
-L'indice: la testata in scena, l'articolo in evidenza (l'arco e il titolo
-grande), tutti gli articoli con i temi come filtro, il link a Instagram, la
-chiusura. L'articolo: la copertina in scena con tema, minuti di lettura e data,
-il testo con il capolettera, la firma, "condividi" (il foglio di sistema o il
-link copiato, e WhatsApp come link), gli altri articoli, la chiusura. Le
-copertine sono immagini di `src/lib/immagini.ts`. Gli articoli di prova
-(`esempio: true`) portano il segno «Esempio» e restano fuori da sitemap e dati
-strutturati.
-
-### Link in bio `/bio`
-
-La pagina che prende il posto del Google Form nel link in bio. Gruppo
-`(campagne)` come in andrea-bellettati: niente menu, niente barra in basso,
-footer minimo; `noindex`, fuori dalla sitemap.
-
-Logo, foto di Silvia, una riga, due grandi bottoni (Prenota un trattamento,
-Richiedi una lettura) che aprono i flussi come fogli; se le prenotazioni sono
-sospese, "Avvisami quando riapro". Sotto: i quattro trattamenti in breve, il
-link al sito, Instagram. Deve essere la pagina più veloce del sito. Il link da
-mettere su Instagram: `/bio?utm_source=instagram&utm_medium=bio`.
-
-### Privacy `/privacy`, 404, Stile `/stile`
-
-- `/privacy` sul modello di andrea-bellettati, riscritta per Silvia (sotto,
-  "Privacy e dati legali").
-- 404: il giglio, una riga gentile, i link alle pagine principali.
-- `/stile`: palette, tipografia, bottoni, card, righe del listino, icone, effetti.
+- `/privacy` sul modello di andrea-bellettati, in prima persona: con il modulo
+  racconta il modulo Google e Instagram; con le richieste dal sito, i flussi,
+  l'invio con SES, la provenienza e le bozze (sotto, «Privacy e dati legali»).
+- 404: una riga gentile, «Torna all'inizio» e le sezioni.
 
 ## Il catalogo
 
@@ -201,6 +96,11 @@ export const TEMI_LETTURA = ['Generale', 'Carriera / Lavoro', 'Amore / Relazioni
 Con `prezzo: null` il prezzo non compare da nessuna parte.
 
 ## Le richieste
+
+Oggi le richieste passano dal **modulo Google** di Silvia (`RICHIESTE_DAL =
+'modulo'`, `MODULI` in `src/lib/site.ts`). Le richieste fatte dal sito, descritte
+qui sotto, sono nel codice e **spente**: si riaccendono con `RICHIESTE_DAL =
+'sito'` e tornano così come sono.
 
 Flussi a passi in Konsta, sul modello di `ConsultFlow` / `useFlow` di
 andrea-bellettati: bozza salvata nella scheda del browser, un passo alla volta,
@@ -271,9 +171,11 @@ export const PRENOTAZIONI = { trattamenti: 'aperte', letture: 'aperte' } as cons
 export const NOTA_SOSPENSIONE = ''; // facoltativa, es. "Riapro a gennaio"
 ```
 
-Con `sospese` i bottoni di quella richiesta diventano "Avvisami quando riapro",
-la sua pagina spiega in una riga e mostra il modulo dell'avviso; tutto il resto
-del sito resta uguale. Va provato in entrambi gli stati.
+Con `sospese` e le richieste dal sito, i bottoni di quella richiesta diventano
+"Avvisami quando riapro" e la sua pagina mostra il modulo dell'avviso; con il
+modulo Google, il bottone porta al messaggio su Instagram e una riga spiega
+(nel modulo, Silvia può anche chiudere le risposte). Tutto il resto del sito resta
+uguale. Va provato in entrambi gli stati.
 
 ## Voce e regole dei testi
 
@@ -293,13 +195,14 @@ del sito resta uguale. Va provato in entrambi gli stati.
 - **Niente emoji nei testi** del sito: ci sono le icone a linea. Il 🌸 resta un
   tocco del marchio nei messaggi precompilati.
 - **Niente numeri, recensioni o testimonianze inventati.**
-- Titoli: una parte in Playfair Display e, al massimo, una parola scritta a mano.
+- **Titoli descrittivi**, non slogan: «Massaggi e rituali olistici», «Come
+  prenotare». Al massimo una parte in corsivo; niente etichetta sopra ogni titolo.
 
 Esempi di tono (bozze, non testi definitivi):
 
 | Sì | No |
 |---|---|
-| "Un'ora per te. Il resto può aspettare." | "Esperienze uniche e indimenticabili" |
+| "Massaggi e rituali olistici" | "Esperienze uniche e indimenticabili" |
 | "Dopo il trattamento non scappi via: ci sono quindici minuti solo per te." | "Il massaggio che elimina il mal di schiena" |
 | "Scegli il tema, io preparo la stesa." | "Scopri cosa ti riserva il futuro" |
 | "Ti scrivo io per fissare giorno e ora." | "Prenotazione confermata!" (in fase 1) |
@@ -314,22 +217,26 @@ Esempi di tono (bozze, non testi definitivi):
 - Dati strutturati (JSON-LD, come `src/lib/seo.ts` di andrea-bellettati):
   `HealthAndBeautyBusiness` con nome, Silvia (`Person`), Instagram in `sameAs`,
   zona servita; indirizzo, coordinate e orari solo quando ci sono; un catalogo
-  con i quattro trattamenti e le letture a distanza; `BreadcrumbList` nelle
-  pagine interne.
-- Sitemap, robots, canonical, un'immagine Open Graph per pagina (1200×630).
-  `/bio` e `/stile` fuori dai motori.
+  con i quattro trattamenti (con le loro ancore) e le letture a distanza; le
+  domande frequenti (`FAQPage`).
+- Sitemap, robots, canonical, un'immagine Open Graph per pagina (1200×630, con
+  la finestra della hero: `scripts/immagini.cjs`).
 - Fuori dal codice: la scheda Google Business Profile (vedi `roadmap.md`).
 
 ## Privacy e dati legali
 
 - `/privacy` scritta su come funziona davvero il sito, in prima persona e parole
   semplici (modello: la pagina di andrea-bellettati): titolare Silvia Chizio,
-  quali dati per ogni richiesta e perché, chi altro li vede (server, Cloudflare
-  se c'è, Amazon SES in una regione UE, casella email), per quanto tempo, diritti.
-- Accanto a ogni invio, l'avviso con il link all'informativa.
+  quali dati e perché, chi altro li vede, per quanto tempo, diritti. Cambia da
+  sola con l'interruttore delle richieste: con il modulo racconta Google Moduli
+  (il sito non raccoglie dati e non usa né cookie né memoria del browser); con le
+  richieste dal sito, i flussi, Amazon SES in una regione UE, la casella email,
+  la provenienza e le bozze (`sessionStorage`).
+- Con le richieste dal sito, accanto a ogni invio l'avviso con il link
+  all'informativa.
 - Niente banner dei cookie finché il sito non usa cookie di profilazione o di
-  statistica (solo `sessionStorage` per bozze e provenienza). Un pixel di Meta o
-  un tag di Google vorrebbero banner e informativa aggiornati insieme.
+  statistica. Un pixel di Meta o un tag di Google vorrebbero banner e
+  informativa aggiornati insieme.
 - Partita IVA (se c'è) nel footer, nell'informativa e nelle email, da
   `NEXT_PUBLIC_PARTITA_IVA` come in andrea-bellettati.
 

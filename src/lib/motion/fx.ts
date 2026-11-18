@@ -2,8 +2,9 @@
    Da andrea-bellettati (src/lib/motion/fx.ts), ritemato per Lily.
    Piccoli effetti senza librerie (Web Animations del browser): petali,
    cuori e scintille all'invio, campi che fanno "no-no", passi delle
-   richieste. Li usano i flussi di richiesta, che così non si portano
-   dietro GSAP, e il motore delle pagine (./engine.ts).
+   richieste. Li usano i flussi di richiesta (oggi spenti, RICHIESTE_DAL in
+   src/lib/site.ts), che così non si portano dietro GSAP; il motore delle
+   pagine (./engine.ts) ne prende solo reduced, fine e clearFx.
 
    Sicuro sul server (niente window al caricamento del modulo); con
    "riduci movimento" ogni funzione è un no-op. Le animazioni WAAPI non
@@ -102,12 +103,6 @@ export function clearFx(): void {
 }
 
 /* ── Richieste ────────────────────────────────────────────────────── */
-/** Un piccolo battito (una scelta appena fatta, il cuore toccato). */
-export function beat(el: Element | null): void {
-  if (!el || reduced()) return;
-  el.animate([{ scale: '0.94' }, { scale: '1.05', offset: 0.45 }, { scale: '1' }], { duration: 650, easing: 'ease-out' });
-}
-
 /** Scossa "no-no" sui campi che non vanno. */
 export function nudge(fields: Element[]): void {
   if (reduced()) return;

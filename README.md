@@ -1,13 +1,15 @@
 # Lily Trattamenti Benessere
 
 Sito di **Silvia Chizio** — Lily Trattamenti Benessere, Montebelluna (TV):
-quattro trattamenti in studio e letture intuitive a distanza. Sostituisce il
-Google Form del link in bio di Instagram ed è la base del futuro gestionale delle
-prenotazioni.
+quattro trattamenti in studio e letture intuitive a distanza. Una **landing a
+pagina unica**: chi arriva dal link in bio di Instagram trova tutto in una
+pagina, e «Prenota» apre il modulo Google di Silvia.
 
-**Stato**: fase 1 completa fino al passo 9 della roadmap
-([`docs/roadmap.md`](docs/roadmap.md)); manca il passo 10 (online), che aspetta
-dominio, email e credenziali SES. Testi in bozza da far approvare a Silvia:
+**Stato**: la landing è completa con i dati veri che ci sono e le bozze
+dichiarate; manca la messa online (passo 10 della roadmap,
+[`docs/roadmap.md`](docs/roadmap.md)). Le richieste fatte dal sito (flussi a
+passi, invio con SES) sono nel codice, spente: si riaccendono con un
+interruttore (sotto, «Le richieste»). Testi in bozza da far approvare a Silvia:
 [`docs/testi-da-validare.md`](docs/testi-da-validare.md); dati che mancano:
 [`docs/domande-aperte.md`](docs/domande-aperte.md). Per chi lavora al progetto (e
 per Claude Code): [`AGENTS.md`](AGENTS.md), poi la cartella [`docs/`](docs/).
@@ -15,14 +17,14 @@ per Claude Code): [`AGENTS.md`](AGENTS.md), poi la cartella [`docs/`](docs/).
 | Documento | Cosa contiene |
 |---|---|
 | [`docs/brief.md`](docs/brief.md) | chi è Silvia, cosa offre, a chi parla |
-| [`docs/spec.md`](docs/spec.md) | pagine, richieste, regole dei testi |
-| [`docs/brand.md`](docs/brand.md) | Brand System «Lily» e movimento |
+| [`docs/spec.md`](docs/spec.md) | la landing, le richieste, le regole dei testi |
+| [`docs/brand.md`](docs/brand.md) | Brand System «Lily», concetto «Luce», movimento |
 | [`docs/riferimenti.md`](docs/riferimenti.md) | cosa prendere da andrea-bellettati e ireandlunaslife |
 | [`docs/decisioni.md`](docs/decisioni.md) | le scelte e il perché, con le misure di leggerezza |
 | [`docs/roadmap.md`](docs/roadmap.md) | i passi della fase 1 |
 | [`docs/web-app.md`](docs/web-app.md) | gestionale e newsletter (fasi 2–3) |
 | [`docs/domande-aperte.md`](docs/domande-aperte.md) | cosa chiedere a Silvia |
-| [`docs/testi-da-validare.md`](docs/testi-da-validare.md) | i testi in bozza, pagina per pagina |
+| [`docs/testi-da-validare.md`](docs/testi-da-validare.md) | i testi in bozza, sezione per sezione |
 
 ## Comandi
 
@@ -30,121 +32,110 @@ per Claude Code): [`AGENTS.md`](AGENTS.md), poi la cartella [`docs/`](docs/).
 
 ```bash
 npm install          # dipendenze
-npm run dev          # sviluppo su http://localhost:3000
+npm run dev          # sviluppo su http://localhost:3000 (con l'anteprima: ogni blocco, con gli esempi)
 npm run build        # build di produzione (.next/standalone)
 npm run start        # avvia la build
 npm run check        # tipi (next typegen + tsc) + ESLint
-npm run anteprima    # sito statico in anteprima-netlify/ (Netlify Drop, senza invio richieste)
-```
-
-Per provare le richieste senza mandare email vere (le caselle possono essere
-finte):
-
-```bash
-SES_DRY_RUN=true SES_TO_TRATTAMENTI=prova@esempio.it SES_TO_LETTURE=prova@esempio.it npm run dev
+npm run anteprima    # sito statico in anteprima-netlify/ (Netlify Drop)
 ```
 
 Animazioni e velocità si giudicano sulla build (`npm run build && npm run
-start`): in sviluppo il motore arriva tardi, come in andrea-bellettati.
+start`): in sviluppo il motore arriva tardi.
 
 ## Stack
-
-Lo stesso di [andrea-bellettati](https://github.com/FrancescoCorbosiero/andrea-bellettati),
-con le stesse versioni (perché: [`docs/decisioni.md`](docs/decisioni.md)).
 
 | | |
 |---|---|
 | Framework | **Next.js 16** (App Router, Turbopack) + **React 19** + TypeScript |
-| Stile | **Tailwind 4** con il Brand System «Lily» in `src/app/globals.css` (palette, font, petalo, vetro rosato, notte) |
-| Parti "app" | **Konsta UI 5** (tema iOS) · `react-modal-sheet` per i fogli · `motion` per il pannello desktop · `sonner` per gli avvisi |
-| Movimento | **GSAP** (ScrollTrigger + SplitText) e **Lenis**, caricati dopo la pagina (`src/lib/motion`), con gli effetti di ireandlunaslife ritemati |
-| Email | AWS SES v2 da `/api/richiesta` |
+| Stile | **Tailwind 4** con il Brand System «Lily» in `src/app/globals.css` (toni semantici, arco, bottoni, listino) |
+| Movimento | **GSAP** (ScrollTrigger + SplitText) e **Lenis**, caricati dopo la pagina (`src/lib/motion`); la hero con un'animazione CSS legata allo scroll dove c'è |
+| Richieste dal sito (spente) | **Konsta UI 5** (tema iOS) · `react-modal-sheet` · `motion` · zod · AWS SES v2 da `/api/richiesta` |
 | Deploy | Docker (Next standalone) dietro **Caddy** (caddy-docker-proxy) |
+
+## La landing
+
+Una pagina, `/`, con un'ancora per sezione: la **hero** (la finestra ad arco che
+si apre a tutto schermo scorrendo), il **listino** (`#trattamenti`, un'ancora per
+trattamento), il **momento relax**, **Silvia** (`#chi-sono`), le **recensioni**
+(solo vere), le **letture** (`#letture`), **come prenotare e dove**
+(`#contatti`), le **domande**, l'**invito**. Più `/privacy` e la 404. Il link per
+la bio di Instagram è la landing con la provenienza:
+`/?utm_source=instagram&utm_medium=bio`.
 
 ## Struttura
 
 ```
 src/
   app/
-    layout.tsx               # html, font, AppProvider, scroll morbido, JSON-LD del sito
-    template.tsx             # accende le animazioni di ogni pagina (si rimonta a ogni cambio pagina)
-    globals.css              # ⭐ Brand System «Lily»: token, superfici, componenti, stati delle animazioni, tema Konsta
-    fonts.ts                 # Playfair Display, Figtree, Damion (self-hosted, src/fonts/)
-    (sito)/                  # le pagine; layout.tsx: header, footer, barra in basso
-      page.tsx               # home
-      trattamenti/ letture/ prenota/ chi-sono/ contatti/ privacy/
-      stile/                 # tutto il Brand System, per rivederlo con Silvia (noindex)
-      not-found.tsx          # 404 dentro il sito
-    (campagne)/bio/          # la pagina del link in bio di Instagram: niente menu, noindex
-    api/richiesta/route.ts   # invio delle richieste (SES)
+    layout.tsx               # html, font, script di avvio (html.motion), AppProvider, scroll morbido, JSON-LD
+    template.tsx             # accende le animazioni di ogni pagina
+    globals.css              # ⭐ Brand System «Lily»: toni, tipografia, bottoni, arco, hero, listino, flussi
+    fonts.ts                 # Cormorant Garamond (tondo e corsivo), Figtree, Damion (self-hosted, src/fonts/)
+    (sito)/
+      page.tsx               # ⭐ la landing
+      privacy/               # l'informativa (segue l'interruttore delle richieste)
+      prenota/               # le richieste in pagina: solo con RICHIESTE_DAL = 'sito'
+      layout.tsx             # testata, piè di pagina, barra in basso
+    api/richiesta/route.ts   # invio delle richieste dal sito (SES): 404 con il modulo
     sitemap.ts robots.ts manifest.ts icon.svg apple-icon.png favicon.ico not-found.tsx
   components/
-    app/                     # AppProvider (fogli, cronologia), MenuSheet
-    brand/                   # Giglio (il giglio del logo, da disegnare), Listino (riga del listino), DivisoreLoto
-    flows/                   # le richieste: PrenotaFlow, LetturaFlow, AvvisamiFlow, useFlow, fields, foglio/pannello, in pagina
-    home/                    # le sezioni della home
-    layout/                  # SiteHeader, MobileTabbar, SiteFooter, Logo, 404, AlpacodeBadge
-    motion/ seo/ ui/         # MotionPage, SmoothScroll · JsonLd · SectionHead, FaqList, Chiusura, BottoniRichiesta…
-    icons.tsx                # le icone a linea dei trattamenti e del brand
+    home/                    # le sezioni della landing: Hero, Listino, Relax, Silvia, Recensioni, Letture, Prenota, Domande, Invito
+    layout/                  # SiteHeader, MobileDock, SiteFooter, Logo, 404, AlpacodeBadge
+    app/                     # AppProvider (fogli, cronologia), Menu (il menu del telefono)
+    ui/                      # Bottone (e BottoneRichiesta), Esempio
+    flows/                   # le richieste dal sito (spente): PrenotaFlow, LetturaFlow, AvvisamiFlow…
+    brand/ seo/ motion/      # il giglio · JSON-LD · MotionPage, SmoothScroll
+    icons.tsx                # icone a linea e frecce
   lib/
-    site.ts                  # ⭐ contatti, studio, orari, PRENOTAZIONI, parole di Silvia: i dati che mancano restano vuoti
+    site.ts                  # ⭐ contatti, studio, orari, MODULI e RICHIESTE_DAL, PRENOTAZIONI: i dati che mancano restano vuoti
+    richieste.ts             # ⭐ dove porta ogni bottone di richiesta
     trattamenti.ts           # ⭐ il catalogo: i quattro trattamenti, le letture, i temi
-    richieste.ts             # le due richieste e le loro etichette (anche da sospese)
-    forms.ts                 # campi, opzioni e regole zod delle richieste (browser e server)
-    emails.ts mail.ts send.ts rateLimit.ts source.ts seo.ts orari.ts hooks.ts konsta.ts
-    motion/                  # engine.ts (GSAP + Lenis, dopo la pagina), fx.ts (effetti senza librerie), scroll.ts
-public/brand/                # logo e giglio provvisori in SVG (e il PNG per le email)
-public/icons/ public/og/     # icone dell'app e immagini per i social, generate da scripts/immagini.cjs
-scripts/                     # immagini.cjs (icone e Open Graph), misura.cjs (TBT, LCP, CLS)
+    domande.ts immagini.ts anteprima.ts seo.ts orari.ts
+    forms.ts emails.ts mail.ts send.ts rateLimit.ts source.ts hooks.ts   # le richieste dal sito
+    motion/                  # engine.ts (GSAP + Lenis, dopo la pagina), fx.ts, scroll.ts
+public/video/ public/atmosfere/ public/foto/   # la hero, le immagini d'atmosfera, le foto dell'anteprima
+public/brand/ public/icons/ public/og/          # logo e giglio provvisori, icone, immagini per i social
+scripts/                     # immagini.cjs, atmosfere.cjs, video-hero.cjs, foto.cjs, misura.cjs, anteprima-statica.mjs
 docs/                        # contesto, decisioni, roadmap, domande per Silvia, testi da validare
 ```
 
+## Le richieste
+
+Un interruttore in `src/lib/site.ts`:
+
+- **`RICHIESTE_DAL = 'modulo'`** (oggi): ogni «Prenota un trattamento» e
+  «Richiedi una lettura» apre il modulo Google di Silvia (`MODULI`) in un'altra
+  scheda. Il sito non raccoglie dati: niente API, niente memoria del browser,
+  l'informativa lo dice.
+- **`RICHIESTE_DAL = 'sito'`**: tornano le richieste fatte dal sito, come fogli
+  sopra la landing (telefono) e pannelli (desktop), e in pagina su `/prenota` e
+  `/prenota/lettura`. Invio con `POST /api/richiesta` → email a Silvia e conferma
+  a chi ha scritto (caselle `SES_TO_TRATTAMENTI`, `SES_TO_LETTURE`, variabili in
+  [`.env.example`](.env.example)). Per provarle senza email vere:
+
+```bash
+SES_DRY_RUN=true SES_TO_TRATTAMENTI=prova@esempio.it SES_TO_LETTURE=prova@esempio.it npm run dev
+```
+
+**Prenotazioni sospese**: `PRENOTAZIONI.trattamenti` o `PRENOTAZIONI.letture` a
+`'sospese'` (con `NOTA_SOSPENSIONE` facoltativa, es. "Riapro a gennaio"). Con il
+modulo il bottone porta al messaggio su Instagram, con una riga che spiega; dal
+sito diventa "Avvisami quando riapro".
+
 ## I dati che mancano
 
-Indirizzo, orari, email, telefono/WhatsApp, prezzi, foto, logo originale,
-dominio: finché Silvia non li dà restano vuoti in `src/lib/site.ts` e
+Indirizzo, orari, telefono/WhatsApp, prezzi, foto, logo originale, dominio:
+finché Silvia non li dà restano vuoti in `src/lib/site.ts` e
 `src/lib/trattamenti.ts` (`prezzo: null`) e i blocchi che li usano non
-compaiono. Quando arrivano si scrive il dato lì e si rifà il build: header,
-footer, contatti, richieste e dati strutturati si aggiornano da soli. Le domande
-sono in [`docs/domande-aperte.md`](docs/domande-aperte.md).
-
-**Prenotazioni sospese**: in `src/lib/site.ts`, `PRENOTAZIONI.trattamenti` o
-`PRENOTAZIONI.letture` a `'sospese'` (con `NOTA_SOSPENSIONE` facoltativa, es.
-"Riapro a gennaio"). I bottoni di quella richiesta diventano "Avvisami quando
-riapro" e la sua pagina mostra il modulo dell'avviso.
-
-## Le richieste ed email
-
-- **Prenota un trattamento** (`PrenotaFlow`): il trattamento dal listino (o
-  "consigliami tu") → quando ti va (fasce, giorni, prima volta, due righe senza
-  dati sulla salute) → contatti (nome e telefono, email facoltativa, come
-  ricontattarti) → riepilogo modificabile → invio. "Prenota questo" porta il
-  trattamento già scelto (`/prenota?trattamento=<slug>#richiesta`).
-- **Richiedi una lettura** (`LetturaFlow`): il tema → la domanda (facoltativa) →
-  nome ed email → riepilogo con il disclaimer integrale → invio. Niente codice
-  fiscale.
-- **Avvisami quando riapro** (`AvvisamiFlow`): email, nome facoltativo, cosa
-  interessa e un consenso per un solo scopo. Non è una newsletter.
-- Ogni link a `/prenota#richiesta` o `/letture#richiesta` apre la richiesta come
-  foglio dal basso su telefono e come pannello su desktop; nella sua pagina è in
-  pagina. Il gesto "indietro" chiude il foglio.
-- Invio: `POST /api/richiesta` (unione su `kind`: `trattamento`, `lettura`,
-  `avvisami`, stesso zod del browser) → email a Silvia (riepilogo, bottoni per
-  rispondere, provenienza `utm_*`, ora) e conferma a chi ha scritto, se c'è
-  l'email. Caselle: `SES_TO_TRATTAMENTI` e `SES_TO_LETTURE`. Protezioni: limite
-  per IP, campo trappola, tempo minimo di compilazione. `GET /api/richiesta` dice
-  se l'invio è configurato.
-- Senza SES (o senza caselle) la richiesta non parte e il flusso offre il testo
-  già scritto con "Copia il testo" e il messaggio su Instagram.
-
-Variabili in [`.env.example`](.env.example).
+compaiono. In sviluppo e nell'anteprima compaiono con un esempio segnato
+«Esempio». Le domande sono in [`docs/domande-aperte.md`](docs/domande-aperte.md).
 
 ## Immagini e misure
 
-- `node scripts/immagini.cjs` rigenera icone e immagini Open Graph dal logo e
-  dal giglio (serve Playwright): da rilanciare quando arriva il logo originale.
-- `node scripts/misura.cjs http://localhost:3300 / /trattamenti` misura TBT,
-  LCP e CLS su un telefono medio simulato (metodo e risultati in
+- `node scripts/immagini.cjs` rigenera icone e immagini Open Graph (serve
+  Playwright): da rilanciare quando arriva il logo originale o cambia un titolo.
+- `node scripts/misura.cjs http://localhost:3300 /` misura TBT, LCP e CLS su un
+  telefono medio simulato (metodo e risultati in
   [`docs/decisioni.md`](docs/decisioni.md), "Leggerezza").
 
 ## Anteprima statica (Netlify Drop)
@@ -156,13 +147,9 @@ Per mostrare il sito senza server, per esempio trascinandolo su
 npm run anteprima
 ```
 
-Crea `anteprima-netlify/`: è quella la cartella da trascinare, non
-`public/` (che contiene solo immagini e icone, senza `index.html`). È solo
-un'anteprima: senza server non c'è `/api/richiesta`, quindi le richieste non
-partono e mostrano il ripiego (testo da copiare e Instagram). Con
+Crea `anteprima-netlify/`: è quella la cartella da trascinare. Con
 `npm run anteprima -- https://<nome>.netlify.app` canonical, sitemap e immagini
-per i social puntano all'indirizzo dell'anteprima. Funziona anche su Windows
-(lo script è in Node).
+per i social puntano all'indirizzo dell'anteprima. Funziona anche su Windows.
 
 ## Deploy
 
@@ -171,13 +158,12 @@ solo.
 
 ```bash
 docker network create caddy        # una volta sola, se non esiste
-cp .env.example .env               # dominio + credenziali SES
+cp .env.example .env               # dominio (+ credenziali SES, solo con le richieste dal sito)
 docker compose up -d --build
 ```
 
 `NEXT_PUBLIC_SITE_URL` e `NEXT_PUBLIC_PARTITA_IVA` entrano al build: cambiarli
 richiede `--build`. Finché il dominio non è deciso, `docker compose` si ferma
-con un messaggio. Per andare online (passo 10): dominio verificato in SES con
-DKIM, SPF e DMARC, fuori dalla sandbox, regione UE, utente IAM con il solo
-`ses:SendEmail`; poi il link in bio a `/bio?utm_source=instagram&utm_medium=bio`
-e il Google Form spento.
+con un messaggio. Per andare online (passo 10): il dominio, poi il link in bio a
+`/?utm_source=instagram&utm_medium=bio`. SES serve solo se si riaccendono le
+richieste dal sito.

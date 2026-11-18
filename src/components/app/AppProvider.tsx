@@ -8,21 +8,24 @@ import type { FlowKind } from '@/components/flows/FlowFor';
 import { handoffFromSlug } from '@/components/flows/handoff';
 import type { PrenotaDraft } from '@/lib/forms';
 import { lockScroll } from '@/lib/motion/scroll';
+import { DAL_MODULO } from '@/lib/richieste';
 import { rememberArrival } from '@/lib/source';
 
 /* Da andrea-bellettati (src/components/app/AppProvider.tsx): il guscio
    "app" del sito. Le richieste e il menu si caricano solo quando servono
    (al primo segno di intenzione, vedi sotto): chi legge e basta non
-   scarica il codice dei moduli. */
+   scarica il codice dei moduli. Con le richieste dal modulo Google
+   (RICHIESTE_DAL in site.ts) nessun link porta ai flussi, e il loro codice
+   non si scarica mai. */
 const loadFlow = () => import('@/components/flows/FlowOverlay');
-const loadMenu = () => import('./MenuSheet');
+const loadMenu = () => import('./Menu');
 const FlowOverlay = dynamic(loadFlow, { ssr: false });
-const MenuSheet = dynamic(loadMenu, { ssr: false });
+const Menu = dynamic(loadMenu, { ssr: false });
 
 type AppApi = {
   /** Apre una richiesta sopra la pagina (foglio su telefono, pannello su desktop). */
   openFlow: (kind: FlowKind, handoff?: Partial<PrenotaDraft>) => void;
-  /** Apre il menu "Tutto il sito" (telefono). */
+  /** Apre il menu (telefono). */
   openMenu: () => void;
   /**
    * Chiude il foglio aperto perché si sta andando a un'altra pagina: toglie
@@ -44,10 +47,10 @@ export function useApp(): AppApi {
 }
 
 /** Le pagine che ospitano le richieste in pagina: lì i link non aprono il foglio. */
-const FLOW_PATHS: Record<FlowKind, string> = { prenota: '/prenota', lettura: '/letture' };
+const FLOW_PATHS: Record<FlowKind, string> = { prenota: '/prenota', lettura: '/prenota/lettura' };
 const FLOW_HASH = '#richiesta';
 
-/** La richiesta a cui porta un link (/prenota#richiesta, /letture#richiesta), se porta a una. */
+/** La richiesta a cui porta un link (/prenota#richiesta, /prenota/lettura#richiesta), se porta a una. */
 function flowOfUrl(url: URL): FlowKind | null {
   if (url.origin !== window.location.origin || url.hash !== FLOW_HASH) return null;
   if (url.pathname === FLOW_PATHS.prenota) return 'prenota';
@@ -117,8 +120,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (sheetOf(window.history.state)) window.history.replaceState(null, '');
   }, []);
 
-  // La prima pagina della visita e la sua campagna (vanno nell'email a Silvia).
-  useEffect(rememberArrival, []);
+  // La prima pagina della visita e la sua campagna (vanno nell'email a
+  // Silvia): solo se le richieste partono dal sito.
+  useEffect(() => {
+    if (!DAL_MODULO) rememberArrival();
+  }, []);
 
   // Indietro/avanti: il foglio è aperto esattamente sul suo passo di cronologia.
   useEffect(() => {
@@ -197,7 +203,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             <FlowOverlay open={flowShown} session={session.id} kind={session.kind} handoff={session.handoff} onClose={close} />
           </OverlayBoundary>
         )}
-        {menuMounted && <MenuSheet open={sheet === 'menu'} onClose={close} onNavigate={dismissForNavigation} />}
+        {menuMounted && <Menu open={sheet === 'menu'} onClose={close} onNavigate={dismissForNavigation} />}
       </AppContext.Provider>
     </KonstaProvider>
   );

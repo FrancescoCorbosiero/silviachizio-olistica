@@ -1,0 +1,72 @@
+import { BottoneRichiesta } from '@/components/ui/Bottone';
+import Esempio from '@/components/ui/Esempio';
+import { FOTO_STESA, PREZZO_LETTURA } from '@/lib/anteprima';
+import { IMMAGINI } from '@/lib/immagini';
+import { RICHIESTE, rigaSospensione } from '@/lib/richieste';
+import { LETTURA, TEMI_LETTURA } from '@/lib/trattamenti';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+/**
+ * Le letture intuitive, a distanza, con le parole del modulo di Silvia:
+ * cosa riceverai, i temi, il disclaimer integrale accanto alla richiesta.
+ * Nell'arco la foto di una stesa vera; finché manca, il buio caldo delle
+ * candele (in anteprima, le carte con il segno).
+ */
+export default function Letture() {
+  const stesa = FOTO_STESA ?? { valore: 'candela' as const, esempio: false };
+  const img = IMMAGINI[stesa.valore];
+  return (
+    <section id="letture" className="tono-notte section overflow-clip" aria-labelledby="letture-titolo">
+      <div className="wrap grid gap-x-10 gap-y-16 lg:grid-cols-12 lg:items-center">
+        <div className="lg:col-span-6">
+          <h2 id="letture-titolo" className="titolo" data-split>
+            Letture intuitive, <em>a distanza</em>
+          </h2>
+          {/* BOZZA, con la frase del modulo */}
+          <p className="lead mt-8" data-reveal>
+            Per chi mi segue da lontano: {LETTURA.frase}, che ti arriva via email.
+          </p>
+
+          {/* «Riceverai:» — le parole del modulo, così come sono. */}
+          <p className="meta mt-12">Riceverai</p>
+          <ol className="mt-4 border-t border-[var(--line-strong)]" data-reveal="stagger">
+            {LETTURA.riceverai.map((r, i) => (
+              <li key={r} className="flex items-baseline gap-5 border-b border-[var(--line)] py-4">
+                <span className="meta w-6 shrink-0">{pad(i + 1)}</span>
+                <span className="corsivo text-[clamp(1.3rem,1.8vw,1.6rem)] leading-tight first-letter:uppercase">{r}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-6 text-[15.5px] text-[var(--fg-soft)]">
+            <span className="meta mr-2">I temi</span>
+            {TEMI_LETTURA.join(' · ')}
+          </p>
+          {PREZZO_LETTURA && (
+            <p className="mt-3 flex items-center gap-3 text-[15.5px] text-[var(--fg-soft)]">
+              <span className="meta">Prezzo</span> {PREZZO_LETTURA.valore}
+              {PREZZO_LETTURA.esempio && <Esempio cosa="il prezzo" />}
+            </p>
+          )}
+
+          <div className="mt-10" data-reveal>
+            {RICHIESTE.letture.sospesa && <p className="mb-5 max-w-[46ch] text-[15.5px] text-[var(--fg-soft)]">{rigaSospensione('letture')}</p>}
+            <BottoneRichiesta tipo="letture" variante="latte" />
+          </div>
+          {/* Il disclaimer di Silvia, integrale, accanto a ogni richiesta di lettura (docs/spec.md). */}
+          <p className="mt-10 max-w-[58ch] border-l border-[var(--line-strong)] pl-5 text-[14.5px] leading-relaxed text-[var(--fg-mute)]">
+            {LETTURA.disclaimer}
+          </p>
+        </div>
+
+        <div className="lg:col-span-5 lg:col-start-8">
+          <div className="arco mx-auto aspect-[4/5] w-[min(100%,480px)]" data-clip="arco">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="plx" data-parallax="50" src={img.srcVerticale} alt={stesa.esempio ? '' : img.alt} width={900} height={1500} loading="lazy" decoding="async" />
+            {stesa.esempio && <Esempio sopra cosa="la foto di una stesa vera" />}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

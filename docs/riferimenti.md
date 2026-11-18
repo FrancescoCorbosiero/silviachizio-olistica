@@ -64,6 +64,22 @@ degli effetti**, da riscrivere dentro il motore di andrea-bellettati.
 | Intro del primo schermo | `src/styles/motion.css` (sezione "Intro"), `src/layouts/Base.astro` | titoli che salgono in CSS prima del motore |
 | Parallax delle copertine | `src/styles/effects.css` | `parallax-cover` pre-scalata |
 
+## Ziranu (zirano-ditta): il livello, non lo stile
+
+Il sito di Ziranu Arredi, dello stesso studio, è il riferimento per la qualità
+di disegno e di codice della landing (novembre 2026). Si è preso il metodo, non
+l'aspetto (niente planimetria, niente Archivo, niente ottone):
+
+| Cosa | Da dove | Per Lily |
+|---|---|---|
+| Toni semantici (`--bg`, `--fg`, `--line`, `--accent` per sezione) | `src/app/globals.css` (`.tone-dark`, `.tone-paper`) | `tono-sabbia`, `tono-latte`, `tono-vino`, `tono-notte` |
+| Bottone con l'etichetta scritta due volte | `src/components/ui/Button.tsx` | `Bottone.tsx`, con la freccia in un tondo (↗ fuori dal sito) |
+| Domande in `<details>` con `::details-content` | `.faq` | `.faq` e le righe del listino (`.voce`) |
+| Indice con l'anteprima che segue il puntatore | `data-hover-list` | il listino, con l'anteprima ad arco |
+| Script di avvio che accende `html.motion` prima del primo fotogramma | `src/app/layout.tsx` | la hero (`app/layout.tsx`, `AVVIO`) |
+| Titoli descrittivi, niente etichette sopra i titoli | testi e `SectionHead` | i titoli della landing |
+| Dati in un punto solo | `src/lib/*.ts` | `site.ts`, `richieste.ts`, `trattamenti.ts`, `domande.ts`, `immagini.ts` |
+
 ## Cosa non prendere
 
 - **Da ireandlunaslife**: Astro, Netlify, il modulo "Scrivimi" di

@@ -27,6 +27,26 @@ Silvia. Rispetto ai riferimenti: niente aria "tecnica" (il vetro di
 andrea-bellettati resta solo su header e fogli) e niente bacheca di
 ireandlunaslife. Qui le superfici sono morbide come petali e il movimento respira.
 
+## Il concetto: «Luce» (novembre 2026)
+
+Il sito è una stanza nella luce del pomeriggio: l'intonaco sabbia, la finestra
+ad arco, le ombre dei gigli sul muro (il video della hero). Da qui le regole,
+sul modello della disciplina di Ziranu (`decisioni.md`):
+
+- **Una forma curva sola, l'arco** (la finestra, la porta): incornicia ogni
+  immagine (`.arco`); nella hero si apre fino a riempire lo schermo.
+- **Due voci**: Cormorant Garamond in tondo per i titoli e in corsivo per la
+  seconda voce; Figtree per il testo, i dati e l'interfaccia. Damion solo nel
+  marchio.
+- **Pochi toni, a fasce piene**: sabbia (il muro, il fondo), latte (la carta),
+  vino (il lily in ombra), notte (la divisa, il piè di pagina). I componenti
+  leggono i colori del tono (`tono-*` in `globals.css`). Il lily è l'accento: i
+  bottoni, i segni, mai un fondo.
+- **Fatti, non slogan**: titoli descrittivi («Massaggi e rituali olistici»,
+  «Come prenotare»), nessuna etichetta sopra ogni titolo, al massimo una parte
+  in corsivo. I numeri sono i minuti, in grande.
+- **Un effetto forte per sezione**, lento e morbido.
+
 ## Palette
 
 Campioni in `immagini/palette.png`.
@@ -68,21 +88,23 @@ Confronti con il materiale di Silvia: `immagini/confronto-serif.png` e
 
 | Ruolo | Font | Perché |
 |---|---|---|
-| Titoli e nomi dei trattamenti | **Playfair Display** 700–900 | il serif ad alto contrasto di «LISTINO TRATTAMENTI» |
-| Sottotitoli, descrizioni, etichette, la parola in evidenza | **Cormorant Garamond Italic** 500–600 (dal novembre 2026; prima Playfair Display Italic) | più elegante e più leggibile alle misure piccole, come «Massaggio olistico relax su lettino» |
-| Testo | **Figtree** 400–700 | leggibile sul telefono; è anche il font di Konsta (`--font-ios`) |
-| La parola a mano | **Damion** (in alternativa Yellowtail) | i più vicini al wordmark «Lily» |
+| Titoli, nomi dei trattamenti, cifre | **Cormorant Garamond** tondo, 400–500 (variabile 300–700) | elegante e calmo in grande; il «respiro» del marchio |
+| Seconda voce: descrizioni del listino, durate, citazioni, la parte in evidenza del titolo | **Cormorant Garamond** corsivo, 500 | la stessa famiglia: cambia la voce, non la mano |
+| Testo, dati, interfaccia (anche Konsta) | **Figtree** 400–700 | leggibile sul telefono |
+| Il marchio «Lily» (logo, firma in fondo alla pagina) | **Damion** | il più vicino al wordmark del logo |
 
-- Tutti self-hosted (woff2, `next/font/local` come in `src/app/fonts.ts` di
-  andrea-bellettati), niente CDN di Google Fonts.
+Fino alla quarta revisione i titoli erano in Playfair Display 700–900 (il serif
+di «LISTINO TRATTAMENTI»): pesante e da invito, è uscito con «Luce».
+
+- Tutti self-hosted (woff2, `next/font/local`, `src/app/fonts.ts`), niente CDN
+  di Google Fonts.
 - Great Vibes è quasi identico a «Trattamenti Benessere» del logo: serve solo se
   bisogna ricomporre il logo in testo, mai nei contenuti.
-- Il maiuscolo solo per titoli brevi da manifesto, come «LISTINO»; i nomi dei
-  trattamenti in maiuscolo e minuscolo, come nel listino.
-- Una sola parola a mano per titolo, in `--lily`, con la sottolineatura a mano in
-  `--petalo` che si disegna per ultima.
-- Titoli grandi con interlinea stretta (1–1,05); testo da 17–18 px su telefono,
-  righe di 60–70 caratteri.
+- Niente maiuscolo nei titoli; i nomi dei trattamenti in maiuscolo e minuscolo,
+  come nel listino.
+- Al massimo una parte in corsivo per titolo, nello stesso colore.
+- Titoli grandi con interlinea stretta (0,9–1); testo da 17–17,5 px, righe di
+  60–70 caratteri; dati e didascalie in Figtree con cifre tabellari (`.meta`).
 
 ## Logo
 
@@ -109,6 +131,8 @@ Confronti con il materiale di Silvia: `immagini/confronto-serif.png` e
 
 ## Motivi
 
+*(Con «Luce» restano il giglio a linea (il marchio, l'invito), l'arco, la luce e le ombre dei gigli (la hero) e il bordino della divisa (il piè di pagina). Pennellata, loto, cuori e scintille sono usciti dal sito; i cerchi delle icone restano nei flussi.)*
+
 - **Il giglio a matita** del logo, grande e leggero ai margini, che si disegna da
   solo.
 - **La pennellata**: fascia `--blush` dai bordi irregolari dietro ai
@@ -121,6 +145,8 @@ Confronti con il materiale di Silvia: `immagini/confronto-serif.png` e
   sezioni notte e del footer.
 
 ## Superfici e componenti
+
+*(Con «Luce»: i toni semantici, l'arco, i bottoni a pillola con la freccia, le righe a filetti del listino e delle domande. Petalo e vetro rosato restano nei flussi; il vetro latte nella testata e nella barra in basso.)*
 
 - **Petalo** (card e pannelli): `--carta` o `--latte`, raggio 24–28 px, filo rosa
   appena visibile, ombra morbida tinta di rosa (mai grigia, mai piena); al
@@ -169,51 +195,40 @@ Due effetti nuovi, solo CSS:
   sotto, «Revisione: meno galleggiante, più architettura»).
 - **La candela**: in Lily Magic la luce tremola appena.
 
-| Effetto | Da dove | Per Lily |
-|---|---|---|
-| `data-reveal`, `data-reveal="stagger"` | andrea-bellettati | blocchi e griglie che salgono, senza rimbalzo marcato |
-| `data-split` + `.script` | andrea-bellettati, variante `chars` da ireandlunaslife | titoli a righe, sfocati o lettera per lettera; la parola a mano per ultima |
-| `data-draw` | entrambi | il giglio, i cuori e il divisore col loto che si disegnano |
-| `data-clip` | andrea-bellettati | foto che si aprono da un cerchio o da un arco |
-| `data-scrub` | entrambi | la frase del momento relax che si accende |
-| `data-stories` | andrea-bellettati | "come funziona" come stories di Instagram |
-| `data-rail` | entrambi | tappe che si accendono, con un petalo al posto della zampina |
-| `data-fan` | entrambi | le foto di Silvia che si aprono a ventaglio |
-| `data-trail` (facoltativo) | entrambi | il percorso di Silvia su un sentiero tratteggiato con le foglie |
-| `data-parallax`, `data-speed`, `data-hero-away` | entrambi | profondità leggera nell'hero |
-| `details[data-accordion]` | entrambi | domande frequenti |
-| `data-wordmark` | entrambi | «Lily» nel footer, lettera per lettera |
-| `data-tilt` | entrambi | card dei trattamenti verso il puntatore, inclinazione minima |
-| `data-marquee` | ireandlunaslife | il nastro dei trattamenti, che segue velocità e verso dello scroll |
-| `data-spin` | ireandlunaslife | l'anello di testo intorno alla foto, il badge "Prenota" |
-| `data-float` | ireandlunaslife | petali e gigli che ondeggiano |
-| `data-peek` | ireandlunaslife | il giglio che spunta dal fondo della chiusura |
-| `data-magnetic` | ireandlunaslife | il badge "Prenota" attirato dal puntatore |
-| `data-pop` | ireandlunaslife | le icone nei cerchi cipria, con un pop morbido |
-| `data-chat` | ireandlunaslife | la lettura raccontata come messaggi diretti |
-| `data-lens` | ireandlunaslife | la lente sulla foto della stesa |
-| `data-path-row` | ireandlunaslife | l'indice dei trattamenti: la foto segue il puntatore |
-| `data-paw-trail` → `data-petal-trail` | ireandlunaslife | petali che cadono dietro al puntatore, un cuore al tocco |
-| `data-pet` → `data-love` | entrambi | cuori al tocco sul ritratto: un battito, niente "scodinzolo" |
-| `celebrate()` | entrambi (`fx.ts` in andrea-bellettati) | all'invio petali, cuori e scintille, al posto di zampe e ossa |
-| `data-hero-zoom` (facoltativo) | ireandlunaslife | un cerchio, come la storia in evidenza «Lily 🌸», che si allarga fino a riempire lo schermo: si entra nello studio. Solo desktop, solo con una foto dello studio all'altezza |
-| `data-hscroll` | ireandlunaslife | galleria orizzontale dello studio su desktop (Trattamenti) |
-| `video[data-video]` | nuovo | il video di sfondo della hero: arriva dopo l'idratazione, sopra il suo primo fotogramma |
+Gli effetti di oggi (l'elenco completo, con gli attributi, è in testa a
+`src/lib/motion/engine.ts`):
+
+| Effetto | Dove |
+|---|---|
+| la finestra della hero (`--e`: CSS legato allo scroll, il motore dove manca) | hero |
+| il foglio che sale sopra la finestra ferma (`.foglio`) | listino |
+| `data-split` (righe dalla maschera, `blur`, `wipe`) | i titoli |
+| `data-reveal`, `data-reveal="stagger"` | blocchi e righe |
+| `data-clip="arco"` (l'immagine si apre dal basso, come una finestra che si alza) | Silvia, letture |
+| `data-parallax` | le immagini negli archi |
+| `data-scrub` (le parole si accendono) | il momento relax |
+| la luce che scorre dentro il «15» (CSS legato alla vista) | il momento relax |
+| `data-hover-list` (l'anteprima ad arco segue il puntatore, solo mouse e solo con le foto) | listino |
+| `data-draw` (il giglio si disegna) | invito |
+| `data-wordmark` («Lily» lettera per lettera) | piè di pagina |
+| `video[data-video]` | hero |
+| i `<details>` che si aprono morbidi (`::details-content`, solo CSS) | listino, domande |
+| l'etichetta dei bottoni che scorre (scritta due volte, solo CSS) | bottoni |
 
 Non si portano: `data-sticker-wall`, `data-stamp`, `data-strike`, `data-venn`, le
-rotazioni, le forme di zampe e ossa.
+rotazioni, le forme di zampe e ossa. Tolti con la landing (nella storia di git):
+stories, chat, nastro, anello, badge magnetico, giglio che spunta, sentiero,
+ventaglio, lente, petali dietro al puntatore, cuori al tocco.
 
 Regole per ogni effetto portato:
 
 - Entra nel motore di andrea-bellettati con le sue regole: armato da un
   IntersectionObserver, nato a tappe, smontato al cambio pagina; le sezioni
-  ferme (`data-hero-zoom`, `data-hscroll`, `data-stories`) usano
-  `position: sticky` e `data-pin-stage`, non i pin di ScrollTrigger.
+  ferme (la hero) usano `position: sticky`, non i pin di ScrollTrigger.
 - Si misura prima e dopo (TBT, metodo in `decisioni.md`): se pesa, si semplifica
   o si toglie.
-- Gli effetti col puntatore (`data-petal-trail`, `data-magnetic`, `data-lens`,
-  `data-path-row`, `data-tilt`) solo con un mouse (`hover: hover` e
-  `pointer: fine`).
+- Gli effetti col puntatore (`data-hover-list`) solo con un mouse
+  (`hover: hover` e `pointer: fine`).
 - Con "riduci movimento" tutto fermo, `celebrate()` compreso.
 
 ## Da evitare
@@ -343,3 +358,29 @@ pillola (`--radius-btn: 999px`), foto e fasce a 18 px (`--radius-tile`),
 pannelli a 26 px (`--radius-petalo`). L'arco delle foto resta la forma simbolo.
 Del passaggio al netto restano le cose che contavano davvero: le scene a tutto
 schermo, i fondi pieni, il corsivo, niente card galleggianti sul bianco.
+
+## Quinta revisione: «Luce», la landing (novembre 2026)
+
+Il sito diventa una landing a pagina unica e le richieste passano dal modulo
+Google di Silvia (`decisioni.md`). Il livello di riferimento è Ziranu; lo stile
+resta di Lily. Cosa cambia rispetto alla quarta revisione:
+
+- **Il concetto «Luce»** (in cima a questo documento) tiene insieme forme,
+  colori e movimento.
+- **La hero è la finestra ad arco**: chiusa sotto il titolo, si apre a tutto
+  schermo scorrendo; il titolo passa dall'inchiostro alla luce dove il bordo
+  dell'arco lo attraversa. Il sigillo con l'anello, i tre fatti e i bottoni
+  nella hero sono usciti: i bottoni stanno nella testata e, sul telefono, nella
+  barra in basso.
+- **La testata** è una pillola di vetro latte sospesa, con le sezioni (si
+  accende quella che stai leggendo) e «Prenota»; sul telefono marchio e menu (un
+  dialogo a tutto schermo su vino), e in basso Instagram e «Prenota».
+- **Il listino** è un indice a filetti: numero, nome in tondo, descrizione del
+  listino in corsivo, i minuti in grande; ogni riga si apre con cosa aspettarsi.
+  I cerchi cipria con le icone restano solo nei flussi.
+- **Bottoni**: pillole con l'etichetta che scorre e la freccia in un tondo;
+  ↗ quando si apre un'altra scheda (il modulo, Instagram), → quando si resta.
+- **Tolti**: pennellata, filetti col loto, cerchi cipria, scene a tutto schermo
+  in ogni sezione, nastro, sigillo, badge, chat, stories, scheda Instagram; le
+  fasce blush e cipria.
+

@@ -62,7 +62,7 @@ richiesta.
 Metadati per pagina, JSON-LD, sitemap, robots, canonical, immagini Open Graph,
 manifest e icone dal giglio.
 **Fatto quando** i dati strutturati passano il test dei risultati multimediali di
-Google e `/bio` e `/stile` sono fuori dai motori.
+Google e le pagine di servizio sono fuori dai motori.
 
 ### 9. Verifica
 Misure (TBT, LCP, CLS) sulla build, controllo di accessibilità, prova su un
@@ -74,8 +74,18 @@ telefono vero con e senza "riduci movimento", rilettura di tutti i testi in bozz
 Dominio, SES (dominio verificato con DKIM, SPF e DMARC, fuori dalla sandbox,
 regione UE, utente IAM con il solo `ses:SendEmail`), Docker + Caddy, Cloudflare
 se c'è.
-**Fatto quando** una richiesta vera arriva a Silvia, il link in bio porta a
-`/bio` e il Google Form è spento.
+**Fatto quando** il link in bio porta alla landing
+(`/?utm_source=instagram&utm_medium=bio`) e «Prenota» apre il modulo giusto. Con
+le richieste dal sito (`RICHIESTE_DAL = 'sito'`), anche: una richiesta vera
+arriva a Silvia e il Google Form è spento.
+
+### Revisione: la landing (novembre 2026)
+Il sito diventa una landing a pagina unica, le richieste passano dal modulo
+Google di Silvia, il Brand System diventa «Luce» con la hero a finestra ad arco
+(`decisioni.md`, in fondo; `brand.md`, «Quinta revisione»).
+**Fatto quando** check e build sono puliti, la landing regge a 390×844 e su
+desktop, con e senza "riduci movimento" e senza JavaScript, e le bozze nuove
+sono in `testi-da-validare.md`.
 
 ## Fuori dal codice
 

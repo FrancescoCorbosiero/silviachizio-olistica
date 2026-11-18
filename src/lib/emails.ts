@@ -29,7 +29,7 @@ import { LETTURA, RELAX_MINUTI, trovaTrattamento } from './trattamenti';
      adesso; in fondo il perché dell'email, il titolare e l'informativa.
      È un messaggio di servizio, mai una newsletter.
    Le email non caricano font: titoli in Georgia (il serif più vicino a
-   Playfair Display presente ovunque), testo nel font di sistema.
+   Cormorant Garamond presente ovunque), testo nel font di sistema.
    I testi scritti dallo studio sono BOZZE (docs/testi-da-validare.md).
    ===================================================================== */
 

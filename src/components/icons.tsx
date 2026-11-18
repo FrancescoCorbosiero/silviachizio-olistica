@@ -4,7 +4,7 @@ import type { IconaTrattamento } from '@/lib/trattamenti';
 /* Le icone di Lily, a linea, "con la stessa mano" del listino: griglia 24,
    tratto 1,75, estremi arrotondati, colore dal testo (currentColor).
    Le quattro dei trattamenti stanno nei cerchi cipria (.cerchio).
-   Freccia, WhatsApp, Instagram e sottolineatura vengono da andrea-bellettati
+   La freccia dei flussi e Instagram vengono da andrea-bellettati
    (src/components/icons.tsx). Tutte decorative: aria-hidden di default. */
 
 type IconProps = SVGProps<SVGSVGElement> & { size?: number };
@@ -126,15 +126,6 @@ export function IconaOrologio(props: IconProps) {
   );
 }
 
-/** Il cuore disegnato a mano (un po' storto, apposta). */
-export function IconaCuore(props: IconProps) {
-  return (
-    <Linea {...props}>
-      <path d="M12 20c-5.9-4.4-8.7-7.5-8.4-11.2.3-2.8 2.9-4.3 5.4-3.3 1.4.6 2.4 1.8 3 3.1.8-1.4 1.9-2.6 3.4-3.1 2.6-.8 5.2.9 5 3.9-.3 3.8-3.8 7-8.4 10.6Z" />
-    </Linea>
-  );
-}
-
 /** La scintilla ✦. */
 export function IconaScintilla(props: IconProps) {
   return (
@@ -144,13 +135,23 @@ export function IconaScintilla(props: IconProps) {
   );
 }
 
-/** La foglia. */
-export function IconaFoglia(props: IconProps) {
+/* ── Le frecce dei bottoni e dei collegamenti ───────────────────────── */
+
+/** Freccia verso destra: si resta nel sito. */
+export function Freccia({ size = 16, className = '', ...rest }: IconProps) {
   return (
-    <Linea {...props}>
-      <path d="M5 19C5 11 10.2 5 19.2 4.8 19.4 13.8 13.4 19 5 19Z" />
-      <path d="M5 19 14 10" />
-    </Linea>
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden focusable="false" className={`freccia ${className}`} {...rest}>
+      <path d="M2.5 8h10.5M9 3.5 13.5 8 9 12.5" />
+    </svg>
+  );
+}
+
+/** Freccia in diagonale: si apre un'altra scheda (il modulo, Instagram). */
+export function FrecciaSu({ size = 16, className = '', ...rest }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden focusable="false" className={`freccia-su ${className}`} {...rest}>
+      <path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6" />
+    </svg>
   );
 }
 
@@ -164,29 +165,12 @@ export function ArrowIcon({ size = 16, className = 'arrow', ...rest }: IconProps
   );
 }
 
-export function WhatsAppIcon({ size = 18, ...rest }: IconProps) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden focusable="false" {...rest}>
-      <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.12-.27-.2-.57-.35M12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.38 9.38 0 0 1-1.44-5.01c0-5.2 4.23-9.42 9.44-9.42 2.52 0 4.88.98 6.66 2.76a9.36 9.36 0 0 1 2.76 6.67c0 5.2-4.23 9.42-9.43 9.42m8.02-17.44A11.27 11.27 0 0 0 12.04.75C5.8.75.72 5.82.72 12.06c0 2 .52 3.94 1.51 5.65L.62 23.25l5.67-1.49a11.3 11.3 0 0 0 5.75 1.47h.01c6.24 0 11.32-5.08 11.32-11.32 0-3.02-1.18-5.87-3.32-8.01" />
-    </svg>
-  );
-}
-
 export function InstagramIcon({ size = 18, ...rest }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden focusable="false" {...rest}>
       <rect x="3" y="3" width="18" height="18" rx="5.5" stroke="currentColor" strokeWidth="1.75" />
       <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.75" />
       <circle cx="17.4" cy="6.6" r="1.25" fill="currentColor" />
-    </svg>
-  );
-}
-
-/** La sottolineatura disegnata a mano sotto le parole evidenziate. */
-export function HandUnderline({ className, ...rest }: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden focusable="false" className={className} {...rest}>
-      <path d="M4 15c46-9 92-12 142-8s96 6 150-3" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" pathLength={1} />
     </svg>
   );
 }

@@ -50,6 +50,8 @@ invece di spedirla soltanto.
 
 ## Il Google Form va in pensione
 
+*(Superata a novembre 2026: Silvia vuole il suo modulo Google. Le richieste dal sito restano nel codice, spente: sotto, «Le richieste passano dal modulo Google».)*
+
 Il link in bio porta a `/bio`: una pagina veloce, senza menu, con le due
 richieste a un tocco. Il form oggi chiede tutto in una volta e non dice cosa
 succede dopo; il sito chiede un passo alla volta, mostra il riepilogo, conferma
@@ -95,6 +97,8 @@ arrivata dopo, con un clic: sotto, "La mappa si carica con un clic".)
 
 ## La mappa si carica con un clic
 
+*(Superata: con la landing la mappa è stata tolta, insieme a Leaflet. Quando c'è l'indirizzo basta «Apri in Maps». Il codice è nella storia di git.)*
+
 Contatti ha una mappa vera: OpenStreetMap con Leaflet, il segno del giglio sulla
 posizione dello studio, le tessere nei toni del muro (un filtro CSS) e la scheda
 con l'indirizzo e le indicazioni. Una mappa caricata da sola manderebbe a un
@@ -111,6 +115,8 @@ vedono (la rete le blocca): il resto (Leaflet, segno, controlli, nessuna
 richiesta prima del clic) è verificato nel browser.
 
 ## Il blog
+
+*(Superata: con la landing il blog è stato tolto; gli articoli erano tutti di prova. Il sistema è nella storia di git, se Silvia vorrà scrivere.)*
 
 La specifica non lo prevedeva (Silvia scrive su Instagram); è arrivato su
 richiesta, con cinque temi: Poesia e libri, Arrampicata, Fotografia (le sue
@@ -135,6 +141,8 @@ che il suo pubblico usa già.
 
 ## Font: Playfair Display, Figtree, Damion
 
+*(Superata: oggi Cormorant Garamond in tondo e corsivo, Figtree, Damion solo nel marchio. Sotto, «Il livello di Ziranu, lo stile di Lily».)*
+
 Playfair Display è il serif più vicino ai titoli del listino, in tondo e in
 corsivo; Damion il corsivo più vicino al wordmark «Lily»; Figtree tiene il testo
 leggibile sul telefono e veste Konsta (confronti in `immagini/`). Tutti
@@ -148,6 +156,8 @@ listino. Il vetro di andrea-bellettati resta dove serve all'interfaccia (header,
 barra in basso, fogli), velato di rosa.
 
 ## Una pagina per tutti i trattamenti, per ora
+
+*(Superata: i trattamenti stanno nel listino della landing, ognuno con la sua ancora, `/#lily-magic`.)*
 
 Quattro trattamenti con una riga di descrizione ciascuno non riempiono quattro
 pagine: sarebbero pagine sottili, peggiori anche per i motori. Per ora una
@@ -211,6 +221,8 @@ questo file.
 
 
 ## Scene con immagini d'atmosfera, finché mancano le foto
+
+*(Le scene a tutto schermo sono diventate la finestra della hero e gli archi delle sezioni: sotto, «La hero: la finestra ad arco».)*
 
 Rivedendo il sito: troppo bianco, troppo "galleggiante", troppi segni da
 modello generico; e «Un'ora per te», come titolo, si prestava a una lettura
@@ -397,3 +409,110 @@ Due avvertenze per chi misura dopo:
   un'altra build (TBT 0, pagine senza script). Sono state scartate. Ora lo
   script avvisa se una pagina non si idrata; a mano: il processo si chiama
   `next-server` e va fermato prima di rifare la build.
+
+## La landing a pagina unica (novembre 2026)
+
+Con le richieste che passano dal modulo Google, le pagine interne ripetevano la
+home: il listino in due posti, Silvia in due posti, i contatti in tre. Il sito
+diventa una **landing**: tutto in `/`, nell'ordine in cui lo chiede chi arriva
+da Instagram (cosa offri, cosa lo rende tuo, chi sei, le letture, come prenoto e
+dove, i dubbi, l'invito), con un'ancora per sezione (`#trattamenti`, `#letture`,
+`#chi-sono`, `#contatti`) e una per trattamento (`#lily-magic`). Restano
+`/privacy` e la 404. Tolti, e recuperabili dalla storia di git: `/trattamenti`,
+`/letture`, `/chi-sono`, `/contatti`, `/bio` (il link in bio ora è la landing
+con la provenienza, `BIO_HREF`), `/stile`, il blog (articoli tutti di prova),
+la mappa, la barra di Konsta in basso, e gli effetti che servivano solo lì
+(stories, chat, nastro, anello, sentiero, ventaglio, lente, petali). Il motore
+passa da circa 1.300 a 600 righe, il CSS da 1.290 a 850; via dieci dipendenze
+(Leaflet, unified/remark/rehype, gray-matter, sonner).
+
+## Le richieste passano dal modulo Google
+
+Silvia vuole continuare con il suo modulo Google. Il sito lo rispetta senza
+buttare via le richieste fatte dal sito, che restano migliori (un passo alla
+volta, il riepilogo, la conferma, la provenienza): un interruttore,
+`RICHIESTE_DAL` in `src/lib/site.ts`.
+
+- **'modulo'** (oggi): ogni «Prenota» e «Richiedi una lettura» apre il modulo
+  (`MODULI`) in un'altra scheda, con la freccia ↗. Il modulo è il «Link per
+  appuntamento» della sua bio, che oggi è quello delle letture: per ora vale per
+  entrambe le richieste (domande aperte). Il sito non raccoglie niente: l'API
+  risponde 404, la provenienza (`lily:arrivo`) non si salva, `/prenota` non
+  esiste, l'informativa racconta il modulo, le scorciatoie del manifest puntano
+  alle sezioni. Con una richiesta sospesa il bottone porta al messaggio su
+  Instagram.
+- **'sito'**: tornano i flussi di andrea-bellettati, come fogli sopra la landing
+  (AppProvider) e, senza JavaScript, in `/prenota` e `/prenota/lettura`; l'API,
+  le email, la provenienza, le bozze, e le parti dell'informativa che li
+  raccontano.
+
+Tenerli spenti non costa niente a chi visita: il codice dei flussi si scarica
+solo quando un link porta lì, e con il modulo nessun link ci porta.
+
+## Il livello di Ziranu, lo stile di Lily
+
+Il riferimento per la qualità è il sito di Ziranu Arredi (stesso studio): un
+concetto solo, pochi componenti fatti bene, dati in un punto, titoli descrittivi.
+Per Lily il concetto è **«Luce»**: una stanza nella luce del pomeriggio, la
+finestra ad arco, le ombre dei gigli sul muro (`docs/brand.md`). Cosa cambia:
+
+- **Due voci, non quattro.** Cormorant Garamond variabile, in tondo per i
+  titoli e in corsivo per la seconda voce (descrizioni del listino, durate,
+  citazioni), più Figtree per testo e interfaccia; Damion solo nel marchio. Il
+  Playfair Display, pesante e da invito, esce. Due file Cormorant (77 kB) al
+  posto di tre (86 kB).
+- **Toni semantici**, come in Ziranu: ogni sezione ha un tono (`tono-sabbia`,
+  `tono-latte`, `tono-vino`, `tono-notte`) che ridefinisce `--bg`, `--fg`,
+  `--line`, `--accent`; i componenti non hanno varianti "su scuro". Quattro
+  fondi al posto di otto; il lily solo come accento (bottoni, segni).
+- **Niente etichetta sopra ogni titolo** e al massimo una parte in corsivo per
+  titolo: lo schema «etichetta + titolo + parola a mano» si ripeteva in ogni
+  sezione e sapeva di modello.
+- **I minuti sono i numeri**: 60, 75 e soprattutto il 15 del momento relax, in
+  grande, come le cifre della legenda di Ziranu.
+- **Un effetto forte per sezione**: la finestra (hero), il foglio che sale (il
+  listino), la luce dentro il 15 e le parole che si accendono (relax), l'arco che
+  si apre (Silvia, letture), il giglio che si disegna (invito).
+
+## La hero: la finestra ad arco
+
+In cima, sul muro sabbia, il titolo; sotto, una finestra ad arco con la luce e le
+ombre dei gigli (il video). Scorrendo la finestra si apre fino a riempire lo
+schermo, il titolo passa dall'inchiostro alla luce dove il bordo dell'arco lo
+attraversa, in fondo arriva Silvia che si presenta; poi il listino sale sopra,
+come un foglio, mentre la finestra resta ferma. Come funziona:
+
+- **Un numero solo, `--e`** (0 chiusa, 1 aperta, registrato con `@property`):
+  ne dipendono il ritaglio (`clip-path: inset(… round …)`, l'arco che si
+  appiattisce), lo zoom e lo spostamento dell'immagine (chiusa, inquadra i gigli),
+  il velo, il testo che scende, il piede che appare.
+- **Chi muove `--e`**: dove il browser lega le animazioni allo scroll
+  (`animation-timeline: scroll()`: Chrome, Edge, Safari 26) lo fa il CSS, dal
+  primo fotogramma, senza JavaScript; altrove il motore (`heroFinestra`), con la
+  stessa curva. Verificato forzando il ripiego: stessi valori.
+- **Il titolo c'è due volte**: scuro sul muro (il vero `h1`) e chiaro dentro la
+  finestra (nascosto ai lettori di schermo), nello stesso punto.
+- **Ferma e completa**: lo script di avvio (`app/layout.tsx`) accende
+  `html.motion` prima del primo fotogramma, solo con il movimento permesso; senza
+  JavaScript o con "riduci movimento" la finestra è già aperta e la sezione è alta
+  uno schermo. Dove serve il motore e non arriva entro 8 s, `motion` si spegne.
+- **Il foglio**: con il movimento la sezione dopo la hero risale di uno schermo
+  (`html.motion .foglio`) e copre la finestra ferma: la corsa totale resta quella
+  di prima (apertura, sosta, uno schermo).
+
+**Le misure della landing** (metodo di «Leggerezza», `scripts/misura.cjs`,
+build di produzione, telefono medio simulato, mediana di 5, 18 novembre 2026):
+
+| Pagina | TBT (ms) | LCP (s) | CLS | JS (ms) |
+|---|---|---|---|---|
+| Landing | 133 | 1,36 | 0 | 235 |
+| Landing, "riduci movimento" | 122 | 1,28 | 0 | 169 |
+| Privacy | 137 | 1,15 | 0 | 219 |
+
+Prima della landing la home era a 181 ms di TBT e 1,18 s di LCP. Una trappola
+trovata misurando: il primo fotogramma del video è un candidato LCP, e il video
+parte per ultimo (apposta); se l'immagine della finestra entra in dissolvenza,
+non è lei l'LCP e lo diventa il video, a 3,7 s. Per questo l'immagine della
+finestra non parte mai trasparente (`entra-luce` in `globals.css` scala soltanto):
+è dipinta dal primo fotogramma e il video, grande uguale, non la scavalca.
+

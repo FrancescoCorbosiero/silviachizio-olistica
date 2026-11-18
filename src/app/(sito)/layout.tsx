@@ -1,16 +1,16 @@
 import type { ReactNode } from 'react';
-import MobileTabbar from '@/components/layout/MobileTabbar';
+import MobileDock from '@/components/layout/MobileDock';
 import SiteFooter from '@/components/layout/SiteFooter';
 import SiteHeader from '@/components/layout/SiteHeader';
 
-/** Le pagine del sito: header, menu, piè di pagina e barra in basso (da andrea-bellettati). */
+/** Le pagine del sito: la testata, il piè di pagina e, sul telefono, la barra in basso. */
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <SiteHeader />
       <main id="contenuto">{children}</main>
       <SiteFooter />
-      <MobileTabbar />
+      <MobileDock />
     </>
   );
 }

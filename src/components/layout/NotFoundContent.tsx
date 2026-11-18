@@ -1,39 +1,35 @@
 import Link from 'next/link';
-import { ArrowIcon } from '@/components/icons';
-import Scena from '@/components/ui/Scena';
+import Bottone from '@/components/ui/Bottone';
+import { NAV } from '@/lib/site';
 
 /**
- * Il contenuto della 404 (da andrea-bellettati, NotFoundContent.tsx): una
- * scena con i petali fuori fuoco, una riga gentile, i link alle pagine
- * principali. Next mette la 404 nei dati di ogni pagina: deve restare
- * leggera, quindi l'immagine si carica solo quando la 404 c'è davvero
- * (loading="lazy", niente precaricamento).
+ * Il contenuto della 404: una riga gentile e le strade per ripartire.
+ * Next mette la 404 nei dati di ogni pagina: resta leggera, niente immagini.
  */
 export default function NotFoundContent() {
   return (
-    <Scena immagine="velo" altezza="alta" velo="vino" aria-labelledby="nf-titolo">
-      <div className="flex max-w-[680px] flex-col items-start gap-6">
-        <span className="eyebrow intro">Errore 404</span>
+    <section className="tono-sabbia grid min-h-[86svh] place-items-center pb-24 pt-40 text-center" aria-labelledby="nf-titolo">
+      <div className="wrap flex flex-col items-center">
+        <p className="meta entra">Errore 404</p>
         {/* BOZZA */}
-        <h1 id="nf-titolo" className="display-xl intro" style={{ '--d': '0.1s' } as React.CSSProperties}>
-          Questa pagina è <span className="script">volata</span> via
+        <h1 id="nf-titolo" className="display mt-6 entra" style={{ '--d': '0.08s' } as React.CSSProperties}>
+          Questa pagina è <em>volata via</em>
         </h1>
         {/* BOZZA */}
-        <p className="lead misura intro" style={{ '--d': '0.25s' } as React.CSSProperties}>
+        <p className="lead mx-auto mt-7 entra" style={{ '--d': '0.18s' } as React.CSSProperties}>
           Forse il link è cambiato, o la pagina non c&apos;è più. Ripartiamo da qui.
         </p>
-        <div className="intro flex flex-wrap gap-3" style={{ '--d': '0.4s' } as React.CSSProperties}>
-          <Link className="btn btn-latte btn-lg" href="/">
-            Torna alla home <ArrowIcon size={16} />
-          </Link>
-          <Link className="btn btn-outline-latte btn-lg" href="/trattamenti">
-            Trattamenti
-          </Link>
-          <Link className="btn btn-outline-latte btn-lg" href="/letture">
-            Letture
-          </Link>
+        <div className="mt-10 entra" style={{ '--d': '0.28s' } as React.CSSProperties}>
+          <Bottone href="/">Torna all&apos;inizio</Bottone>
         </div>
+        <nav aria-label="Le sezioni" className="meta mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 entra" style={{ '--d': '0.36s' } as React.CSSProperties}>
+          {NAV.map((n) => (
+            <Link key={n.href} href={n.href} className="link">
+              {n.label}
+            </Link>
+          ))}
+        </nav>
       </div>
-    </Scena>
+    </section>
   );
 }

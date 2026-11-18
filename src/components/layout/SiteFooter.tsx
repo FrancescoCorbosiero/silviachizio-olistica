@@ -1,113 +1,108 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import AlpacodeBadge from '@/components/layout/AlpacodeBadge';
-import { etichetta, RICHIESTE } from '@/lib/richieste';
 import Esempio from '@/components/ui/Esempio';
-import { EMAIL_PUBBLICA, INDIRIZZO, ORARI_STUDIO, TELEFONO, whatsapp } from '@/lib/anteprima';
+import { EMAIL_PUBBLICA, INDIRIZZO, MAPS, ORARI_STUDIO, TELEFONO, whatsapp } from '@/lib/anteprima';
 import { IG_DM_URL, IG_HANDLE, IG_URL, LEGAL, NAV, OWNER_NAME, PRIVACY_HREF, SITE_NAME, THREADS_URL, ZONA } from '@/lib/site';
 
-/** Il wordmark grande in fondo: ogni lettera sale dalla sua maschera (data-wordmark). */
+/** Il wordmark in fondo alla pagina: ogni lettera sale dalla sua maschera (data-wordmark). */
 const WORDMARK = 'Lily';
-
-type Voce = { href: string; label: string; external?: boolean; esempio?: boolean };
 const WA = whatsapp('Ciao Silvia! Ti scrivo dal sito 🌸');
 
-const SITO: Voce[] = [{ href: '/', label: 'Home' }, ...NAV];
+type Voce = { href: string; label: string; esterno?: boolean; esempio?: boolean };
 
 const CANALI: Voce[] = [
-  { href: IG_DM_URL, label: 'Messaggio su Instagram', external: true },
-  { href: IG_URL, label: `Instagram ${IG_HANDLE}`, external: true },
-  { href: THREADS_URL, label: 'Threads', external: true },
+  { href: IG_DM_URL, label: 'Messaggio su Instagram', esterno: true },
+  { href: IG_URL, label: IG_HANDLE, esterno: true },
+  { href: THREADS_URL, label: 'Threads', esterno: true },
   // In anteprima anche quelli che aspettano il dato, col segno (src/lib/anteprima.ts).
-  ...(WA ? [{ href: WA.valore, label: 'WhatsApp', external: !WA.esempio, esempio: WA.esempio }] : []),
+  ...(WA ? [{ href: WA.valore, label: 'WhatsApp', esterno: !WA.esempio, esempio: WA.esempio }] : []),
   ...(TELEFONO ? [{ href: TELEFONO.valore.href, label: TELEFONO.valore.testo, esempio: TELEFONO.esempio }] : []),
   ...(EMAIL_PUBBLICA ? [{ href: EMAIL_PUBBLICA.valore.href, label: EMAIL_PUBBLICA.valore.testo, esempio: EMAIL_PUBBLICA.esempio }] : []),
 ];
 
-function Colonna({ titolo, children }: { titolo: string; children: React.ReactNode }) {
+function Colonna({ titolo, children }: { titolo: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-2.5">
-      <h2 className="corsivo mb-1 text-[22px] text-petalo">{titolo}</h2>
-      {children}
+    <div>
+      <h2 className="meta">{titolo}</h2>
+      <ul className="mt-5 grid gap-2 text-[15.5px]">{children}</ul>
     </div>
   );
 }
 
-const linkClass = 'w-fit py-0.5 text-[15.5px] text-latte/80 transition-colors hover:text-petalo';
-
 /**
- * Footer su fondo notte con il bordino rosa in alto, come la divisa (da
- * andrea-bellettati, SiteFooter.tsx): il marchio e le due richieste, le
- * voci del sito, i canali, lo studio, il wordmark «Lily» che sale lettera
- * per lettera, i dati legali e il credito Alpacode.
+ * Il piè di pagina, su notte con il bordino rosa della divisa: il marchio,
+ * le sezioni, i canali, lo studio (indirizzo e orari solo quando ci sono),
+ * il wordmark «Lily» che sale lettera per lettera, i dati legali e il
+ * credito Alpacode.
  */
 export default function SiteFooter() {
-  const year = new Date().getFullYear();
+  const anno = new Date().getFullYear();
   return (
-    <footer className="notte on-notte relative overflow-hidden pb-[calc(env(safe-area-inset-bottom)+104px)] pt-16 lg:pb-8">
-      <div className="wrap grid gap-12 lg:grid-cols-[1.1fr_1.9fr]">
-        <div className="flex flex-col items-start gap-5">
-          <Link href="/" aria-label={`${SITE_NAME}, torna alla home`}>
+    <footer className="piede tono-notte relative overflow-hidden pb-[calc(env(safe-area-inset-bottom)+104px)] lg:pb-10">
+      <div className="wrap grid gap-x-10 gap-y-12 pt-[clamp(64px,8vw,104px)] sm:grid-cols-2 lg:grid-cols-12">
+        <div className="sm:col-span-2 lg:col-span-4">
+          <Link href="/" aria-label={`${SITE_NAME}, torna all'inizio`} className="inline-block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/logo-notte.svg" alt="" width={150} height={155} loading="lazy" decoding="async" className="h-auto w-[150px]" />
+            <img src="/brand/logo-notte.svg" alt="" width={132} height={136} loading="lazy" decoding="async" className="h-auto w-[132px]" />
           </Link>
           {/* BOZZA */}
-          <p className="max-w-[26em] text-[15.5px] text-latte/80">
-            Trattamenti benessere in studio a {ZONA} e letture intuitive a distanza.
+          <p className="mt-6 max-w-[30ch] text-[15.5px] text-[var(--fg-soft)]">
+            Trattamenti benessere in studio a {ZONA}, e letture intuitive a distanza.
           </p>
-          <div className="flex flex-wrap gap-2.5">
-            <Link className="btn btn-latte btn-sm" href={RICHIESTE.trattamenti.href}>
-              {etichetta('trattamenti', { contesto: true })}
-            </Link>
-            <Link className="btn btn-outline-latte btn-sm" href={RICHIESTE.letture.href}>
-              {etichetta('letture', { contesto: true })}
-            </Link>
-          </div>
         </div>
-        <div className="grid gap-10 sm:grid-cols-3">
-          <Colonna titolo="Il sito">
-            {SITO.map((l) => (
-              <Link key={l.href} href={l.href} className={linkClass}>
-                {l.label}
-              </Link>
+        <div className="lg:col-span-2">
+          <Colonna titolo="La pagina">
+            {NAV.map((n) => (
+              <li key={n.href}>
+                <Link href={n.href} className="piede-link">
+                  {n.label}
+                </Link>
+              </li>
             ))}
           </Colonna>
+        </div>
+        <div className="lg:col-span-3">
           <Colonna titolo="Scrivimi">
-            {CANALI.map((l) => (
-              <a key={l.label} href={l.href} className={linkClass} {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}>
-                {l.label}
-                {l.esempio && <Esempio className="ml-2" />}
-              </a>
+            {CANALI.map((c) => (
+              <li key={c.label}>
+                <a href={c.href} className="piede-link" {...(c.esterno ? { target: '_blank', rel: 'noopener' } : {})}>
+                  {c.label}
+                </a>
+                {c.esempio && <Esempio className="ml-2" />}
+              </li>
             ))}
           </Colonna>
+        </div>
+        <div className="lg:col-span-3">
           <Colonna titolo="Lo studio">
-            <p className="text-[15.5px] text-latte/80">
+            <li className="text-[var(--fg-soft)]">
               {INDIRIZZO ? INDIRIZZO.valore : ZONA}
               {INDIRIZZO?.esempio && <Esempio className="ml-2" />}
-            </p>
-            {ORARI_STUDIO && (
-              <ul className="text-[15.5px] text-latte/80">
-                {ORARI_STUDIO.valore.map((o) => (
-                  <li key={o}>{o}</li>
-                ))}
-                {ORARI_STUDIO.esempio && (
-                  <li>
-                    <Esempio />
-                  </li>
-                )}
-              </ul>
+            </li>
+            {ORARI_STUDIO?.valore.map((o) => (
+              <li key={o} className="text-[var(--fg-mute)]">
+                {o}
+              </li>
+            ))}
+            {ORARI_STUDIO?.esempio && (
+              <li>
+                <Esempio cosa="gli orari" />
+              </li>
             )}
-            <Link href="/contatti" className={linkClass}>
-              Come arrivare
-            </Link>
+            {MAPS && (
+              <li>
+                <a href={MAPS.valore} className="piede-link" {...(MAPS.esempio ? {} : { target: '_blank', rel: 'noopener' })}>
+                  Apri in Maps
+                </a>
+                {MAPS.esempio && <Esempio className="ml-2" />}
+              </li>
+            )}
           </Colonna>
         </div>
       </div>
 
-      <p
-        aria-hidden
-        data-wordmark
-        className="mt-14 select-none text-center font-script text-[clamp(120px,30vw,320px)] leading-[0.9] text-lily-bright"
-      >
+      <p aria-hidden data-wordmark className="mt-[clamp(56px,8vw,96px)] select-none text-center font-script text-[clamp(124px,30vw,330px)] leading-[0.9] text-lily-bright">
         <span className="foot-line">
           {Array.from(WORDMARK).map((ch, i) => (
             <span key={i} className="foot-char">
@@ -117,17 +112,17 @@ export default function SiteFooter() {
         </span>
       </p>
 
-      <div className="wrap mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-white/15 pt-5 text-[13.5px] text-latte/70">
+      <div className="wrap meta mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-[var(--line)] pt-6">
         <span>
-          © {year} {OWNER_NAME} · {SITE_NAME}
+          © {anno} {OWNER_NAME} · {SITE_NAME}
           {LEGAL.partitaIva ? ` · P.IVA ${LEGAL.partitaIva}` : ''}
         </span>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-          <Link href={PRIVACY_HREF} className="underline-offset-2 transition-colors hover:text-petalo hover:underline">
+        <span className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <Link href={PRIVACY_HREF} className="piede-link">
             Privacy e cookie
           </Link>
           <AlpacodeBadge theme="dark" />
-        </div>
+        </span>
       </div>
     </footer>
   );

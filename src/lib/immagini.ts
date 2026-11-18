@@ -1,16 +1,16 @@
 import type { TrattamentoSlug } from './trattamenti';
 
 /**
- * Le immagini delle scene a tutto schermo (components/ui/Scena.tsx). Unica
- * fonte: pagine e sezioni chiedono un'immagine per nome.
+ * Le immagini del sito: la hero, gli archi, le anteprime. Unica fonte:
+ * pagine e sezioni chiedono un'immagine per nome.
  *
  * Tre provenienze, scritte in `fonte`:
  * - **atmosfera**: disegnate da noi (scripts/atmosfere.cjs: luce e ombre di
  *   gigli su un muro, seta, candele, petali fuori fuoco, lino). Non mostrano
  *   persone né lo studio e non dicono niente che non sia vero.
- * - **anteprima**: foto date dallo studio per l'anteprima (Montebelluna, le
- *   carte). Prima di andare online: verificare i diritti d'uso o
- *   sostituirle (docs/domande-aperte.md).
+ * - **anteprima**: foto date dallo studio per l'anteprima (il massaggio, le
+ *   carte). Compaiono solo in anteprima, con il segno «Esempio»; prima di
+ *   usarle online: verificare i diritti d'uso (docs/domande-aperte.md).
  * - **silvia**: le foto vere di Silvia e dello studio, quando arrivano
  *   (domande aperte ★). Si preparano con scripts/foto.cjs in public/foto/
  *   e si cambia `src` qui; il resto del sito non si tocca.
@@ -60,22 +60,12 @@ export const IMMAGINI = {
   luceSpecchio: atmosfera('ombre-specchio', '30% 40%'),
   /** Un drappo di seta color lily. */
   seta: atmosfera('seta-scuro'),
-  /** Seta più chiara e accesa. */
+  /** Seta più chiara e accesa: la luce dentro il «15» del momento relax. */
   setaChiara: atmosfera('seta'),
   /** Il buio caldo con le candele fuori fuoco: le letture, Lily Magic. */
   candela: atmosfera('candela', '75% 60%'),
   /** Petali fuori fuoco, rosa e cera. */
   velo: atmosfera('velo'),
-  /** Tela di lino color sabbia rosata: fondo chiaro ma caldo. */
-  lino: atmosfera('lino'),
-  /** Creste di montagna al tramonto, una dietro l'altra (il blog: l'arrampicata). */
-  montagne: atmosfera('montagne', '50% 60%'),
-  /** Un libro di poesie aperto, con un giglio pressato (il blog: poesia e libri). */
-  pagine: atmosfera('pagine'),
-  /** Tre fotogrammi su una striscia di negativo (il blog: la fotografia). */
-  pellicola: atmosfera('pellicola'),
-  /** Montebelluna dall'alto, col Duomo: foto per l'anteprima (piccola, 617×324: serve più grande). */
-  montebelluna: foto('montebelluna', "Montebelluna dall'alto, con il Duomo", 'anteprima', '50% 35%'),
   /** Mani che massaggiano una schiena, candele: foto per l'anteprima dello studio (non è Silvia). */
   massaggio: foto('massaggio', 'Un massaggio sulla schiena, accanto a candele e asciugamani', 'anteprima', '56% 50%'),
   /** Carte e cristalli su marmo: foto per l'anteprima delle letture. */
@@ -103,11 +93,11 @@ export const VIDEO_HERO = {
    Vuote: i blocchi che le usano compaiono solo in anteprima, con le
    atmosfere al loro posto e il segno «Esempio» (src/lib/anteprima.ts). */
 
-/** La galleria dello studio (Trattamenti): il lettino, il futon, le candele, le pietre… */
-export const GALLERIA_STUDIO: NomeImmagine[] = [];
+/** Una foto di Silvia (la sezione «Chi sono»), con il suo permesso. */
+export const FOTO_SILVIA: NomeImmagine | null = null;
 
-/** Una foto per trattamento: segue il puntatore nell'indice e apre la sua sezione. */
+/** Una foto per trattamento: segue il puntatore sopra le righe del listino. */
 export const FOTO_TRATTAMENTI: Partial<Record<TrattamentoSlug, NomeImmagine>> = {};
 
-/** La foto di una stesa vera di Silvia (Letture, con la lente). */
+/** La foto di una stesa vera di Silvia (la sezione delle letture). */
 export const FOTO_STESA: NomeImmagine | null = null;

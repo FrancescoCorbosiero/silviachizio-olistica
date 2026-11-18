@@ -26,15 +26,25 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#fdf6f8',
+  themeColor: '#f2e4dd',
   viewportFit: 'cover',
   width: 'device-width',
   initialScale: 1,
 };
 
+/* Prima del primo fotogramma: segna che JavaScript c'è (`js`) e, se il
+   movimento è permesso, accende `motion`: la hero si allunga e la finestra
+   parte chiusa (globals.css). Dove il CSS non sa legare l'animazione allo
+   scroll la apre il motore: se non arriva entro 8 s, `motion` si spegne e
+   la hero torna ferma, aperta e completa. */
+const AVVIO = `(function(){var d=document.documentElement;d.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.classList.add('motion');if(window.CSS&&CSS.supports('animation-timeline: scroll()'))return;setTimeout(function(){if(!window.__lilyMotion)d.classList.remove('motion')},8000)})()`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it" className={fontVariables} data-scroll-behavior="smooth">
+    <html lang="it" className={fontVariables} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: AVVIO }} />
+      </head>
       <body className="k-ios min-h-dvh">
         <a
           href="#contenuto"
@@ -42,8 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Salta al contenuto
         </a>
-        {/* Header, piè di pagina e barra in basso stanno nei layout dei gruppi:
-            (sito) per le pagine del sito, (campagne) per il link in bio. */}
+        {/* Testata, piè di pagina e barra in basso stanno nel layout del gruppo (sito). */}
         <AppProvider>{children}</AppProvider>
         <SmoothScroll />
         <JsonLd data={siteGraph()} />

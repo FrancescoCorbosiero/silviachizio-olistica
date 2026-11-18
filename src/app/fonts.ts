@@ -1,30 +1,19 @@
 import localFont from 'next/font/local';
 
 /**
- * Font self-hosted (nessuna richiesta a Google dal browser), come
- * src/app/fonts.ts di andrea-bellettati. Scelti confrontandoli con il logo e
- * con i titoli del listino (docs/brand.md, "Tipografia"):
- *  · Playfair Display — titoli e nomi dei trattamenti (variabile 400–900);
- *  · Figtree — il testo e le parti "app" (Konsta), variabile;
- *  · Cormorant Garamond corsivo (500 e 600) — il corsivo del sito:
- *    descrizioni del listino, etichette sopra i titoli, la parola in
- *    evidenza, citazioni. Più elegante e più leggibile del Playfair
- *    corsivo alle misure piccole (novembre 2026);
- *  · Damion — il logo, il wordmark del footer e la firma.
+ * Font self-hosted (nessuna richiesta a Google dal browser). Due voci, più
+ * il pennello del marchio (docs/brand.md, «Tipografia»):
+ *  · Cormorant Garamond, variabile 300–700, in tondo e in corsivo: i titoli
+ *    e la seconda voce del sito (descrizioni del listino, durate, citazioni).
+ *    Una famiglia sola per tutto ciò che è "detto", come una carta stampata;
+ *  · Figtree, variabile: il testo, i dati, l'interfaccia (anche Konsta);
+ *  · Damion: solo il marchio «Lily» (logo e firma in fondo alla pagina).
  * Solo l'alfabeto latino; licenze OFL in src/fonts/licenze/.
  */
-export const playfair = localFont({
-  src: [{ path: '../fonts/playfair-display-latin-wght-normal.woff2', weight: '400 900', style: 'normal' }],
-  variable: '--font-playfair',
-  display: 'swap',
-  fallback: ['Georgia', 'Times New Roman', 'serif'],
-  adjustFontFallback: 'Times New Roman',
-});
-
 export const cormorant = localFont({
   src: [
-    { path: '../fonts/cormorant-garamond-latin-500-italic.woff2', weight: '500', style: 'italic' },
-    { path: '../fonts/cormorant-garamond-latin-600-italic.woff2', weight: '600', style: 'italic' },
+    { path: '../fonts/cormorant-garamond-latin-wght-normal.woff2', weight: '300 700', style: 'normal' },
+    { path: '../fonts/cormorant-garamond-latin-wght-italic.woff2', weight: '300 700', style: 'italic' },
   ],
   variable: '--font-cormorant',
   display: 'swap',
@@ -51,4 +40,4 @@ export const damion = localFont({
   adjustFontFallback: false,
 });
 
-export const fontVariables = `${playfair.variable} ${cormorant.variable} ${figtree.variable} ${damion.variable}`;
+export const fontVariables = `${cormorant.variable} ${figtree.variable} ${damion.variable}`;
