@@ -93,6 +93,9 @@ export const VIDEO_HERO = {
    Vuote: i blocchi che le usano compaiono solo in anteprima, con le
    atmosfere al loro posto e il segno «Esempio» (src/lib/anteprima.ts). */
 
+/** La galleria dello studio (Trattamenti): il lettino, il futon, le candele, le pietre… */
+export const GALLERIA_STUDIO: NomeImmagine[] = [];
+
 /** Una foto di Silvia (la sezione «Chi sono»), con il suo permesso. */
 export const FOTO_SILVIA: NomeImmagine | null = null;
 

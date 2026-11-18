@@ -8,12 +8,16 @@ Struttura e blocchi sono una **proposta** costruita sul materiale che c'è (vedi
 
 ## Mappa del sito
 
-Da novembre 2026 il sito è una **landing a pagina unica** (perché:
-[`decisioni.md`](decisioni.md), «La landing a pagina unica»).
+Da novembre 2026 il sito è una **home che fa da landing**, con tre pagine per
+chi vuole approfondire (perché: [`decisioni.md`](decisioni.md), «La landing a
+pagina unica» e «La home e tre pagine»).
 
 | Percorso | Cosa contiene |
 |---|---|
-| `/` | La landing: hero, listino (`#trattamenti`, un'ancora per trattamento: `#lily-holistic`, `#lily-holistic-ritual`, `#lily-sportive`, `#lily-magic`), momento relax, Silvia (`#chi-sono`), recensioni (solo vere), letture (`#letture`), come prenotare e dove (`#contatti`), domande, invito |
+| `/` | La home: hero, listino (`#trattamenti`, con il link a `/trattamenti`), nastro dei nomi, momento relax, come funziona (le storie che scorrono nel telefono), Silvia (`#chi-sono`, con la scheda Instagram), recensioni (solo vere), letture (`#letture`, con la chat), prenota e trovami (`#contatti`), domande, invito |
+| `/trattamenti` | Il listino in pagina: una sezione per trattamento con la sua ancora (`#lily-holistic`…; Lily Magic al buio, con la candela), foto in un arco, durata / relax / prezzo, «Cosa aspettarti» e «Per chi è», «Prenota»; la galleria dello studio (scorre di lato, solo con le foto vere), il momento relax, «Prima di venire» (solo con le indicazioni di Silvia), domande, invito |
+| `/letture` | Cosa ricevi (le parole del modulo), come funziona in quattro messaggi (la chat che si scrive da sola) e i temi, la stesa con la lente (solo con una foto vera), il disclaimer integrale accanto alla richiesta, domande, invito |
+| `/chi-sono` | Nome e prima riga della bio, la storia con le storie in evidenza a ventaglio, il percorso a sentiero (solo con le tappe di Silvia), le cose che ama (icone a linea dalle emoji della bio), «Perché Lily» e formazione (solo con le sue parole), la scheda Instagram, invito |
 | `/privacy` | Informativa privacy e cookie, scritta sul modo delle richieste (modulo o sito) |
 | `/prenota`, `/prenota/lettura` | Solo con le richieste dal sito (`RICHIESTE_DAL = 'sito'`): le richieste in pagina, per chi arriva senza JavaScript o con un link diretto |
 

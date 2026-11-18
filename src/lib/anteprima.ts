@@ -13,7 +13,7 @@
  * (seo.ts), nelle email, nei flussi di richiesta o nell'informativa, che
  * leggono solo i dati veri di site.ts e trattamenti.ts.
  */
-import { FOTO_SILVIA, FOTO_STESA as STESA, FOTO_TRATTAMENTI, type NomeImmagine } from './immagini';
+import { FOTO_SILVIA, FOTO_STESA as STESA, FOTO_TRATTAMENTI, GALLERIA_STUDIO as GALLERIA, type NomeImmagine } from './immagini';
 import { orarioDisplay } from './orari';
 import {
   ANTEPRIMA,
@@ -28,10 +28,11 @@ import {
   PHONE,
   PHONE_DISPLAY,
   RECENSIONI,
+  SILVIA,
   STUDIO,
   waLink,
 } from './site';
-import { formatPrezzo, LETTURA, type TrattamentoSlug } from './trattamenti';
+import { formatPrezzo, LETTURA, PRIMA_DI_VENIRE, type TrattamentoSlug } from './trattamenti';
 
 export { ANTEPRIMA };
 
@@ -77,6 +78,15 @@ export const fotoTrattamento = (slug: TrattamentoSlug) => {
   return dato<NomeImmagine>(vera ?? FOTO_TRATTAMENTO_ESEMPIO[slug], vera !== undefined, FOTO_TRATTAMENTO_ESEMPIO[slug]);
 };
 
+/** Le foto dello studio per la galleria (domande aperte ★); in anteprima, le atmosfere. */
+export const GALLERIA_STUDIO = dato<NomeImmagine[]>(GALLERIA, GALLERIA.length > 0, ['luce', 'seta', 'candela', 'velo', 'luceSpecchio']);
+
+export const PRIMA = dato(PRIMA_DI_VENIRE, PRIMA_DI_VENIRE.length > 0, [
+  'Cosa portare con te: qui le indicazioni di Silvia.',
+  'Quando arrivare, e quanto fermarsi dopo il momento relax.',
+  'Come si paga, e cosa fare se devi spostare l’appuntamento.',
+]);
+
 /** La foto di una stesa vera (domande aperte); in anteprima, le carte. */
 export const FOTO_STESA = dato<NomeImmagine>(STESA ?? 'carte', STESA !== null, 'carte');
 
@@ -84,6 +94,23 @@ export const FOTO_STESA = dato<NomeImmagine>(STESA ?? 'carte', STESA !== null, '
 
 /** La foto di Silvia (domande aperte ★); finché manca, la luce dello studio. */
 export const RITRATTO = dato<NomeImmagine>(FOTO_SILVIA ?? 'luceSpecchio', FOTO_SILVIA !== null, 'luceSpecchio');
+
+export const PERCHE_LILY = dato(
+  SILVIA.percheLily,
+  SILVIA.percheLily !== '',
+  'Qui il perché di «Lily»: com’è nato il nome e cosa c’entra il giglio, con le parole di Silvia.',
+);
+export const FORMAZIONE = dato(SILVIA.formazione, SILVIA.formazione.length > 0, [
+  'Nome del corso · scuola o ente · anno',
+  'Nome del corso · scuola o ente · anno',
+  'Nome del corso · scuola o ente · anno',
+]);
+export const PERCORSO = dato(SILVIA.percorso, SILVIA.percorso.length > 0, [
+  { quando: 'Anno', titolo: 'La prima tappa', testo: 'Qui l’inizio: quando è nata la voglia di fare questo lavoro.' },
+  { quando: 'Anno', titolo: 'La formazione', testo: 'I corsi, le scuole, le persone da cui ha imparato.' },
+  { quando: 'Anno', titolo: 'Le letture', testo: 'Come sono arrivate le carte, e la magia.' },
+  { quando: 'Oggi', titolo: 'Lily', testo: 'Lo studio a Montebelluna e le letture a distanza.' },
+]);
 
 /* ── Le voci di chi è passato da Lily ───────────────────────────────── */
 

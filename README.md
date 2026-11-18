@@ -1,11 +1,13 @@
 # Lily Trattamenti Benessere
 
 Sito di **Silvia Chizio** — Lily Trattamenti Benessere, Montebelluna (TV):
-quattro trattamenti in studio e letture intuitive a distanza. Una **landing a
-pagina unica**: chi arriva dal link in bio di Instagram trova tutto in una
-pagina, e «Prenota» apre il modulo Google di Silvia.
+quattro trattamenti in studio e letture intuitive a distanza. Una **home che fa
+da landing** (chi arriva dal link in bio di Instagram trova tutto lì) più tre
+pagine per chi vuole sapere di più: **Trattamenti**, **Letture**, **Chi sono**.
+«Prenota» apre il modulo Google di Silvia (o Instagram, finché il modulo dei
+trattamenti non c'è).
 
-**Stato**: la landing è completa con i dati veri che ci sono e le bozze
+**Stato**: la home e le tre pagine sono complete con i dati veri che ci sono e le bozze
 dichiarate; manca la messa online (passo 10 della roadmap,
 [`docs/roadmap.md`](docs/roadmap.md)). Le richieste fatte dal sito (flussi a
 passi, invio con SES) sono nel codice, spente: si riaccendono con un

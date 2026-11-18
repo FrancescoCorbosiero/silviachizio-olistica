@@ -30,14 +30,14 @@ export default function manifest(): MetadataRoute.Manifest {
     // Le scorciatoie devono restare nel sito: il modulo Google ne è fuori.
     shortcuts: DAL_MODULO
       ? [
-          { name: 'Il listino', url: '/#trattamenti' },
-          { name: 'Le letture', url: '/#letture' },
+          { name: 'Il listino', url: '/trattamenti' },
+          { name: 'Le letture', url: '/letture' },
           { name: 'Come prenotare', short_name: 'Prenota', url: '/#contatti' },
         ]
       : [
           { name: 'Prenota un trattamento', short_name: 'Prenota', url: RICHIESTE.trattamenti.href },
           { name: 'Richiedi una lettura', short_name: 'Lettura', url: RICHIESTE.letture.href },
-          { name: 'Il listino', url: '/#trattamenti' },
+          { name: 'Il listino', url: '/trattamenti' },
         ],
   };
 }

@@ -107,12 +107,26 @@ export const HAS_ORARI = ORARI.length > 0;
 /* ── Silvia, con le sue parole ──────────────────────────────────────── */
 
 /**
- * La storia di Silvia con le sue parole (domande aperte): un paragrafo per
- * voce. Finché è vuota, nella sezione «Chi sono» c'è la bozza dello studio.
+ * Silvia con le sue parole (domande aperte): la storia (un paragrafo per
+ * voce), perché "Lily", formazione e corsi, le tappe del percorso. Finché
+ * mancano, la storia usa la bozza dello studio e gli altri blocchi non
+ * compaiono (in anteprima sì, con il segno).
  */
-export const SILVIA: { storia: string[] } = {
+export const SILVIA: {
+  storia: string[];
+  percheLily: string;
+  formazione: string[];
+  /** Le tappe del suo percorso (il sentiero di Chi sono): quando, cosa, due righe. */
+  percorso: { quando: string; titolo: string; testo: string }[];
+} = {
   storia: [],
+  percheLily: '',
+  formazione: [],
+  percorso: [],
 };
+
+/** Le storie in evidenza del suo profilo Instagram (titoli esatti). */
+export const STORIE_IN_EVIDENZA = ['Creatività', 'Lily', 'Wonderful places', 'Tenerife', 'Me', 'Alicante'] as const;
 
 /** Le passioni della bio di Instagram: le emoji, dette in parole (docs/brief.md). */
 export const PASSIONI = ['Natura', 'Meditazione', 'Fiori', 'Gatti', 'Arrampicata', 'Surf', 'Ballo', 'Viaggi', 'Fotografia', 'Scrittura'] as const;
@@ -185,11 +199,11 @@ export const ANTEPRIMA = forzaAnteprima ? forzaAnteprima === '1' : process.env.N
 
 /* ── Navigazione e dati legali ──────────────────────────────────────── */
 
-/** Le sezioni della landing (header, menu, piè di pagina): ancore della home. */
+/** Le voci del sito (header, menu, piè di pagina): le tre pagine e i contatti nella home. */
 export const NAV: readonly { href: string; label: string }[] = [
-  { href: '/#trattamenti', label: 'Trattamenti' },
-  { href: '/#letture', label: 'Letture' },
-  { href: '/#chi-sono', label: 'Chi sono' },
+  { href: '/trattamenti', label: 'Trattamenti' },
+  { href: '/letture', label: 'Letture' },
+  { href: '/chi-sono', label: 'Chi sono' },
   { href: '/#contatti', label: 'Contatti' },
 ];
 

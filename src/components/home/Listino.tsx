@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { Freccia } from '@/components/icons';
 import Bottone from '@/components/ui/Bottone';
 import Esempio from '@/components/ui/Esempio';
 import { fotoTrattamento, prezzo } from '@/lib/anteprima';
@@ -82,6 +84,11 @@ export default function Listino() {
           </div>
           <p className="relax-riga corsivo" data-reveal>
             {RELAX_TESTO} <i aria-hidden>·</i> circa {RELAX_MINUTI} minuti
+          </p>
+          <p className="mt-8 flex justify-center" data-reveal>
+            <Link href="/trattamenti" className="link">
+              Ogni trattamento, nel dettaglio <Freccia />
+            </Link>
           </p>
 
           {conFoto && (

@@ -15,8 +15,9 @@ Montebelluna (TV): quattro trattamenti in studio e letture intuitive a distanza.
 Silvia lavora da Instagram (@silvia_chizio); il sito è la sua vetrina e, domani,
 la base del gestionale (fasi 2–3, `docs/web-app.md`).
 
-**Stato del repository** (novembre 2026): il sito è una **landing a pagina
-unica** (`/`) più l'informativa (`/privacy`). Le richieste passano dal **modulo
+**Stato del repository** (novembre 2026): il sito è una **home che fa da
+landing** (`/`), tre pagine (`/trattamenti`, `/letture`, `/chi-sono`) e
+l'informativa (`/privacy`). Le richieste passano dal **modulo
 Google** di Silvia: ogni «Prenota» apre il modulo in un'altra scheda. Le
 richieste fatte dal sito (flussi a passi, invio con SES) sono nel codice,
 **spente**, e si riaccendono con un interruttore: `RICHIESTE_DAL` in

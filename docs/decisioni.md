@@ -530,3 +530,20 @@ respiro delle sezioni più bassi (`.section` da 72 a 120 px, `.titolo` fino a
 210 px, gli archi entro il 72% dello schermo. Su 1440×900 e 1366×768 l'invito
 sta in uno schermo; listino, letture e contatti di poco oltre, per il testo.
 
+
+## La home e tre pagine (novembre 2026)
+
+La pagina unica, rivista, sembrava troppo semplice: chi vuole sapere di più su un
+trattamento, su una lettura o su Silvia non aveva dove andare. Scelta: la home
+resta la landing (chi arriva da Instagram trova tutto lì, «Prenota» a un tocco)
+e tre pagine approfondiscono: `/trattamenti`, `/letture`, `/chi-sono`, rifatte
+nello stile «Luce» recuperando i blocchi migliori della versione precedente
+(ramo `versione-precedente`): le storie che scorrono nel telefono (come
+funziona), la chat delle letture, la scheda Instagram, il nastro dei nomi, la
+galleria che scorre di lato, la lente sulla stesa, le storie in evidenza a
+ventaglio, il sentiero del percorso. Gli effetti tornano nel motore come
+fasi in più, con le stesse regole (sticky al posto dei pin, IntersectionObserver,
+nulla senza "riduci movimento"). La testata punta alle pagine; i blocchi della
+home portano un link alla pagina che li approfondisce. I blocchi che aspettano
+dati di Silvia (galleria, prima di venire, stesa, percorso, perché Lily,
+formazione) non compaiono finché i dati mancano.

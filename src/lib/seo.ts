@@ -44,10 +44,10 @@ function catalogo(): Record<string, unknown> {
         offerta(
           {
             '@type': 'Service',
-            '@id': `${SITE_URL}/#${t.slug}`,
+            '@id': `${SITE_URL}/trattamenti#${t.slug}`,
             name: t.nome,
             description: `${t.breve}. ${t.durata} minuti, più circa ${RELAX_MINUTI} minuti di relax.`,
-            url: absoluteUrl(`/#${t.slug}`),
+            url: absoluteUrl(`/trattamenti#${t.slug}`),
             provider: { '@id': ID_LILY },
             areaServed: { '@type': 'City', name: CITTA },
           },
@@ -57,10 +57,10 @@ function catalogo(): Record<string, unknown> {
       offerta(
         {
           '@type': 'Service',
-          '@id': `${SITE_URL}/#letture`,
+          '@id': `${SITE_URL}/letture#lettura`,
           name: LETTURA.nome,
           description: `Una lettura simbolica e intuitiva personalizzata, a distanza: ${LETTURA.riceverai.join(', ')}.`,
-          url: absoluteUrl('/#letture'),
+          url: absoluteUrl('/letture'),
           provider: { '@id': ID_LILY },
           areaServed: { '@type': 'Country', name: 'Italia' },
         },
@@ -86,7 +86,7 @@ export function siteGraph(): Record<string, unknown>[] {
       '@type': 'Person',
       '@id': ID_SILVIA,
       name: OWNER_NAME,
-      url: absoluteUrl('/#chi-sono'),
+      url: absoluteUrl('/chi-sono'),
       sameAs,
       worksFor: { '@id': ID_LILY },
     },
@@ -138,9 +138,20 @@ export function faqLd(items: readonly { q: string; a: string }[]): Record<string
   };
 }
 
+/** Il percorso di una pagina interna (Lily / Trattamenti), per i motori. */
+export function breadcrumbLd(voci: { name: string; path: string }[]): Record<string, unknown> {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: voci.map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, item: absoluteUrl(v.path) })),
+  };
+}
+
 /** L'immagine per i social di ogni pagina (public/og, generate da scripts/immagini.cjs). */
 const OG: Record<string, string> = {
   '/': '/og/home.jpg',
+  '/trattamenti': '/og/trattamenti.jpg',
+  '/letture': '/og/letture.jpg',
+  '/chi-sono': '/og/chi-sono.jpg',
   '/prenota': '/og/prenota.jpg',
   '/privacy': '/og/privacy.jpg',
 };

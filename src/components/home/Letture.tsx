@@ -1,7 +1,9 @@
+import Link from 'next/link';
+import { Freccia } from '@/components/icons';
 import { BottoneRichiesta } from '@/components/ui/Bottone';
+import Chat from '@/components/ui/Chat';
 import Esempio from '@/components/ui/Esempio';
-import { FOTO_STESA, PREZZO_LETTURA } from '@/lib/anteprima';
-import { IMMAGINI } from '@/lib/immagini';
+import { PREZZO_LETTURA } from '@/lib/anteprima';
 import { RICHIESTE, rigaSospensione } from '@/lib/richieste';
 import { LETTURA, TEMI_LETTURA } from '@/lib/trattamenti';
 
@@ -10,12 +12,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
 /**
  * Le letture intuitive, a distanza, con le parole del modulo di Silvia:
  * cosa riceverai, i temi, il disclaimer integrale accanto alla richiesta.
- * Nell'arco la foto di una stesa vera; finché manca, il buio caldo delle
- * candele (in anteprima, le carte con il segno).
+ * Accanto, la chat che racconta come si chiede; tutto il resto in /letture.
  */
 export default function Letture() {
-  const stesa = FOTO_STESA ?? { valore: 'candela' as const, esempio: false };
-  const img = IMMAGINI[stesa.valore];
   return (
     <section id="letture" className="tono-notte section overflow-clip" aria-labelledby="letture-titolo">
       <div className="wrap grid gap-x-10 gap-y-16 lg:grid-cols-12 lg:items-center">
@@ -49,9 +48,12 @@ export default function Letture() {
             </p>
           )}
 
-          <div className="mt-8" data-reveal>
-            {RICHIESTE.letture.sospesa && <p className="mb-5 max-w-[46ch] text-[15.5px] text-[var(--fg-soft)]">{rigaSospensione('letture')}</p>}
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4" data-reveal>
+            {RICHIESTE.letture.sospesa && <p className="w-full max-w-[46ch] text-[15.5px] text-[var(--fg-soft)]">{rigaSospensione('letture')}</p>}
             <BottoneRichiesta tipo="letture" variante="latte" />
+            <Link href="/letture" className="link">
+              Come funziona una lettura <Freccia />
+            </Link>
           </div>
           {/* Il disclaimer di Silvia, integrale, accanto a ogni richiesta di lettura (docs/spec.md). */}
           <p className="mt-7 max-w-[58ch] border-l border-[var(--line-strong)] pl-5 text-[14.5px] leading-relaxed text-[var(--fg-mute)]">
@@ -60,11 +62,8 @@ export default function Letture() {
         </div>
 
         <div className="lg:col-span-5 lg:col-start-8">
-          <div className="arco mx-auto aspect-[4/5] w-[min(100%,400px)] max-h-[72svh]" data-clip="arco">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="plx" data-parallax="50" src={img.srcVerticale} alt={stesa.esempio ? '' : img.alt} width={900} height={1500} loading="lazy" decoding="async" />
-            {stesa.esempio && <Esempio sopra cosa="la foto di una stesa vera" />}
-          </div>
+          {/* La chat che si scrive da sola, dalla versione precedente. */}
+          <Chat className="mx-auto max-w-[460px]" />
         </div>
       </div>
     </section>

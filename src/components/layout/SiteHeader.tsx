@@ -64,9 +64,17 @@ export default function SiteHeader() {
 
         <nav aria-label="Principale" className="hidden items-center lg:flex">
           {NAV.map((item) => {
-            const attiva = pathname === '/' && qui === item.href.split('#')[1];
+            // Le pagine: attive per percorso; le ancore della home: con la sezione in vista.
+            const [percorso, ancora] = item.href.split('#');
+            const pagina = !ancora && !!percorso && pathname.startsWith(percorso);
+            const attiva = pagina || (pathname === '/' && qui === ancora);
             return (
-              <Link key={item.href} href={item.href} className={`nav-voce ${attiva ? 'is-qui' : ''}`} aria-current={attiva ? 'location' : undefined}>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`nav-voce ${attiva ? 'is-qui' : ''}`}
+                aria-current={pagina ? 'page' : attiva ? 'location' : undefined}
+              >
                 {item.label}
               </Link>
             );

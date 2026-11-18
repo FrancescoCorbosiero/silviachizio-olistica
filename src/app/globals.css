@@ -837,3 +837,93 @@ html.lenis { scroll-behavior: auto; }
 .flow-sheet .react-modal-sheet-drag-indicator { background-color: rgb(42 27 23 / 0.2) !important; }
 @keyframes giglio-hop { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -12px; rotate: -10deg; } }
 @media (prefers-reduced-motion: no-preference) { .giglio-hop { animation: giglio-hop 0.75s var(--ease-soft); } }
+
+/* =====================================================================
+   I blocchi ritrovati dalla versione precedente, nello stile «Luce»:
+   le stories di "come funziona", la chat delle letture, il nastro dei
+   nomi, la scheda Instagram, la galleria dello studio, il sentiero del
+   percorso, la lente sulla stesa. Le sezioni ferme usano CSS sticky
+   ([data-pin-stage]); la corsa (--pin-run) la mette il motore.
+   ===================================================================== */
+.is-pinned { display: block; padding-block: 0; }
+.is-pinned > [data-pin-stage] { position: sticky; top: 0; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+.is-pinned::after { content: ""; display: block; height: var(--pin-run, 0px); }
+
+/* Le stories nel telefono: con lo script le slide vivono una sopra l'altra
+   dentro lo schermo; senza, sono una lista di schede. */
+.is-story .story-slides { position: relative; display: block; height: min(52svh, 460px); clip-path: inset(0 round 24px); }
+.is-story .story-slide { position: absolute; inset: 0; transform-origin: 50% 60%; }
+.is-story-phone [data-story-phone] { position: sticky; top: var(--phone-top, 12px); }
+.is-story-phone [data-story-dock]::after { content: ""; display: block; height: var(--pin-run, 0px); }
+@media (min-width: 1024px) { .is-story .story-slides { height: min(56svh, 500px); } }
+
+/* La chat: i fumetti arrivano uno alla volta. */
+.chat-bub { transition: opacity 0.6s ease, transform 0.75s var(--ease-soft); transition-delay: calc(var(--i, 0) * 650ms + 200ms); }
+.has-chat [data-chat]:not(.is-in) .chat-bub { opacity: 0; transform: translateY(12px) scale(0.96); }
+
+/* Il nastro dei nomi: senza script scorre piano in CSS. */
+.marquee { overflow: hidden; }
+.marquee-track { display: flex; width: max-content; will-change: transform; }
+.marquee-group { display: flex; align-items: center; flex-shrink: 0; }
+@keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track { animation: marquee 70s linear infinite; }
+  [data-marquee="right"] .marquee-track { animation-direction: reverse; }
+}
+
+/* La lente sulla stesa (data-lens, solo mouse). */
+.lens {
+  position: absolute; left: 0; top: 0; z-index: 2;
+  width: clamp(150px, 15vw, 210px); aspect-ratio: 1; border-radius: 50%;
+  border: 3px solid var(--color-latte); background-color: var(--color-vino); background-repeat: no-repeat;
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.7); pointer-events: none; will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) { html.motion [data-lens] { cursor: zoom-in; } }
+@media (prefers-reduced-motion: reduce) { .lens { display: none; } .chat-bub { transition: none; } }
+
+@layer components {
+  .nastro { overflow-x: clip; padding-block: 16px; border-block: 1px solid var(--line); }
+  .nastro-voce { display: inline-flex; align-items: center; gap: 26px; padding-right: 26px; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(1.5rem, 2.6vw, 2.25rem); line-height: 1.1; white-space: nowrap; }
+  .nastro-voce svg { color: var(--accent); }
+
+  /* Il telefono delle stories e la chat: superfici "app", con l'arco del brand negli angoli. */
+  .telefono { position: relative; margin-inline: auto; width: min(330px, 86vw); border-radius: 44px; padding: 12px; background: var(--color-notte); box-shadow: 0 40px 70px -40px rgb(34 24 20 / 0.7); }
+  .chat { overflow: hidden; border-radius: var(--r-foglio); border: 1px solid rgb(74 16 39 / 0.1); background: var(--color-blush); color: var(--color-inchiostro); box-shadow: 0 40px 70px -44px rgb(34 24 20 / 0.6); }
+
+  /* La scheda del profilo Instagram, statica (niente embed). */
+  .scheda-ig { --bg: var(--color-latte); --fg: var(--color-inchiostro); --line-strong: rgb(74 16 39 / 0.3); --accent: var(--color-lily-deep); display: flex; flex-direction: column; gap: 20px; padding: clamp(22px, 3vw, 30px); border-radius: var(--r-foglio); background: var(--color-latte); color: var(--color-inchiostro); border: 1px solid rgb(74 16 39 / 0.08); box-shadow: 0 30px 60px -40px rgb(74 16 39 / 0.5); }
+  .scheda-ig-foto { display: grid; place-items: center; width: 64px; height: 64px; flex: none; padding: 3px; border-radius: 999px; background: linear-gradient(135deg, var(--color-candela), var(--color-lily), var(--color-lily-deep)); }
+
+  /* La galleria dello studio: di lato col dito, ferma e guidata dallo scroll su desktop. */
+  .galleria { overflow: clip; }
+  .galleria-fila { display: flex; gap: clamp(12px, 2vw, 24px); overflow-x: auto; padding-inline: max(var(--gutter), calc((100vw - 1360px) / 2 + var(--gutter))); padding-bottom: 8px; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .galleria-fila::-webkit-scrollbar { display: none; }
+  .galleria-foto { position: relative; flex: 0 0 auto; width: min(70vw, 360px); aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--r-tile); scroll-snap-align: center; background: var(--color-vino); }
+  .galleria-foto:nth-child(3n + 1) { border-radius: 999px 999px var(--r-tile) var(--r-tile); }
+  .galleria-foto:nth-child(2n) { width: min(60vw, 300px); align-self: flex-end; }
+  .galleria-foto img { width: 100%; height: 100%; object-fit: cover; }
+  .is-hscroll .galleria-fila { overflow: visible; scroll-snap-type: none; }
+
+  /* Il sentiero del percorso (data-trail). */
+  .sentiero { position: relative; }
+  .sentiero-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .sentiero-svg path { fill: none; stroke: var(--color-petalo); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1 10; }
+  .sentiero-foglie { position: absolute; inset: 0; pointer-events: none; }
+  .trail-leaf { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; color: var(--color-foglia); rotate: var(--a, 0deg); scale: 0; opacity: 0; transition: scale 0.6s var(--ease-soft), opacity 0.4s ease; }
+  .trail-leaf.is-on { scale: 1; opacity: 1; }
+  .trail-leaf svg { display: block; width: 100%; height: 100%; }
+  .tappa { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start; transition: opacity 0.6s ease; }
+  .tappa-punto { position: relative; z-index: 1; width: 16px; height: 16px; margin-top: 8px; border-radius: 999px; background: var(--bg); border: 2px solid var(--color-lily); transition: background-color 0.5s ease; }
+  .has-trail .tappa:not(.is-reached) { opacity: 0.45; }
+  .has-trail .tappa.is-reached .tappa-punto { background: var(--color-lily); }
+  @media (min-width: 768px) {
+    .tappa { width: 50%; }
+    .tappa:nth-child(even) { margin-left: 50%; }
+    .tappa:nth-child(odd) { grid-template-columns: 1fr auto; text-align: right; }
+    .tappa:nth-child(odd) .tappa-punto { order: 2; margin-right: -8px; }
+    .tappa:nth-child(even) .tappa-punto { margin-left: -8px; }
+  }
+
+  /* La testata delle pagine interne: il titolo a sinistra, l'arco a destra. */
+  .testata-pagina { padding-top: calc(var(--testata-h) + clamp(56px, 9vw, 110px)); padding-bottom: clamp(56px, 7vw, 96px); }
+}

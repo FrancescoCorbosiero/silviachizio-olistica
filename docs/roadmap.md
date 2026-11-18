@@ -83,6 +83,8 @@ arriva a Silvia e il Google Form è spento.
 Il sito diventa una landing a pagina unica, le richieste passano dal modulo
 Google di Silvia, il Brand System diventa «Luce» con la hero a finestra ad arco
 (`decisioni.md`, in fondo; `brand.md`, «Quinta revisione»).
+Poi (`decisioni.md`, «La home e tre pagine»): tornano `/trattamenti`,
+`/letture` e `/chi-sono`, con i blocchi migliori della versione precedente.
 **Fatto quando** check e build sono puliti, la landing regge a 390×844 e su
 desktop, con e senza "riduci movimento" e senza JavaScript, e le bozze nuove
 sono in `testi-da-validare.md`.

@@ -31,8 +31,21 @@ commento `BOZZA` e la riga da questo elenco.
 | Bottoni dei trattamenti, finché non c'è il loro modulo | «Prenota su Instagram» · passo 1: «Un messaggio su Instagram: il trattamento che ti interessa e quando ti va. Per le letture c'è il mio modulo.» · domanda «Come prenoto?»: «Scrivimi un messaggio su Instagram: dimmi il trattamento che ti interessa e quando ti va, e fissiamo insieme giorno e ora. Per una lettura c'è il mio modulo, con «Richiedi una lettura».» | cambiano da soli quando il link arriva in `MODULI.trattamenti` |
 | Come prenotare | «Nessun appuntamento automatico: mi scrivi, ti rispondo io e scegliamo insieme.» · i tre passi: «Mi mandi la richiesta – Dal mio modulo: il trattamento che ti interessa e come ricontattarti. Bastano due minuti.» · «Ti scrivo io – Per fissare insieme giorno e ora. Per le letture ti rispondo via email.» · «Ti aspetto in studio – A Montebelluna (TV). Dopo il trattamento, circa 15 minuti di relax solo per te.» · «Su appuntamento: giorno e ora li fissiamo insieme» (finché non ci sono gli orari) · «Rispondo io, di persona.» | i «due minuti» vengono dal modulo delle letture: da confermare per i trattamenti |
 | Domande frequenti (`src/lib/domande.ts`) | le cinque domande e risposte (durata, dove, come prenoto, consigliami tu, letture a distanza) | risposte vere, parole da approvare |
+| Come funziona (le storie) | «Come funziona» · «Nessun appuntamento automatico: mi scrivi, ti rispondo io e scegliamo insieme. Scorri, te lo racconto come una storia.» · le quattro storie: «Mi scrivi su Instagram – Il trattamento che ti interessa e quando ti va.» (con il modulo: «Mi mandi la richiesta – … due minuti.») · «Ti scrivo io – Per fissare insieme giorno e ora, come preferisci tu.» · «Il trattamento – Un'ora (o un'ora e un quarto) solo per te, a Montebelluna.» · «Il tuo momento relax – Circa 15 minuti, prima di tornare alla giornata.» | durate e relax vengono dal listino |
+| La chat delle letture (`src/components/ui/Chat.tsx`) | «Ciao Silvia, vorrei una lettura.» · «Ciao! Scegli il tema, io preparo la stesa.» · «Amore / Relazioni» · «Ti mando la foto della stesa e la mia interpretazione, scritta o in video, via email.» | |
+| Prenota e trovami | «Per un trattamento scrivimi su Instagram, per una lettura c'è il mio modulo: ti rispondo io.» | |
 | Invito | «Ti aspetto» · «In studio a Montebelluna, o a distanza con una lettura.» | |
 | Immagini per i social (`scripts/immagini.cjs`) | i titoli e i sottotitoli di ogni pagina | si rigenerano con lo script |
+
+## Le pagine
+
+| Dove | Testo | Nota |
+|---|---|---|
+| `/trattamenti`, testata | «Listino trattamenti» · «Quattro esperienze di benessere, da 60 a 75 minuti, nel mio studio a Montebelluna. Dopo ognuna, circa 15 minuti di relax.» | parole del listino |
+| `/trattamenti` | «Lo studio» · «Prima di venire» · domande: «Quanto dura il momento relax?», «Qual è la differenza tra Lily Holistic e Lily Holistic Ritual?», «Posso farmi consigliare?», «Dove si trova lo studio?» · invito «Scegli il tuo momento» | risposte vere, parole da approvare |
+| `/letture` | «Una lettura tutta per te» · «Riceverai, via email» · «Te lo racconto in quattro messaggi» e i quattro messaggi (`COME` nella pagina) · «Una stesa vera» · «Così ti arriva: la foto delle carte, come le ho disposte per te, insieme alla mia interpretazione.» · «Da sapere prima di chiedere» · invito «Scegli il tema, io preparo la stesa» · «E se sei in zona, ti aspetto anche in studio a Montebelluna.» | |
+| `/chi-sono` | «Lily Trattamenti Benessere, a Montebelluna. E letture intuitive, a distanza.» · «Un tocco di magia» e la storia (la stessa bozza della home, finché manca `SILVIA.storia`) · «Passo dopo passo» · «Le cose che amo» · «Mi trovi qui» · «Il mio profilo è il posto dove racconto Lily e la mia vita: scrivimi un messaggio quando vuoi.» · invito «Ci vediamo presto» | |
+| Descrizioni per i motori (`metadata` di ogni pagina) | titoli e descrizioni | |
 
 ## Privacy
 

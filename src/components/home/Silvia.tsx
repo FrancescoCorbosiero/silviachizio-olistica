@@ -1,9 +1,10 @@
-import { FrecciaSu } from '@/components/icons';
-import Bottone from '@/components/ui/Bottone';
+import Link from 'next/link';
+import { Freccia } from '@/components/icons';
+import SchedaInstagram from '@/components/ui/SchedaInstagram';
 import Esempio from '@/components/ui/Esempio';
 import { RITRATTO } from '@/lib/anteprima';
 import { IMMAGINI } from '@/lib/immagini';
-import { IG_DM_URL, IG_HANDLE, IG_URL, OWNER_NAME, PASSIONI, SILVIA } from '@/lib/site';
+import { OWNER_NAME, PASSIONI, SILVIA } from '@/lib/site';
 
 /**
  * Chi sono: «Vivo e sorrido», la prima riga della bio di Silvia, le sue
@@ -47,14 +48,12 @@ export default function Silvia() {
               <li key={p}>{p}</li>
             ))}
           </ul>
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4" data-reveal>
-            <Bottone href={IG_URL} variante="linea">
-              Seguimi su Instagram
-            </Bottone>
-            <a className="link" href={IG_DM_URL} target="_blank" rel="noopener">
-              Scrivimi un messaggio <span className="meta !text-[inherit]">{IG_HANDLE}</span> <FrecciaSu />
-            </a>
-          </div>
+          <p className="mt-8" data-reveal>
+            <Link href="/chi-sono" className="link">
+              La mia storia <Freccia />
+            </Link>
+          </p>
+          <SchedaInstagram className="mt-10 max-w-[440px]" />
         </div>
       </div>
     </section>

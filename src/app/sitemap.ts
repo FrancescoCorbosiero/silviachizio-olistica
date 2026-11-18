@@ -6,12 +6,15 @@ import { absoluteUrl } from '@/lib/site';
 export const dynamic = 'force-static';
 
 /**
- * Le pagine del sito per i motori: la landing e l'informativa. Le pagine
+ * Le pagine del sito per i motori: la home, le tre pagine e l'informativa. Le pagine
  * delle richieste solo quando le richieste partono dal sito.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages: { path: string; priority: number }[] = [
     { path: '/', priority: 1 },
+    { path: '/trattamenti', priority: 0.9 },
+    { path: '/letture', priority: 0.8 },
+    { path: '/chi-sono', priority: 0.6 },
     ...(DAL_MODULO
       ? []
       : [

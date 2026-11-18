@@ -3,23 +3,8 @@ import { FrecciaSu } from '@/components/icons';
 import Bottone, { BottoneRichiesta } from '@/components/ui/Bottone';
 import Esempio from '@/components/ui/Esempio';
 import { INDIRIZZO, MAPS, ORARI_STUDIO } from '@/lib/anteprima';
-import { DAL_MODULO, RICHIESTE, rigaSospensione, SU_INSTAGRAM } from '@/lib/richieste';
+import { RICHIESTE, rigaSospensione, SU_INSTAGRAM } from '@/lib/richieste';
 import { IG_DM_URL, IG_HANDLE, ZONA } from '@/lib/site';
-import { RELAX_MINUTI } from '@/lib/trattamenti';
-
-/** BOZZE — come si prenota, in tre passi (il primo cambia con RICHIESTE_DAL). */
-const PASSI = [
-  {
-    titolo: 'Mi mandi la richiesta',
-    testo: SU_INSTAGRAM.trattamenti
-      ? 'Un messaggio su Instagram: il trattamento che ti interessa e quando ti va. Per le letture c’è il mio modulo.'
-      : DAL_MODULO
-        ? 'Dal mio modulo: il trattamento che ti interessa e come ricontattarti. Bastano due minuti.'
-        : 'Dal sito, un passo alla volta: il trattamento, quando ti va, come ricontattarti.',
-  },
-  { titolo: 'Ti scrivo io', testo: 'Per fissare insieme giorno e ora. Per le letture ti rispondo via email.' },
-  { titolo: 'Ti aspetto in studio', testo: `A ${ZONA}. Dopo il trattamento, circa ${RELAX_MINUTI} minuti di relax solo per te.` },
-] as const;
 
 function Dato({ titolo, children }: { titolo: string; children: ReactNode }) {
   return (
@@ -31,8 +16,9 @@ function Dato({ titolo, children }: { titolo: string; children: ReactNode }) {
 }
 
 /**
- * Prenotare e trovarmi: i tre passi, le due richieste (il modulo Google di
- * Silvia, o i flussi del sito), il messaggio su Instagram; poi lo studio,
+ * Prenotare e trovarmi (i passi li raccontano le stories, poco sopra): le
+ * due richieste (il modulo Google di Silvia, Instagram per i trattamenti
+ * finché manca il loro modulo, o i flussi del sito); poi lo studio,
  * gli orari e i canali, solo con i dati veri (in anteprima con il segno).
  */
 export default function Prenota() {
@@ -42,23 +28,17 @@ export default function Prenota() {
       <div className="wrap">
         <header className="grid gap-x-10 gap-y-8 lg:grid-cols-12 lg:items-end">
           <h2 id="contatti-titolo" className="titolo lg:col-span-7" data-split>
-            Come <em>prenotare</em>
+            Prenota e <em>trovami</em>
           </h2>
           {/* BOZZA */}
           <p className="lead lg:col-span-4 lg:col-start-9" data-reveal>
-            {sospesa ? rigaSospensione('trattamenti') : 'Nessun appuntamento automatico: mi scrivi, ti rispondo io e scegliamo insieme.'}
+            {sospesa
+              ? rigaSospensione('trattamenti')
+              : SU_INSTAGRAM.trattamenti
+                ? 'Per un trattamento scrivimi su Instagram, per una lettura c’è il mio modulo: ti rispondo io.'
+                : 'Mandami la richiesta: ti rispondo io e fissiamo insieme giorno e ora.'}
           </p>
         </header>
-
-        <ol className="mt-[clamp(40px,5vw,64px)] grid gap-y-10 md:grid-cols-3 md:gap-x-10" data-reveal="stagger">
-          {PASSI.map((p, i) => (
-            <li key={p.titolo} className="border-t border-[var(--line-strong)] pt-6">
-              <span className="cifre block text-[clamp(2.4rem,3.4vw,3.2rem)] text-[var(--accent)]">{i + 1}</span>
-              <h3 className="titoletto mt-3">{p.titolo}</h3>
-              <p className="mt-3 max-w-[34ch] text-[16.5px] text-[var(--fg-soft)]">{p.testo}</p>
-            </li>
-          ))}
-        </ol>
 
         <div className="mt-10 flex flex-wrap items-center gap-3" data-reveal>
           <BottoneRichiesta tipo="trattamenti" />

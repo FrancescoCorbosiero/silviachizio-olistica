@@ -51,6 +51,9 @@ const FONT_CSS = [
 /** Le immagini Open Graph: una per pagina, con i titoli delle pagine. */
 const OG = [
   { file: 'home', titolo: 'Massaggi e rituali <i>olistici</i>', sotto: 'Quattro esperienze di benessere a Montebelluna · Letture intuitive a distanza' },
+  { file: 'trattamenti', titolo: 'Listino <i>trattamenti</i>', sotto: 'Quattro esperienze di benessere a Montebelluna' },
+  { file: 'letture', titolo: 'Una lettura per <i>te</i>', sotto: 'Letture intuitive personalizzate, a distanza' },
+  { file: 'chi-sono', titolo: 'Silvia <i>Chizio</i>', sotto: 'Vivo e sorrido · Lily Trattamenti Benessere' },
   { file: 'prenota', titolo: 'Prenota un <i>trattamento</i>', sotto: 'Ti scrivo io per fissare giorno e ora' },
   { file: 'privacy', titolo: 'Privacy <i>e cookie</i>', sotto: 'Come tratto i tuoi dati, detto semplice' },
 ];
