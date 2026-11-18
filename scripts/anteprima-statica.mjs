@@ -7,17 +7,19 @@
      npm run anteprima -- https://lily-olistica.netlify.app
 
    L'indirizzo (facoltativo) va in canonical, sitemap e immagini per i
-   social. Costruisce senza src/app/api (un sito statico non ha server): le
-   richieste non partono e mostrano il ripiego (testo da copiare e
-   Instagram). Su Netlify si trascina la cartella anteprima-netlify
-   (contiene index.html), non public/.
+   social. Costruisce senza src/app/api (un sito statico non ha server): con
+   il modulo Google (oggi) non cambia niente; con le richieste dal sito
+   (RICHIESTE_DAL = 'sito') non partono e mostrano il ripiego (testo da
+   copiare e Instagram). Le pagine che al build chiamano notFound() (es.
+   /prenota con il modulo) restano fuori. Su Netlify si trascina la cartella
+   anteprima-netlify (contiene index.html), non public/.
    È un'anteprima anche nei contenuti: NEXT_PUBLIC_ANTEPRIMA=1 mostra ogni
    blocco, anche quelli che aspettano un dato di Silvia, con un esempio
    segnato «Esempio» (src/lib/anteprima.ts). Per un'anteprima solo con i
    dati veri: NEXT_PUBLIC_ANTEPRIMA=0 npm run anteprima.
    ===================================================================== */
 import { spawnSync } from 'node:child_process';
-import { existsSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -70,8 +72,27 @@ const html = (dir, base = '') =>
     if (d.isDirectory()) return d.name === '_next' ? [] : html(join(dir, d.name), `${base}${d.name}/`);
     return d.name.endsWith('.html') ? [`${base}${d.name.slice(0, -5)}`] : [];
   });
-const pagine = html('').filter((n) => !['index', '404', '_not-found'].includes(n));
+const tutte = html('').filter((n) => !['index', '404', '_not-found'].includes(n));
+
+// Le pagine che al build hanno chiamato notFound() (es. /prenota con le
+// richieste dal modulo Google) escono dall'anteprima: su Netlify devono
+// rispondere 404, come sul server, non mostrare la 404 con lo stato 200.
+const nonTrovata = (n) => readFileSync(join(DEST, `${n}.html`), 'utf8').includes('NEXT_HTTP_ERROR_FALLBACK;404');
+const via = tutte.filter(nonTrovata);
+for (const n of via) {
+  rmSync(join(DEST, `${n}.html`), { force: true });
+  rmSync(join(DEST, `${n}.txt`), { force: true });
+}
+// La cartella di una pagina tolta (i suoi dati RSC) se ne va, se dentro non
+// è rimasta nessuna pagina: prima le più annidate (/prenota/lettura, poi /prenota).
+for (const n of [...via].sort((a, b) => b.length - a.length)) {
+  const dir = join(DEST, n);
+  if (existsSync(dir) && !html(n).length) rmSync(dir, { recursive: true, force: true });
+}
+
+const pagine = tutte.filter((n) => !via.includes(n));
 writeFileSync(join(DEST, '_redirects'), pagine.map((n) => `/${n}  /${n}.html  200`).join('\n') + '\n');
+if (via.length) console.log(`Fuori dall'anteprima (404): ${via.map((n) => `/${n}`).join(', ')}`);
 
 console.log(`\nPronta: anteprima-netlify/ — trascinala su https://app.netlify.com/drop${url ? ` (indirizzo: ${url})` : ''}`);
 console.log('Dopo l\'anteprima, npm run build rifà la build normale (standalone).');

@@ -149,7 +149,10 @@ npm run anteprima
 
 Crea `anteprima-netlify/`: è quella la cartella da trascinare. Con
 `npm run anteprima -- https://<nome>.netlify.app` canonical, sitemap e immagini
-per i social puntano all'indirizzo dell'anteprima. Funziona anche su Windows.
+per i social puntano all'indirizzo dell'anteprima. Le pagine che con il modulo
+Google non esistono (`/prenota`) restano fuori: su Netlify rispondono 404, come
+sul server. Senza i dati d'esempio (solo quelli veri):
+`NEXT_PUBLIC_ANTEPRIMA=0 npm run anteprima`. Funziona anche su Windows.
 
 ## Deploy
 
