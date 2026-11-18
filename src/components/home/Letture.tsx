@@ -24,15 +24,15 @@ export default function Letture() {
             Letture intuitive, <em>a distanza</em>
           </h2>
           {/* BOZZA, con la frase del modulo */}
-          <p className="lead mt-8" data-reveal>
+          <p className="lead mt-6" data-reveal>
             Per chi mi segue da lontano: {LETTURA.frase}, che ti arriva via email.
           </p>
 
           {/* «Riceverai:» — le parole del modulo, così come sono. */}
-          <p className="meta mt-12">Riceverai</p>
+          <p className="meta mt-9">Riceverai</p>
           <ol className="mt-4 border-t border-[var(--line-strong)]" data-reveal="stagger">
             {LETTURA.riceverai.map((r, i) => (
-              <li key={r} className="flex items-baseline gap-5 border-b border-[var(--line)] py-4">
+              <li key={r} className="flex items-baseline gap-5 border-b border-[var(--line)] py-3">
                 <span className="meta w-6 shrink-0">{pad(i + 1)}</span>
                 <span className="corsivo text-[clamp(1.3rem,1.8vw,1.6rem)] leading-tight first-letter:uppercase">{r}</span>
               </li>
@@ -49,18 +49,18 @@ export default function Letture() {
             </p>
           )}
 
-          <div className="mt-10" data-reveal>
+          <div className="mt-8" data-reveal>
             {RICHIESTE.letture.sospesa && <p className="mb-5 max-w-[46ch] text-[15.5px] text-[var(--fg-soft)]">{rigaSospensione('letture')}</p>}
             <BottoneRichiesta tipo="letture" variante="latte" />
           </div>
           {/* Il disclaimer di Silvia, integrale, accanto a ogni richiesta di lettura (docs/spec.md). */}
-          <p className="mt-10 max-w-[58ch] border-l border-[var(--line-strong)] pl-5 text-[14.5px] leading-relaxed text-[var(--fg-mute)]">
+          <p className="mt-7 max-w-[58ch] border-l border-[var(--line-strong)] pl-5 text-[14.5px] leading-relaxed text-[var(--fg-mute)]">
             {LETTURA.disclaimer}
           </p>
         </div>
 
         <div className="lg:col-span-5 lg:col-start-8">
-          <div className="arco mx-auto aspect-[4/5] w-[min(100%,480px)]" data-clip="arco">
+          <div className="arco mx-auto aspect-[4/5] w-[min(100%,400px)] max-h-[72svh]" data-clip="arco">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="plx" data-parallax="50" src={img.srcVerticale} alt={stesa.esempio ? '' : img.alt} width={900} height={1500} loading="lazy" decoding="async" />
             {stesa.esempio && <Esempio sopra cosa="la foto di una stesa vera" />}

@@ -433,10 +433,12 @@ buttare via le richieste fatte dal sito, che restano migliori (un passo alla
 volta, il riepilogo, la conferma, la provenienza): un interruttore,
 `RICHIESTE_DAL` in `src/lib/site.ts`.
 
-- **'modulo'** (oggi): ogni «Prenota» e «Richiedi una lettura» apre il modulo
-  (`MODULI`) in un'altra scheda, con la freccia ↗. Il modulo è il «Link per
-  appuntamento» della sua bio, che oggi è quello delle letture: per ora vale per
-  entrambe le richieste (domande aperte). Il sito non raccoglie niente: l'API
+- **'modulo'** (oggi): «Richiedi una lettura» apre il modulo delle letture
+  (`MODULI`, il «Link per appuntamento» della bio) in un'altra scheda, con la
+  freccia ↗. Il modulo dei trattamenti non c'è ancora: finché `MODULI.trattamenti`
+  è vuoto, il bottone diventa «Prenota su Instagram» e porta al messaggio
+  diretto (`SU_INSTAGRAM` in `richieste.ts`); passi, domande e informativa lo
+  dicono. Il sito non raccoglie niente: l'API
   risponde 404, la provenienza (`lily:arrivo`) non si salva, `/prenota` non
   esiste, l'informativa racconta il modulo, le scorciatoie del manifest puntano
   alle sezioni. Con una richiesta sospesa il bottone porta al messaggio su
@@ -486,10 +488,13 @@ come un foglio, mentre la finestra resta ferma. Come funziona:
   ne dipendono il ritaglio (`clip-path: inset(… round …)`, l'arco che si
   appiattisce), lo zoom e lo spostamento dell'immagine (chiusa, inquadra i gigli),
   il velo, il testo che scende, il piede che appare.
-- **Chi muove `--e`**: dove il browser lega le animazioni allo scroll
-  (`animation-timeline: scroll()`: Chrome, Edge, Safari 26) lo fa il CSS, dal
-  primo fotogramma, senza JavaScript; altrove il motore (`heroFinestra`), con la
-  stessa curva. Verificato forzando il ripiego: stessi valori.
+- **Chi muove `--e`**: il motore (`heroFinestra`), in tutti i browser, calcolando
+  `--e` dalla posizione dello scroll (e riscrivendolo dopo ogni ricalcolo di
+  ScrollTrigger). Una prima versione lo affidava al CSS legato allo scroll
+  (`animation-timeline`) dove c'è: si comporta ancora diversamente da un browser
+  all'altro, ed è stato tolto. Anche un tween con `scrub` è stato scartato:
+  durante il refresh di ScrollTrigger tornava per un attimo all'inizio e, a fine
+  corsa, la finestra restava chiusa.
 - **Il titolo c'è due volte**: scuro sul muro (il vero `h1`) e chiaro dentro la
   finestra (nascosto ai lettori di schermo), nello stesso punto.
 - **Ferma e completa**: lo script di avvio (`app/layout.tsx`) accende
@@ -515,4 +520,13 @@ parte per ultimo (apposta); se l'immagine della finestra entra in dissolvenza,
 non è lei l'LCP e lo diventa il video, a 3,7 s. Per questo l'immagine della
 finestra non parte mai trasparente (`entra-luce` in `globals.css` scala soltanto):
 è dipinta dal primo fotogramma e il video, grande uguale, non la scavalca.
+
+## Proporzioni più contenute (novembre 2026)
+
+Rivedendo la landing: alcune sezioni non stavano in uno schermo (l'invito
+finale, le letture) e il «Lily» in fondo era troppo grande. Scala dei titoli e
+respiro delle sezioni più bassi (`.section` da 72 a 120 px, `.titolo` fino a
+4,25 rem), l'invito con il titolo e il giglio più piccoli, il wordmark fino a
+210 px, gli archi entro il 72% dello schermo. Su 1440×900 e 1366×768 l'invito
+sta in uno schermo; listino, letture e contatti di poco oltre, per il testo.
 

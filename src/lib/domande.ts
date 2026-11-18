@@ -1,4 +1,4 @@
-import { DAL_MODULO } from './richieste';
+import { DAL_MODULO, SU_INSTAGRAM } from './richieste';
 import { HAS_INDIRIZZO, INDIRIZZO_DISPLAY } from './site';
 import { RELAX_MINUTI } from './trattamenti';
 
@@ -18,7 +18,9 @@ export const DOMANDE: readonly { q: string; a: string }[] = [
   },
   {
     q: 'Come prenoto?',
-    a: DAL_MODULO
+    a: SU_INSTAGRAM.trattamenti
+      ? 'Scrivimi un messaggio su Instagram: dimmi il trattamento che ti interessa e quando ti va, e fissiamo insieme giorno e ora. Per una lettura c’è il mio modulo, con «Richiedi una lettura».'
+      : DAL_MODULO
       ? 'Con «Prenota un trattamento»: si apre il mio modulo, mi lasci la richiesta e ti scrivo io per fissare giorno e ora. Se preferisci, scrivimi su Instagram.'
       : 'Dal sito, con «Prenota un trattamento»: scegli il trattamento e quando ti va, lasci nome e telefono e ti scrivo io per fissare giorno e ora. Se preferisci, scrivimi su Instagram.',
   },

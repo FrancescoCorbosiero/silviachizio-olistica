@@ -141,7 +141,7 @@
 @layer components {
   /* ── Impaginazione ─────────────────────────────────────── */
   .wrap { width: 100%; max-width: 1360px; margin-inline: auto; padding-inline: var(--gutter); }
-  .section { position: relative; padding-block: clamp(88px, 11vw, 160px); }
+  .section { position: relative; padding-block: clamp(72px, 8vw, 120px); }
 
   /* ── Tipografia: due voci ──────────────────────────────── */
   .display, .titolo, .titoletto {
@@ -151,8 +151,8 @@
     text-wrap: balance;
   }
   .display { font-size: clamp(3.35rem, 9.4vw, 9.75rem); font-weight: 420; line-height: 0.9; letter-spacing: -0.028em; }
-  .titolo { font-size: clamp(2.6rem, 5.6vw, 5.5rem); font-weight: 430; line-height: 0.96; letter-spacing: -0.022em; }
-  .titoletto { font-size: clamp(1.65rem, 2.5vw, 2.35rem); font-weight: 500; line-height: 1.06; letter-spacing: -0.012em; }
+  .titolo { font-size: clamp(2.4rem, 4.4vw, 4.25rem); font-weight: 430; line-height: 0.96; letter-spacing: -0.022em; }
+  .titoletto { font-size: clamp(1.5rem, 2vw, 1.9rem); font-weight: 500; line-height: 1.06; letter-spacing: -0.012em; }
   /* La seconda voce: il corsivo, nella stessa famiglia. Nei titoli una parte sola. */
   .display em, .titolo em, .titoletto em { font-style: italic; font-weight: inherit; }
   .corsivo { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
@@ -487,9 +487,8 @@ html:has(.menu[open]) { overflow: hidden; }
    La hero: la finestra ad arco che si apre (components/home/Hero.tsx)
 
    Tutto dipende da un numero, --e, da 0 (la finestra chiusa) a 1 (aperta
-   a tutto schermo). Con il movimento permesso --e lo muove lo scroll: una
-   animazione CSS legata allo scroll dove c'è (animation-timeline), il
-   motore altrove (heroFinestra in src/lib/motion/engine.ts). Senza
+   a tutto schermo). Con il movimento permesso --e lo muove lo scroll,
+   attraverso il motore (heroFinestra in src/lib/motion/engine.ts). Senza
    JavaScript o con "riduci movimento" --e resta 1: una hero a tutto
    schermo, ferma e completa.
 
@@ -619,18 +618,6 @@ html:has(.menu[open]) { overflow: hidden; }
    palco fermo. */
 html.motion .hero { --e: 0; height: calc(200svh + var(--apertura) + var(--sosta)); }
 html.motion .foglio { margin-top: -100svh; }
-@supports (animation-timeline: scroll()) {
-  html.motion .hero {
-    animation: hero-apri linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 var(--apertura);
-  }
-}
-/* La curva di power2.inOut, la stessa del motore (heroFinestra). */
-@keyframes hero-apri {
-  from { --e: 0; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-  to { --e: 1; }
-}
 
 /* L'ingresso della prima schermata: solo CSS, prima del motore. */
 @keyframes entra { from { opacity: 0; translate: 0 24px; filter: blur(8px); } }
@@ -664,10 +651,10 @@ html.motion .foglio { margin-top: -100svh; }
   }
   .voce > summary::-webkit-details-marker { display: none; }
   .voce-n { grid-area: n; }
-  .voce-nome { grid-area: nome; font-family: var(--font-serif); font-size: clamp(1.85rem, 3.3vw, 3.2rem); font-weight: 480; line-height: 1; letter-spacing: -0.018em; transition: translate 0.7s var(--ease-soft); }
+  .voce-nome { grid-area: nome; font-family: var(--font-serif); font-size: clamp(1.7rem, 2.6vw, 2.5rem); font-weight: 480; line-height: 1; letter-spacing: -0.018em; transition: translate 0.7s var(--ease-soft); }
   .voce-breve { grid-area: breve; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(1.15rem, 1.45vw, 1.42rem); line-height: 1.25; color: var(--fg-soft); }
   .voce-durata { grid-area: durata; align-self: center; display: flex; align-items: center; gap: 14px; }
-  .voce-durata .cifre { font-size: clamp(2.3rem, 3.6vw, 3.6rem); }
+  .voce-durata .cifre { font-size: clamp(2.1rem, 2.8vw, 2.8rem); }
   .voce-durata small { display: block; margin-top: 4px; font-size: 12.5px; font-weight: 560; letter-spacing: 0.01em; color: var(--fg-mute); }
   .voce-x { position: relative; width: 38px; height: 38px; flex: none; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-strong); transition: background-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease; }
   .voce-x::before, .voce-x::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; background: currentColor; translate: -50% -50%; transition: rotate 0.6s var(--ease-soft); }
@@ -679,7 +666,7 @@ html.motion .foglio { margin-top: -100svh; }
       grid-template-columns: 64px minmax(0, 5fr) minmax(0, 4fr) auto;
       grid-template-areas: "n nome breve durata";
       column-gap: clamp(20px, 3vw, 48px);
-      padding-block: 30px;
+      padding-block: 24px;
     }
     .voce-breve { align-self: center; }
   }
@@ -731,7 +718,7 @@ html.motion .foglio { margin-top: -100svh; }
 
   .quindici {
     display: block;
-    font-size: clamp(11rem, 34vw, 30rem);
+    font-size: clamp(9rem, 22vw, 18rem);
     font-weight: 340;
     line-height: 0.78;
     letter-spacing: -0.06em;
@@ -757,7 +744,7 @@ html.motion .foglio { margin-top: -100svh; }
     cursor: pointer;
     list-style: none;
     font-family: var(--font-serif);
-    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-size: clamp(1.3rem, 1.7vw, 1.55rem);
     font-weight: 500;
     line-height: 1.15;
     letter-spacing: -0.008em;

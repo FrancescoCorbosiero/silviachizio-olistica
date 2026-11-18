@@ -200,7 +200,7 @@ Gli effetti di oggi (l'elenco completo, con gli attributi, è in testa a
 
 | Effetto | Dove |
 |---|---|
-| la finestra della hero (`--e`: CSS legato allo scroll, il motore dove manca) | hero |
+| la finestra della hero (`--e`, dal motore, sulla posizione dello scroll) | hero |
 | il foglio che sale sopra la finestra ferma (`.foglio`) | listino |
 | `data-split` (righe dalla maschera, `blur`, `wipe`) | i titoli |
 | `data-reveal`, `data-reveal="stagger"` | blocchi e righe |

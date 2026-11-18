@@ -1,5 +1,5 @@
 import { BottoneRichiesta } from '@/components/ui/Bottone';
-import { DAL_MODULO } from '@/lib/richieste';
+import { DAL_MODULO, SU_INSTAGRAM } from '@/lib/richieste';
 import { pageMetadata } from '@/lib/seo';
 import { EMAIL, HAS_EMAIL, IG_DM_URL, IG_HANDLE, LEGAL } from '@/lib/site';
 
@@ -100,8 +100,10 @@ export default function PrivacyPage() {
             ) : (
               <>
                 <p>
-                  Quando premi «Prenota un trattamento» o «Richiedi una lettura» si apre, in un&apos;altra scheda, il mio modulo su
-                  Google Moduli. Il sito non vede e non conserva niente di quello che scrivi lì.
+                  {SU_INSTAGRAM.trattamenti
+                    ? 'Per un trattamento mi scrivi su Instagram (sotto, «Se mi scrivi direttamente»). Quando premi «Richiedi una lettura» si apre, in un’altra scheda, il mio modulo su Google Moduli.'
+                    : 'Quando premi «Prenota un trattamento» o «Richiedi una lettura» si apre, in un’altra scheda, il mio modulo su Google Moduli.'}{' '}
+                  Il sito non vede e non conserva niente di quello che scrivi lì.
                 </p>
                 <p>
                   I dati che scrivi nel modulo (quelli che il modulo ti chiede, segnati come obbligatori o facoltativi) arrivano a

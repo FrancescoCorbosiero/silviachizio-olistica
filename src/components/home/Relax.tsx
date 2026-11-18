@@ -16,7 +16,7 @@ export default function Relax() {
             {RELAX_MINUTI}
           </span>
           {/* BOZZA */}
-          <span className="corsivo mb-[0.6em] text-[clamp(1.5rem,2.6vw,2.4rem)] leading-tight text-[var(--fg-soft)]">
+          <span className="corsivo mb-[0.6em] text-[clamp(1.4rem,2vw,1.9rem)] leading-tight text-[var(--fg-soft)]">
             minuti
             <br />
             per te
@@ -24,7 +24,7 @@ export default function Relax() {
         </p>
         <div className="lg:col-span-6">
           {/* BOZZA */}
-          <h2 id="relax-titolo" className="titolo !text-[clamp(2rem,3.5vw,3.35rem)] !leading-[1.1]" data-scrub>
+          <h2 id="relax-titolo" className="titolo !text-[clamp(1.9rem,2.9vw,2.75rem)] !leading-[1.12]" data-scrub>
             Dopo il trattamento non scappi via: ci sono quindici minuti solo per te, per tornare alla giornata con calma.
           </h2>
           <p className="meta mt-8">

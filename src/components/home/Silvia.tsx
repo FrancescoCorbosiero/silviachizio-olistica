@@ -18,7 +18,7 @@ export default function Silvia() {
     <section id="chi-sono" className="tono-sabbia section" aria-labelledby="chi-titolo">
       <div className="wrap grid items-center gap-x-10 gap-y-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <div className="arco mx-auto aspect-[3/4] w-[min(100%,460px)]" data-clip="arco">
+          <div className="arco mx-auto aspect-[3/4] w-[min(100%,380px)] max-h-[72svh]" data-clip="arco">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="plx" data-parallax="40" src={img.srcVerticale} alt={ritratto.esempio ? '' : img.alt} width={900} height={1500} loading="lazy" decoding="async" />
             {ritratto.esempio && <Esempio sopra cosa="una foto di Silvia" />}

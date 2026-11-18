@@ -48,7 +48,7 @@ start`): in sviluppo il motore arriva tardi.
 |---|---|
 | Framework | **Next.js 16** (App Router, Turbopack) + **React 19** + TypeScript |
 | Stile | **Tailwind 4** con il Brand System «Lily» in `src/app/globals.css` (toni semantici, arco, bottoni, listino) |
-| Movimento | **GSAP** (ScrollTrigger + SplitText) e **Lenis**, caricati dopo la pagina (`src/lib/motion`); la hero con un'animazione CSS legata allo scroll dove c'è |
+| Movimento | **GSAP** (ScrollTrigger + SplitText) e **Lenis**, caricati dopo la pagina (`src/lib/motion`), anche per la finestra della hero |
 | Richieste dal sito (spente) | **Konsta UI 5** (tema iOS) · `react-modal-sheet` · `motion` · zod · AWS SES v2 da `/api/richiesta` |
 | Deploy | Docker (Next standalone) dietro **Caddy** (caddy-docker-proxy) |
 

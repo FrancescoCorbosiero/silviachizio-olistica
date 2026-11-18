@@ -137,14 +137,14 @@ export const RECENSIONI: { testo: string; nome: string; fonte: string }[] = [];
 export const RICHIESTE_DAL: 'modulo' | 'sito' = 'modulo';
 
 /**
- * Il modulo Google di Silvia: è il «Link per appuntamento» della sua bio
- * (oggi il modulo delle letture). Se arriva un modulo a parte per i
- * trattamenti, si scrive in MODULI.trattamenti (domande aperte).
+ * I moduli Google di Silvia. C'è quello delle letture (il «Link per
+ * appuntamento» della sua bio); quello dei trattamenti non c'è ancora
+ * (domande aperte): finché è vuoto, «Prenota un trattamento» porta al
+ * messaggio su Instagram. Quando arriva il link, si scrive qui.
  */
-const MODULO_BIO = 'https://docs.google.com/forms/d/e/1FAIpQLSfh0kLvsLHUO6UtfPCc1AvALu6X2UvHi7mZd06oeKhP_CMr6w/viewform';
 export const MODULI: Record<'trattamenti' | 'letture', string> = {
-  trattamenti: MODULO_BIO,
-  letture: MODULO_BIO,
+  trattamenti: '',
+  letture: 'https://docs.google.com/forms/d/e/1FAIpQLSfh0kLvsLHUO6UtfPCc1AvALu6X2UvHi7mZd06oeKhP_CMr6w/viewform',
 };
 
 export type StatoPrenotazioni = 'aperte' | 'sospese';

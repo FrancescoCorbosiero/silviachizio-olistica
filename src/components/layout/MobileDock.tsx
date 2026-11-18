@@ -3,6 +3,7 @@
 import { useApp } from '@/components/app/AppProvider';
 import { InstagramIcon } from '@/components/icons';
 import { BottoneRichiesta } from '@/components/ui/Bottone';
+import { SU_INSTAGRAM } from '@/lib/richieste';
 import { IG_DM_URL, IG_HANDLE } from '@/lib/site';
 
 /**
@@ -15,9 +16,12 @@ export default function MobileDock() {
   return (
     <div className={`dock lg:hidden ${menuOpen || flowOpen ? 'is-via' : ''}`}>
       <div className="dock-pillola">
-        <a href={IG_DM_URL} target="_blank" rel="noopener" aria-label={`Scrivimi su Instagram, ${IG_HANDLE}`} className="tasto-tondo !h-[50px] !w-[50px]">
-          <InstagramIcon size={21} />
-        </a>
+        {/* Se «Prenota» porta già su Instagram, l'icona sarebbe un doppione. */}
+        {!SU_INSTAGRAM.trattamenti && (
+          <a href={IG_DM_URL} target="_blank" rel="noopener" aria-label={`Scrivimi su Instagram, ${IG_HANDLE}`} className="tasto-tondo !h-[50px] !w-[50px]">
+            <InstagramIcon size={21} />
+          </a>
+        )}
         <BottoneRichiesta tipo="trattamenti" />
       </div>
     </div>

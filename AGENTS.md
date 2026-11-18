@@ -94,8 +94,8 @@ git clone --depth 1 https://github.com/FrancescoCorbosiero/ireandlunaslife ../ri
   attributi (elenco in testa al file), con le regole di andrea-bellettati: si
   carica con un import dinamico dopo l'idratazione, rivelazioni con
   IntersectionObserver, `position: sticky` al posto dei pin, cambi di struttura
-  (SplitText) solo nei Server Component. La hero dipende da `--e` (0 → 1):
-  animazione CSS legata allo scroll dove c'è, il motore altrove; lo script di
+  (SplitText) solo nei Server Component. La hero dipende da `--e` (0 → 1),
+  calcolato dal motore sulla posizione dello scroll; lo script di
   avvio in `app/layout.tsx` accende `html.motion` prima del primo fotogramma.
   Senza JS o con "riduci movimento" la pagina è completa e ferma.
 - **Leggerezza**: arriva quasi tutto da Instagram, quindi da telefono. Prima di

@@ -24,9 +24,8 @@
                               data-webm, data-mp4-v, data-webm-v) arrivano
                               solo qui; parte a schermo, si ferma fuori;
                               resta il poster con "risparmio dati"
-     data-hero                la finestra della hero: --e da 0 a 1. Lo
-                              fa il CSS dove c'è animation-timeline (vedi
-                              globals.css); qui solo dove manca
+     data-hero                la finestra della hero: --e da 0 a 1 lungo
+                              la corsa (--apertura, vedi globals.css)
    ─ Puntatore (solo mouse)
      data-hover-list          elenco con l'anteprima che segue il puntatore
                               (righe [data-hover-row], pannello
@@ -423,22 +422,26 @@ function parallax(): void {
   });
 }
 
-/* La finestra della hero, dove il CSS non sa legare un'animazione allo
-   scroll (animation-timeline): lo stesso --e, dallo scroll di ScrollTrigger.
-   La corsa (--apertura) la legge dal CSS, già in pixel (@property). */
+/* La finestra della hero: --e da 0 a 1 lungo la corsa (--apertura, letta
+   dal CSS già in pixel grazie a @property). Il motore la guida in tutti i
+   browser: il CSS legato allo scroll (animation-timeline) si comporta ancora
+   in modo diverso da un browser all'altro. --e si calcola dalla posizione
+   (onUpdate) e si riscrive dopo ogni ricalcolo (onRefresh): un tween con
+   scrub, durante il refresh, torna per un attimo all'inizio e la finestra
+   restava chiusa. La morbidezza la dà Lenis. */
 function heroFinestra(): void {
-  if (CSS.supports('animation-timeline: scroll()')) return;
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (!hero || !document.documentElement.classList.contains('motion')) return;
   const ease = gsap.parseEase('power2.inOut');
   const corsa = (): number => parseFloat(getComputedStyle(hero).getPropertyValue('--apertura')) || window.innerHeight * 0.9;
+  const scrivi = (p: number) => hero.style.setProperty('--e', ease(p).toFixed(4));
   ScrollTrigger.create({
     trigger: hero,
     start: 'top top',
     end: () => `+=${corsa()}`,
     invalidateOnRefresh: true,
-    onUpdate: (self) => hero.style.setProperty('--e', ease(self.progress).toFixed(4)),
-    onRefresh: (self) => hero.style.setProperty('--e', ease(self.progress).toFixed(4)),
+    onUpdate: (self) => scrivi(self.progress),
+    onRefresh: (self) => scrivi(self.progress),
   });
   cleanups.push(() => hero.style.removeProperty('--e'));
 }

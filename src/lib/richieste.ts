@@ -15,6 +15,15 @@ export type TipoRichiesta = 'trattamenti' | 'letture';
 /** Le richieste passano dal modulo Google (il sito non raccoglie dati). */
 export const DAL_MODULO = RICHIESTE_DAL === 'modulo';
 
+/**
+ * Con il modulo, una richiesta senza il suo modulo (oggi i trattamenti) passa
+ * dal messaggio su Instagram: il bottone lo dice («… su Instagram»).
+ */
+export const SU_INSTAGRAM: Record<TipoRichiesta, boolean> = {
+  trattamenti: DAL_MODULO && !MODULI.trattamenti,
+  letture: DAL_MODULO && !MODULI.letture,
+};
+
 export const RICHIESTE = {
   trattamenti: {
     href: DAL_MODULO ? MODULI.trattamenti : PRENOTA_HREF,
@@ -33,7 +42,8 @@ export const RICHIESTE = {
 export const AVVISAMI = 'Avvisami quando riapro';
 
 /**
- * L'etichetta del bottone di una richiesta. Sospesa: "Avvisami quando
+ * L'etichetta del bottone di una richiesta: «Prenota un trattamento», o
+ * «Prenota su Instagram» se non c'è il suo modulo. Sospesa: "Avvisami quando
  * riapro" dal sito, "Scrivimi su Instagram" con il modulo (con `contesto`,
  * dove le due richieste stanno vicine: "… i trattamenti", "… le letture");
  * `breve` per header e barra.
@@ -45,7 +55,8 @@ export function etichetta(tipo: TipoRichiesta, opts: { breve?: boolean; contesto
     if (opts.breve) return 'Avvisami';
     return opts.contesto ? `${AVVISAMI} ${tipo === 'trattamenti' ? 'i trattamenti' : 'le letture'}` : AVVISAMI;
   }
-  return opts.breve ? r.breve : r.label;
+  if (opts.breve) return r.breve;
+  return SU_INSTAGRAM[tipo] ? `${r.label.replace(/ un trattamento| una lettura/, '')} su Instagram` : r.label;
 }
 
 /**
@@ -54,7 +65,7 @@ export function etichetta(tipo: TipoRichiesta, opts: { breve?: boolean; contesto
  */
 export function linkRichiesta(tipo: TipoRichiesta): { href: string; esterno: boolean } {
   const r = RICHIESTE[tipo];
-  if (DAL_MODULO) return { href: r.sospesa ? IG_DM_URL : r.href, esterno: true };
+  if (DAL_MODULO) return { href: r.sospesa || SU_INSTAGRAM[tipo] ? IG_DM_URL : r.href, esterno: true };
   return { href: r.href, esterno: false };
 }
 

@@ -14,7 +14,7 @@ si aggiorna il dato e si toglie la domanda da qui.
 
 - [ ] ★ Indirizzo dello studio. "Montebelluna / Treviso" è un posto solo o due? (come prenotare e dove, piè di pagina, dati per Google)
 - [ ] ★ Giorni e orari in cui ricevi, o "su appuntamento"? (come prenotare e dove, dati per Google)
-- [ ] ★ Il modulo Google della bio oggi è quello delle letture: per i trattamenti ne fai uno a parte (il link va in `MODULI.trattamenti`, `src/lib/site.ts`) o usiamo lo stesso? (tutti i bottoni «Prenota»)
+- [ ] ★ Il link al modulo Google per prenotare i trattamenti (va in `MODULI.trattamenti`, `src/lib/site.ts`). Finché manca, «Prenota» porta al messaggio su Instagram. (tutti i bottoni «Prenota»)
 - [ ] L'email a cui devono arrivare le richieste, se un giorno torniamo alle richieste dal sito. (invio delle richieste)
 - [ ] Vuoi pubblicare un numero di telefono o WhatsApp? (bottoni WhatsApp e chiamata)
 - [ ] Hai una partita IVA da mostrare? Chi è il titolare per l'informativa privacy? (footer, privacy)

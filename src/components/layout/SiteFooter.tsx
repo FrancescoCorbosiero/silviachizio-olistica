@@ -40,7 +40,7 @@ export default function SiteFooter() {
   const anno = new Date().getFullYear();
   return (
     <footer className="piede tono-notte relative overflow-hidden pb-[calc(env(safe-area-inset-bottom)+104px)] lg:pb-10">
-      <div className="wrap grid gap-x-10 gap-y-12 pt-[clamp(64px,8vw,104px)] sm:grid-cols-2 lg:grid-cols-12">
+      <div className="wrap grid gap-x-10 gap-y-12 pt-[clamp(56px,6vw,88px)] sm:grid-cols-2 lg:grid-cols-12">
         <div className="sm:col-span-2 lg:col-span-4">
           <Link href="/" aria-label={`${SITE_NAME}, torna all'inizio`} className="inline-block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -102,7 +102,7 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      <p aria-hidden data-wordmark className="mt-[clamp(56px,8vw,96px)] select-none text-center font-script text-[clamp(124px,30vw,330px)] leading-[0.9] text-lily-bright">
+      <p aria-hidden data-wordmark className="mt-[clamp(48px,6vw,72px)] select-none text-center font-script text-[clamp(96px,17vw,210px)] leading-[0.9] text-lily-bright">
         <span className="foot-line">
           {Array.from(WORDMARK).map((ch, i) => (
             <span key={i} className="foot-char">

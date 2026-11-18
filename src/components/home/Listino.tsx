@@ -2,7 +2,7 @@ import Bottone from '@/components/ui/Bottone';
 import Esempio from '@/components/ui/Esempio';
 import { fotoTrattamento, prezzo } from '@/lib/anteprima';
 import { IMMAGINI } from '@/lib/immagini';
-import { DAL_MODULO, etichetta, linkRichiesta, RICHIESTE } from '@/lib/richieste';
+import { DAL_MODULO, etichetta, linkRichiesta, RICHIESTE, SU_INSTAGRAM } from '@/lib/richieste';
 import { prenotaQuesto, RELAX_MINUTI, RELAX_TESTO, TRATTAMENTI } from '@/lib/trattamenti';
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -35,7 +35,7 @@ export default function Listino() {
           </p>
         </header>
 
-        <div data-hover-list className="relative mt-[clamp(48px,6vw,96px)]">
+        <div data-hover-list className="relative mt-[clamp(40px,5vw,72px)]">
           <div className="listino" data-reveal="stagger">
             {TRATTAMENTI.map((t, i) => {
               const p = prezzo(t.prezzo);
@@ -72,7 +72,7 @@ export default function Listino() {
                         </p>
                       )}
                       <Bottone href={href} piccolo variante="vino">
-                        {RICHIESTE.trattamenti.sospesa ? etichetta('trattamenti') : 'Prenota questo'}
+                        {RICHIESTE.trattamenti.sospesa || SU_INSTAGRAM.trattamenti ? etichetta('trattamenti') : 'Prenota questo'}
                       </Bottone>
                     </div>
                   </div>

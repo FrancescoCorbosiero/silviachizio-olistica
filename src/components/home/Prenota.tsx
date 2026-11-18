@@ -3,7 +3,7 @@ import { FrecciaSu } from '@/components/icons';
 import Bottone, { BottoneRichiesta } from '@/components/ui/Bottone';
 import Esempio from '@/components/ui/Esempio';
 import { INDIRIZZO, MAPS, ORARI_STUDIO } from '@/lib/anteprima';
-import { DAL_MODULO, RICHIESTE, rigaSospensione } from '@/lib/richieste';
+import { DAL_MODULO, RICHIESTE, rigaSospensione, SU_INSTAGRAM } from '@/lib/richieste';
 import { IG_DM_URL, IG_HANDLE, ZONA } from '@/lib/site';
 import { RELAX_MINUTI } from '@/lib/trattamenti';
 
@@ -11,9 +11,11 @@ import { RELAX_MINUTI } from '@/lib/trattamenti';
 const PASSI = [
   {
     titolo: 'Mi mandi la richiesta',
-    testo: DAL_MODULO
-      ? 'Dal mio modulo: il trattamento che ti interessa e come ricontattarti. Bastano due minuti.'
-      : 'Dal sito, un passo alla volta: il trattamento, quando ti va, come ricontattarti.',
+    testo: SU_INSTAGRAM.trattamenti
+      ? 'Un messaggio su Instagram: il trattamento che ti interessa e quando ti va. Per le letture c’è il mio modulo.'
+      : DAL_MODULO
+        ? 'Dal mio modulo: il trattamento che ti interessa e come ricontattarti. Bastano due minuti.'
+        : 'Dal sito, un passo alla volta: il trattamento, quando ti va, come ricontattarti.',
   },
   { titolo: 'Ti scrivo io', testo: 'Per fissare insieme giorno e ora. Per le letture ti rispondo via email.' },
   { titolo: 'Ti aspetto in studio', testo: `A ${ZONA}. Dopo il trattamento, circa ${RELAX_MINUTI} minuti di relax solo per te.` },
@@ -48,17 +50,17 @@ export default function Prenota() {
           </p>
         </header>
 
-        <ol className="mt-[clamp(48px,6vw,88px)] grid gap-y-10 md:grid-cols-3 md:gap-x-10" data-reveal="stagger">
+        <ol className="mt-[clamp(40px,5vw,64px)] grid gap-y-10 md:grid-cols-3 md:gap-x-10" data-reveal="stagger">
           {PASSI.map((p, i) => (
             <li key={p.titolo} className="border-t border-[var(--line-strong)] pt-6">
-              <span className="cifre block text-[clamp(3.2rem,5vw,4.6rem)] text-[var(--accent)]">{i + 1}</span>
-              <h3 className="titoletto mt-4">{p.titolo}</h3>
+              <span className="cifre block text-[clamp(2.4rem,3.4vw,3.2rem)] text-[var(--accent)]">{i + 1}</span>
+              <h3 className="titoletto mt-3">{p.titolo}</h3>
               <p className="mt-3 max-w-[34ch] text-[16.5px] text-[var(--fg-soft)]">{p.testo}</p>
             </li>
           ))}
         </ol>
 
-        <div className="mt-12 flex flex-wrap items-center gap-3" data-reveal>
+        <div className="mt-10 flex flex-wrap items-center gap-3" data-reveal>
           <BottoneRichiesta tipo="trattamenti" />
           <BottoneRichiesta tipo="letture" variante="linea" />
           <a className="link ml-2" href={IG_DM_URL} target="_blank" rel="noopener">
@@ -66,7 +68,7 @@ export default function Prenota() {
           </a>
         </div>
 
-        <div className="mt-[clamp(72px,9vw,128px)] grid gap-10 sm:grid-cols-2 lg:grid-cols-3" data-reveal="stagger">
+        <div className="mt-[clamp(56px,6vw,88px)] grid gap-10 sm:grid-cols-2 lg:grid-cols-3" data-reveal="stagger">
           <Dato titolo="Lo studio">
             <p className="text-[var(--fg)]">
               {INDIRIZZO ? INDIRIZZO.valore : ZONA}
